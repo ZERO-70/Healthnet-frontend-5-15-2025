@@ -1,0 +1,365 @@
+.medicalRecords {
+    padding: 20px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    animation: fadeInContent 0.5s ease-in-out;
+}
+
+.recordsTitle {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.recordsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.recordCard {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.recordCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.errorMessage {
+    color: red;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.loadingMessage {
+    font-size: 18px;
+    color: #666;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* New styles for enhanced medical records */
+.recordDetailContainer {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-out;
+}
+
+.recordDetailHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.recordDetailHeader h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 22px;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: #777;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.closeButton:hover {
+    color: #333;
+}
+
+/* Tab navigation */
+.tabsContainer {
+    margin-top: 20px;
+}
+
+.tabsNav {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+}
+
+.tabButton {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: #666;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.tabButton.active {
+    color: #3498db;
+}
+
+.tabButton.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #3498db;
+}
+
+.tabButton:hover {
+    color: #3498db;
+}
+
+.tabContent {
+    display: none;
+    padding: 10px 0;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.tabContent.active {
+    display: block;
+}
+
+/* Vital signs panel */
+.vitalSigns {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.vitalSign {
+    padding: 12px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.vitalSignLabel {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.vitalSignValue {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Lab results table */
+.labResultsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.labResultsTable th, .labResultsTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.labResultsTable th {
+    background-color: #f5f7fa;
+    color: #333;
+    font-weight: 600;
+}
+
+.labResultsTable tr:hover {
+    background-color: #f9f9f9;
+}
+
+.abnormalResult {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* Attachments */
+.attachmentsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.attachmentItem {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.attachmentItem:hover {
+    transform: translateY(-3px);
+    background-color: #f0f0f0;
+}
+
+.attachmentIcon {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #3498db;
+}
+
+.attachmentName {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    text-align: center;
+    word-break: break-word;
+}
+
+.attachmentType {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.downloadButton {
+    padding: 5px 15px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: auto;
+}
+
+.downloadButton:hover {
+    background-color: #2980b9;
+}
+
+/* Audit trail */
+.auditTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.auditTable th, .auditTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.auditTable th {
+    background-color: #f5f7fa;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Date filters */
+.dateFilters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.dateInput {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.filterButton {
+    padding: 8px 15px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.filterButton:hover {
+    background-color: #2980b9;
+}
+
+.resetButton {
+    padding: 8px 15px;
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.resetButton:hover {
+    background-color: #ccc;
+}
+
+/* Animations */
+@keyframes fadeInContent {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .vitalSigns {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .tabsNav {
+        flex-wrap: wrap;
+    }
+    
+    .dateFilters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .vitalSigns {
+        grid-template-columns: 1fr;
+    }
+}

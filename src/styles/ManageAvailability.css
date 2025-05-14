@@ -1,0 +1,87 @@
+.manage-availability {
+    font-family: 'Inter', sans-serif;
+    padding: 20px;
+    background-color: var(--secondary-color);
+    border-radius: var(--border-radius);
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: var(--card-shadow);
+}
+
+.manage-availability h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.availability-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.day-row {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--text-white);
+    padding: 15px;
+    border: 1px solid rgba(44, 122, 123, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.day-row h3 {
+    margin: 0 0 10px 0;
+    color: var(--primary-dark);
+}
+
+.day-row label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.day-row input {
+    margin-left: 10px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+}
+
+.day-row input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 3px rgba(44, 122, 123, 0.5);
+}
+
+.save-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(44, 122, 123, 0.1);
+}
+
+.save-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(44, 122, 123, 0.15);
+}
+
+.success-message {
+    color: green;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}

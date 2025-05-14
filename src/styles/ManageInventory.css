@@ -1,0 +1,371 @@
+/* General container for the component */
+.manageInventory {
+    padding: 20px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    animation: fadeInContent 0.5s ease-in-out;
+}
+
+/* Header Title */
+.inventoryTitle {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Search Bar */
+.searchBar {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 20px auto;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: border 0.3s ease-in-out;
+}
+
+.searchBar:focus {
+    border-color: #56ab2f;
+    outline: none;
+    box-shadow: 0 6px 12px rgba(86, 171, 47, 0.2);
+}
+
+/* Add Inventory Item Button */
+.createButton {
+    padding: 12px 20px;
+    background-color: #56ab2f;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.createButton:hover {
+    background-color: #3c8d22;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Error Message */
+.errorMessage {
+    color: #e74c3c;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Inventory List Grid */
+.inventoryList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Individual Inventory Card */
+.inventoryCard {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.inventoryCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Details */
+.inventoryCard p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #34495e;
+}
+
+/* Action Buttons in Card */
+.recordActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.updateButton {
+    padding: 8px 15px;
+    background-color: #56ab2f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.updateButton:hover {
+    background-color: #3c8d22;
+    transform: scale(1.05);
+}
+
+.deleteButton {
+    padding: 8px 15px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.deleteButton:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+
+/* Create/Edit Form Container */
+.createTab,
+.editTab {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Form Title */
+.createTab h3,
+.editTab h3 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form Labels */
+.createTab label,
+.editTab label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+/* Form Inputs */
+.createTab input,
+.editTab input,
+.createTab select,
+.editTab select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: border 0.3s ease;
+}
+
+.createTab input:focus,
+.editTab input:focus,
+.createTab select:focus,
+.editTab select:focus {
+    border-color: #56ab2f;
+    outline: none;
+    box-shadow: 0 0 5px rgba(86, 171, 47, 0.2);
+}
+
+/* Form Buttons */
+.saveButton,
+.cancelButton {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.saveButton {
+    background-color: #56ab2f;
+    color: white;
+    margin-right: 10px;
+}
+
+.saveButton:hover {
+    background-color: #3c8d22;
+    transform: scale(1.05);
+}
+
+.cancelButton {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.cancelButton:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+
+/* Animation */
+@keyframes fadeInContent {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.inventoryCard {
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.inventoryCard p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+}
+
+.inventoryCard .recordActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.inventoryCard.lightcoral {
+    background-color: lightcoral;
+}
+
+.inventoryCard.lightyellow {
+    background-color: lightyellow;
+}
+
+/* ManageInventory.css - Modern Design with Teal/Sage Theme */
+/* This file contains specific styles for the ManageInventory component */
+/* Most shared styles are in StaffComponents.css */
+
+/* Inventory Grid Layout */
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Inventory Card */
+.inventory-card {
+  background-color: var(--text-white);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  transition: all var(--transition-speed) ease;
+  border-top: 4px solid var(--primary-light);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Expiry Status Styles */
+.inventory-card.expiry-expired {
+  border-top-color: var(--error-color);
+}
+
+.inventory-card.expiry-warning {
+  border-top-color: var(--accent-color);
+}
+
+.inventory-card.expiry-good {
+  border-top-color: var(--success-color);
+}
+
+.inventory-card.expiry-unknown {
+  border-top-color: var(--text-light);
+}
+
+/* Card Content Layout */
+.card-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 0.75rem;
+}
+
+.card-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(91, 123, 122, 0.1);
+  border-radius: 8px;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+}
+
+/* Status Badge Styles */
+.status-good {
+  background-color: rgba(106, 155, 120, 0.15);
+  color: var(--success-color);
+}
+
+.status-warning {
+  background-color: rgba(194, 132, 110, 0.15);
+  color: var(--accent-color);
+}
+
+.status-expired {
+  background-color: rgba(214, 121, 103, 0.15);
+  color: var(--error-color);
+}
+
+.status-unknown {
+  background-color: rgba(110, 120, 120, 0.15);
+  color: var(--text-light);
+}
+
+.status-badge {
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .inventory-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  .inventory-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

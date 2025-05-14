@@ -1,0 +1,335 @@
+/* DoctorPortal.css - Modern Design with Blue/Green Theme */
+:root {
+  --primary-color: #2c7a7b;
+  --primary-light: #4fd1c5;
+  --primary-dark: #1a535c;
+  --secondary-color: #f0f9fa;
+  --accent-color: #f6ad55;
+  --text-dark: #2d3748;
+  --text-light: #718096;
+  --text-white: #ffffff;
+  --success-color: #48bb78;
+  --error-color: #e53e3e;
+  --border-radius: 16px;
+  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  --input-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+/* Main Portal Layout */
+.doctor-portal {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e6fffa 0%, #f0f9fa 100%);
+  padding: 2rem;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Portal Header */
+.portal-header {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(44, 122, 123, 0.1);
+}
+
+.portal-title h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.portal-subtitle {
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
+/* Logout Button */
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(229, 62, 62, 0.1);
+  color: var(--error-color);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.logout-button:hover {
+  background-color: rgba(229, 62, 62, 0.2);
+  transform: translateY(-2px);
+}
+
+.button-icon {
+  font-size: 1.1rem;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--secondary-color);
+  color: var(--text-light);
+  border: 1px solid rgba(44, 122, 123, 0.1);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.tab-button.active {
+  background-color: var(--primary-color);
+  color: var(--text-white);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 10px rgba(44, 122, 123, 0.2);
+}
+
+.tab-button:hover:not(.active) {
+  background-color: #e6fffa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.tab-icon {
+  font-size: 1.1rem;
+}
+
+/* Tab Content */
+.tab-content {
+  width: 100%;
+  max-width: 1200px;
+  background-color: var(--text-white);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--card-shadow);
+  min-height: 400px;
+}
+
+/* Patient Cards */
+.patient-card {
+  background-color: var(--secondary-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease-in-out;
+}
+
+.patient-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.patient-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.75rem;
+}
+
+.patient-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.patient-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-bottom: 0.25rem;
+}
+
+.detail-value {
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+/* No results message */
+.no-results {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 1rem;
+  padding: 2rem;
+}
+
+/* Action buttons */
+.action-button {
+  background-color: var(--primary-light);
+  color: var(--text-white);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-button:hover {
+  background-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+/* Form elements */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: var(--secondary-color);
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  transition: all 0.2s ease-in-out;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(44, 122, 123, 0.15);
+}
+
+/* Appointment cards */
+.appointment-card {
+  background-color: var(--secondary-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease-in-out;
+  border-left: 4px solid var(--primary-light);
+}
+
+.appointment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.appointment-card.pending {
+  border-left-color: var(--accent-color);
+}
+
+.appointment-card.approved {
+  border-left-color: var(--success-color);
+}
+
+.appointment-card.rejected {
+  border-left-color: var(--error-color);
+}
+
+/* Tab placeholders for lazy loading */
+.tab-placeholder {
+  width: 100%;
+  min-height: 300px;
+  padding: 24px;
+  background-color: #f0f9fa;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.tab-placeholder h2 {
+  font-size: 1.5rem;
+  color: #2d3748;
+  margin: 0 0 24px 0;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.placeholder-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  width: 100%;
+}
+
+/* Pulse animation for placeholders */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .doctor-portal {
+    padding: 1rem;
+  }
+  
+  .portal-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .portal-title h1 {
+    font-size: 1.75rem;
+  }
+  
+  .tab-navigation {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .tab-content {
+    padding: 1.5rem;
+  }
+}

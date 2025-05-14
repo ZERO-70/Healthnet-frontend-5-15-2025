@@ -1,0 +1,90 @@
+.add-treatment {
+    margin: 20px;
+    padding: 20px;
+    background-color: var(--secondary-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.add-treatment h2 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.add-treatment label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.add-treatment input,
+.add-treatment textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(44, 122, 123, 0.2);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.add-treatment input:focus,
+.add-treatment textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(44, 122, 123, 0.15);
+}
+
+.add-treatment button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--text-white);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-treatment button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(44, 122, 123, 0.3);
+}
+
+.add-treatment .error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.add-treatment .success-message {
+    color: green;
+    margin-bottom: 10px;
+}
+
+.add-treatment .treatment-list {
+    margin-top: 20px;
+}
+
+.add-treatment .treatment-card {
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(44, 122, 123, 0.1);
+    border-radius: 4px;
+    background-color: var(--text-white);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-treatment .treatment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(44, 122, 123, 0.2);
+}
+
+.add-treatment .error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.add-treatment .success-message {
+    color: green;
+    margin-bottom: 10px;
+}

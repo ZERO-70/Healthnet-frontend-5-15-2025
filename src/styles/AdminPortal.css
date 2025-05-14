@@ -1,0 +1,352 @@
+/* AdminPortal.css - Modern Design with Peach-Pink Theme */
+:root {
+  --primary-color: #ff7e5f;
+  --primary-light: #feb47b;
+  --primary-dark: #e85d44;
+  --secondary-color: #fff6f2;
+  --accent-color: #ff9a8b;
+  --pink-accent: #ff80ab;
+  --pink-light: #ffb2dd;
+  --text-dark: #433a3f;
+  --text-light: #806d75;
+  --text-white: #ffffff;
+  --success-color: #48bb78;
+  --error-color: #e53e3e;
+  --border-radius: 16px;
+  --card-shadow: 0 8px 30px rgba(255, 126, 95, 0.07);
+  --input-shadow: 0 2px 10px rgba(255, 126, 95, 0.05);
+}
+
+/* Main Portal Layout */
+.adminPortal {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffb2dd 0%, #ffd5b8 50%, #ffb5a3 100%);
+  padding: 2rem;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Portal Header */
+.portalHeader {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 128, 171, 0.2);
+}
+
+/* Add this new section for right-side header elements */
+.header-right-elements {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Adjust the notification icon positioning */
+.notification-wrapper {
+  margin-right: 5px;
+}
+
+.portalTitle {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.portal-subtitle {
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
+/* Logout Button */
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(229, 62, 62, 0.1);
+  color: var(--error-color);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.logoutButton:hover {
+  background-color: rgba(229, 62, 62, 0.2);
+  transform: translateY(-2px);
+}
+
+.fixedLogout {
+  position: static; /* Changed from fixed to match patient portal */
+}
+
+.button-icon {
+  font-size: 1.1rem;
+}
+
+/* Tab Navigation */
+.portalNav {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.portalNav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.portalNav li {
+  list-style: none;
+}
+
+.portalNav a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--secondary-color);
+  color: var(--text-light);
+  border: 1px solid rgba(255, 126, 95, 0.1);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(255, 126, 95, 0.05);
+  text-decoration: none;
+}
+
+.portalNav a.active {
+  background: linear-gradient(to right, var(--primary-color), var(--pink-accent));
+  color: var(--text-white);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 10px rgba(255, 128, 171, 0.3);
+}
+
+.portalNav a:hover:not(.active) {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 126, 95, 0.1);
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--secondary-color);
+  color: var(--text-light);
+  border: 1px solid rgba(255, 126, 95, 0.1);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(255, 126, 95, 0.05);
+}
+
+.tab-button.active {
+  background: linear-gradient(to right, var(--primary-color), var(--pink-accent));
+  color: var(--text-white);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 10px rgba(255, 128, 171, 0.3);
+}
+
+.tab-button:hover:not(.active) {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 126, 95, 0.1);
+}
+
+.tab-icon {
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tab Content */
+.portalContent {
+  width: 100%;
+  max-width: 1200px;
+  background-color: var(--text-white);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--card-shadow);
+  min-height: 400px;
+}
+
+/* Admin Cards */
+.card {
+  background-color: var(--secondary-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 10px rgba(255, 126, 95, 0.08);
+  transition: all 0.2s ease-in-out;
+  border-left: 4px solid var(--pink-accent);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(255, 126, 95, 0.1);
+}
+
+.card .title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: 0.75rem;
+}
+
+.card .detail {
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Specific styles for Admin Info Tab */
+.adminInfoTab {
+  padding: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* No results message */
+.noDataMessage {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 1rem;
+  padding: 2rem;
+}
+
+/* Action buttons */
+.action-button {
+  background: linear-gradient(to right, var(--primary-color), var(--pink-accent));
+  color: var(--text-white);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-button:hover {
+  background: linear-gradient(to right, var(--primary-dark), var(--pink-light));
+  transform: translateY(-2px);
+}
+
+/* Form elements */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: var(--secondary-color);
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  transition: all 0.2s ease-in-out;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--pink-accent);
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(255, 128, 171, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .adminPortal {
+    padding: 1rem;
+  }
+  
+  .portalHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .portalTitle {
+    font-size: 1.75rem;
+  }
+  
+  .portalNav {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .portalNav ul {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .portalContent {
+    padding: 1.5rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

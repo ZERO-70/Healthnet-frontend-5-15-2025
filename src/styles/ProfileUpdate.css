@@ -1,0 +1,157 @@
+/* ProfileUpdate.css - Updated to match Admin Portal Theme */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.updateProfile {
+    padding: 24px;
+    max-width: 800px;
+    margin: auto;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--text-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    animation: fadeInPage 0.8s ease-in;
+}
+
+.updateProfile h2 {
+    text-align: center;
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.updateForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup input[type="date"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: var(--secondary-color);
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    transition: all 0.2s ease-in-out;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup input[type="date"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.15);
+}
+
+.submitButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: var(--text-white);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 1rem;
+    align-self: center;
+}
+
+.submitButton:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(90, 103, 216, 0.2);
+}
+
+.successMessage {
+    padding: 0.75rem 1rem;
+    background-color: rgba(72, 187, 120, 0.1);
+    color: var(--success-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 1rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.errorMessage {
+    padding: 0.75rem 1rem;
+    background-color: rgba(229, 62, 62, 0.1);
+    color: var(--error-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 1rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.fileName {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 0.25rem;
+}
+
+/* File upload styling */
+.formGroup input[type="file"] {
+    background-color: var(--secondary-color);
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInPage {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .updateProfile {
+        padding: 1.5rem;
+    }
+    
+    .updateProfile h2 {
+        font-size: 1.5rem;
+    }
+}

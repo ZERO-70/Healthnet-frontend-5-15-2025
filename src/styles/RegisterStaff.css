@@ -1,0 +1,142 @@
+.registerStaffWrapper {
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    animation: fadeInContent 0.5s ease-in-out;
+}
+
+.registerStaffWrapper .container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.registerStaffWrapper .title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #34495e;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid #56ab2f;
+    padding-bottom: 10px;
+}
+
+.registerStaffWrapper .form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.registerStaffWrapper .input {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s ease;
+}
+
+.registerStaffWrapper .input:focus {
+    border-color: #56ab2f;
+    outline: none;
+    box-shadow: 0 0 6px rgba(86, 171, 47, 0.3);
+}
+
+.registerStaffWrapper .button {
+    padding: 12px 25px;
+    background-color: #56ab2f;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.registerStaffWrapper .button:hover {
+    background-color: #3c8d22;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.registerStaffWrapper .successMessage {
+    color: #27ae60;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+    animation: fadeInMessage 0.5s ease-in-out;
+}
+
+.registerStaffWrapper .errorMessage {
+    color: #e74c3c;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+    animation: fadeInMessage 0.5s ease-in-out;
+}
+
+.registerStaffWrapper .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeInModal 0.3s ease-in-out;
+}
+
+.registerStaffWrapper .modalContent {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.registerStaffWrapper .saveButton {
+    background-color: #56ab2f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.registerStaffWrapper .saveButton:hover {
+    background-color: #3c8d22;
+    transform: scale(1.05);
+}
+
+.registerStaffWrapper .cancelButton {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.registerStaffWrapper .cancelButton:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}

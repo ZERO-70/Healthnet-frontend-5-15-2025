@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/HealthNet/static/css/main.7dec8734.css",
+    "main.js": "/HealthNet/static/js/main.532df87d.js",
+    "static/js/453.ed3810f9.chunk.js": "/HealthNet/static/js/453.ed3810f9.chunk.js",
+    "static/media/bg.jpg": "/HealthNet/static/media/bg.8dbd8ede03ea10ce5865.jpg",
+    "index.html": "/HealthNet/index.html",
+    "main.7dec8734.css.map": "/HealthNet/static/css/main.7dec8734.css.map",
+    "main.532df87d.js.map": "/HealthNet/static/js/main.532df87d.js.map",
+    "453.ed3810f9.chunk.js.map": "/HealthNet/static/js/453.ed3810f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7dec8734.css",
+    "static/js/main.532df87d.js"
+  ]
+}

@@ -1,0 +1,256 @@
+/* Adding Doctor Portal theme variables for consistency */
+:root {
+  --primary-color: #2c7a7b;
+  --primary-light: #4fd1c5;
+  --primary-dark: #1a535c;
+  --secondary-color: #f0f9fa;
+  --accent-color: #f6ad55;
+  --text-dark: #2d3748;
+  --text-light: #718096;
+  --text-white: #ffffff;
+  --success-color: #48bb78;
+  --error-color: #e53e3e;
+  --border-radius: 16px;
+  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  --input-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+/* Notification icon styles for Admin Portal */
+.notification-container {
+    position: relative;
+    margin: 0 15px;
+    display: flex;
+    align-items: center;
+}
+
+.notification-icon {
+    font-size: 1.5rem;
+    color: var(--primary-dark);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.notification-icon:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--error-color);
+    color: var(--text-white);
+    border-radius: 50%;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.appointments {
+    padding: 20px;
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    font-family: 'Arial', sans-serif;
+    animation: fadeInContent 0.5s ease-in-out;
+    text-align: center;
+}
+
+.appointmentsTitle {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+}
+
+.appointmentsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.appointmentCard {
+    background-color: var(--secondary-color);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 4px solid var(--primary-light);
+}
+
+.appointmentCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.appointmentCard p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    text-align: left;
+}
+
+/* Appointment Details Section */
+.appointmentDetails {
+    padding: 25px;
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    text-align: left;
+    animation: fadeInContent 0.5s ease-in-out;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.appointmentDetails h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(44, 122, 123, 0.1);
+}
+
+.appointmentDetails p {
+    margin: 12px 0;
+    font-size: 1rem;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+}
+
+.appointmentDetails p strong {
+    min-width: 100px;
+    color: var(--primary-dark);
+}
+
+.errorMessage {
+    color: var(--error-color);
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 20px;
+    padding: 12px;
+    background-color: rgba(229, 62, 62, 0.05);
+    border-radius: 8px;
+}
+
+.loadingMessage {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-top: 20px;
+}
+
+@keyframes fadeInContent {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Action Buttons Container */
+.actionButtons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+/* Approve Button */
+.approveButton {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #fff;
+    background-color: var(--success-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.approveButton:hover {
+    background-color: #3c9e6a;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Mark Not Pending Button */
+.markNotPendingButton {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #fff;
+    background-color: var(--error-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.markNotPendingButton:hover {
+    background-color: #c53030;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Back Button */
+.backButton {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #fff;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(44, 122, 123, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.backButton:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(44, 122, 123, 0.3);
+}
+
+/* General Button Focus Style */
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(44, 122, 123, 0.3);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .actionButtons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .appointmentDetails h2 {
+        font-size: 1.5rem;
+    }
+}

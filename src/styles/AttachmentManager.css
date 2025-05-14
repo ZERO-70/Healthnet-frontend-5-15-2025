@@ -1,0 +1,124 @@
+.attachmentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.attachmentItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.attachmentIcon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.attachmentName {
+  flex: 1;
+  font-weight: bold;
+}
+
+.attachmentType {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.attachmentDescription {
+  font-style: italic;
+  margin-left: 1rem;
+}
+
+.downloadButton,
+.removeButton {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.downloadButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.downloadButton:hover {
+  background-color: #0069d9;
+}
+
+.removeButton {
+  background-color: #dc3545;
+  color: white;
+}
+
+.removeButton:hover {
+  background-color: #c82333;
+}
+
+.addAttachment {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.addButton {
+  padding: 0.25rem 0.5rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background-color: #45a049;
+}
+
+.errorMessage {
+  color: #dc3545;
+  margin-bottom: 0.5rem;
+  padding: 10px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.downloadButton.loading {
+  background-color: #6c757d;
+  cursor: wait;
+}
+
+.no-attachments-message {
+  padding: 0.5rem;
+  color: #666;
+  font-style: italic;
+  background-color: #f9f9f9;
+  border: 1px dashed #ddd;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.downloadButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.attachmentSize {
+  color: #666;
+  font-size: 0.8rem;
+  margin-left: auto;
+  padding-right: 10px;
+}

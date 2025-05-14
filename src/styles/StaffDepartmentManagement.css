@@ -1,0 +1,316 @@
+/* General container for the component */
+.manageInventory {
+    padding: 24px;
+    background: var(--text-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    font-family: 'Inter', sans-serif;
+    animation: fadeInContent 0.5s ease-in-out;
+}
+
+/* Header Title */
+.inventoryTitle {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+/* Add Buttons */
+.actionButtons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.createButton {
+    padding: 12px 20px;
+    background-color: var(--primary-color);
+    color: var(--text-white);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(90, 103, 216, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.createButton:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(90, 103, 216, 0.3);
+}
+
+/* Tabs Section */
+.tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.tabButton {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid rgba(90, 103, 216, 0.1);
+    border-radius: 8px;
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.tabButton.active {
+    background-color: var(--primary-color);
+    color: var(--text-white);
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(90, 103, 216, 0.2);
+}
+
+.tabButton:hover:not(.active) {
+    background-color: #ebf4ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Inventory List Grid */
+.inventoryList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+/* Individual Card for Staff and Departments */
+.inventoryCard {
+    background-color: var(--secondary-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease-in-out;
+    border-left: 4px solid var(--primary-light);
+}
+
+.inventoryCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Card Details */
+.inventoryCard h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--primary-color);
+}
+
+.inventoryCard p {
+    margin: 8px 0;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+/* Action Buttons in Card */
+.recordActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.updateButton {
+    padding: 8px 16px;
+    background-color: var(--primary-light);
+    color: var(--text-white);
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.updateButton:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.deleteButton {
+    padding: 8px 16px;
+    background-color: rgba(229, 62, 62, 0.1);
+    color: var(--error-color);
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.deleteButton:hover {
+    background-color: rgba(229, 62, 62, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Error Message */
+.errorMessage {
+    color: var(--error-color);
+    font-size: 1rem;
+    padding: 20px;
+    background-color: rgba(229, 62, 62, 0.1);
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Animation */
+@keyframes fadeInContent {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Modal Overlay */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal Content */
+.modalContent {
+    background: var(--text-white);
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 450px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modalContent h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.modalContent input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: var(--secondary-color);
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    transition: all 0.2s ease-in-out;
+}
+
+.modalContent input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.15);
+}
+
+.modalContent .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.saveButton,
+.cancelButton {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.saveButton {
+    background-color: var(--primary-color);
+    color: var(--text-white);
+}
+
+.cancelButton {
+    background-color: rgba(229, 62, 62, 0.1);
+    color: var(--error-color);
+}
+
+.saveButton:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.cancelButton:hover {
+    background-color: rgba(229, 62, 62, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .inventoryList {
+        grid-template-columns: 1fr;
+    }
+    
+    .tabs {
+        flex-direction: column;
+    }
+    
+    .tabButton {
+        width: 100%;
+    }
+    
+    .actionButtons {
+        flex-direction: column;
+    }
+    
+    .createButton {
+        width: 100%;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

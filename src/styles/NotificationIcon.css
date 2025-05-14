@@ -1,0 +1,231 @@
+/* NotificationIcon.css - Styling for the Notification component */
+
+.notification-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.notifications-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background-color: rgba(255, 126, 95, 0.1);
+  color: var(--primary-dark);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-size: 1.3rem;
+}
+
+.notifications-icon:hover {
+  background-color: rgba(255, 126, 95, 0.2);
+  transform: translateY(-2px);
+}
+
+.unread-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background-color: #e53e3e;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 10px;
+  border: 2px solid #fff;
+}
+
+.notifications-panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 320px;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  margin-top: 10px;
+  animation: slideDown 0.2s ease-out forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notifications-header {
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  background: linear-gradient(to right, var(--primary-color), var(--pink-accent));
+}
+
+.notifications-header h3 {
+  color: #fff;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.refresh-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.refresh-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.refresh-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.notifications-list {
+  padding: 0;
+}
+
+.notification-item {
+  padding: 12px 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  transition: background-color 0.2s;
+}
+
+.notification-item:hover {
+  background-color: rgba(255, 126, 95, 0.05);
+}
+
+.notification-item.unread {
+  background-color: rgba(255, 126, 95, 0.08);
+}
+
+.notification-item.unread:hover {
+  background-color: rgba(255, 126, 95, 0.12);
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-content p {
+  margin: 0 0 5px 0;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  line-height: 1.4;
+}
+
+.notification-content span {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+.suggestion-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: rgba(72, 187, 120, 0.1);
+  color: var(--success-color);
+  padding: 2px 6px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.notification-type-icon {
+  color: var(--success-color);
+  font-size: 1.1rem;
+  margin-top: 2px;
+}
+
+.no-notifications {
+  text-align: center;
+  padding: 20px 15px;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.notification-error {
+  text-align: center;
+  padding: 10px 15px;
+  color: var(--error-color);
+  font-size: 0.9rem;
+  background-color: rgba(229, 62, 62, 0.05);
+}
+
+.mark-read-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: transparent;
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+  color: var(--primary-color);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mark-read-button:hover {
+  background-color: rgba(255, 126, 95, 0.05);
+}
+
+.last-fetch-info {
+  padding: 8px 15px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+.info-icon {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.loading-indicator {
+  text-align: center;
+  padding: 20px 15px;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .notifications-panel {
+    width: 290px;
+    right: -10px;
+  }
+}

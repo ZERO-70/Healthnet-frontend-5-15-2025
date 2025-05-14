@@ -1,0 +1,137 @@
+/* Analytics.css */
+
+/* Main Analytics Container */
+.analytics {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 90%;
+    max-width: 1200px;
+}
+
+/* Section Titles */
+.analytics h2 {
+    font-size: 2rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.analytics h3 {
+    font-size: 1.5rem;
+    color: #34495e;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Chart Container */
+.chartContainer {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.chartContainer:hover {
+    transform: translateY(-5px);
+}
+
+/* ChartJS Canvas */
+.chartContainer canvas {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Error Message Styling */
+.errorMessage {
+    font-size: 1rem;
+    color: #e74c3c;
+    text-align: center;
+    margin: 10px 0;
+}
+
+/* Buttons (if any in future extensions) */
+.analytics button {
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: #ffffff;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.analytics button:hover {
+    background-color: #27ae60;
+}
+
+/* Media Query for Mobile Responsiveness */
+@media (max-width: 768px) {
+    .analytics {
+        padding: 15px;
+    }
+
+    .analytics h2 {
+        font-size: 1.8rem;
+    }
+
+    .analytics h3 {
+        font-size: 1.4rem;
+    }
+
+    .chartContainer {
+        padding: 15px;
+    }
+}
+
+.inventoryList {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.inventoryList h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #4CAF50;
+}
+
+.inventoryList ul {
+    list-style: none;
+    padding: 0;
+}
+
+.inventoryList li {
+    font-size: 1rem;
+    margin: 5px 0;
+    color: #333;
+}
+
+.chartContainer {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.chartContainer h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #4CAF50;
+}
+
+.inventoryList ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    font-size: 1rem;
+}

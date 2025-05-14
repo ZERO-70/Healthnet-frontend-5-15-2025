@@ -1,0 +1,84 @@
+.labResultsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.labResultsTable th, .labResultsTable td {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.labResultsTable th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.labResultsTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.abnormalResult {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.addLabResult {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.addLabResult h5 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.labResultForm {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.labResultForm input[type="text"],
+.labResultForm input[type="number"] {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.labResultForm label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.labResultForm button {
+  grid-column: span 3;
+  padding: 0.5rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.labResultForm button:hover {
+  background-color: #45a049;
+}
+
+.removeButton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  background-color: #c82333;
+}
