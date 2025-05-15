@@ -5,6 +5,8 @@ import { useLoading } from '../hooks/useLoading';
 import { FiUser, FiPhone, FiMapPin, FiCalendar, FiActivity, FiArrowLeft } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 
+const API_BASE_URL = 'https://frozen-sands-51239-b849a8d5756e.herokuapp.com';
+
 function AvailableDoctors() {
     const [doctors, setDoctors] = useState([]);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
@@ -54,7 +56,7 @@ function AvailableDoctors() {
                     throw new Error('Authentication token is missing. Please log in again.');
                 }
 
-                const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/doctor', {
+                const response = await fetch(`${API_BASE_URL}/doctor`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -114,7 +116,7 @@ function AvailableDoctors() {
                     // First attempt: Try with endpoint that includes 'available_time'
                     console.log(`Trying endpoint: doctor/${selectedDoctor.id}/available_time?date=${date}`);
                     let response = await fetch(
-                        `https://frozen-sands-51239-b849a8d5756e.herokuapp.com/doctor/${selectedDoctor.id}/available_time?date=${date}`,
+                        `${API_BASE_URL}/doctor/${selectedDoctor.id}/available_time?date=${date}`,
                         {
                             method: 'GET',
                             headers: {
@@ -128,7 +130,7 @@ function AvailableDoctors() {
                     if (!response.ok) {
                         console.log("First endpoint failed. Trying alternative endpoint: availability");
                         response = await fetch(
-                            `https://frozen-sands-51239-b849a8d5756e.herokuapp.com/doctor/${selectedDoctor.id}/availability?date=${date}`,
+                            `${API_BASE_URL}/doctor/${selectedDoctor.id}/availability?date=${date}`,
                             {
                                 method: 'GET',
                                 headers: {
@@ -253,8 +255,56 @@ function AvailableDoctors() {
                 }
             }
 
-            const patientId = localStorage.getItem('patientId');
+            // Get the patient ID from multiple possible sources
+            let patientId = localStorage.getItem('patientId');
+            
+            // If not found, try to get it from homeData which might have been stored during login
             if (!patientId) {
+                console.log('Patient ID not found directly, attempting to extract from homeData');
+                const homeData = localStorage.getItem('homeData');
+                if (homeData) {
+                    try {
+                        const homeJson = JSON.parse(homeData);
+                        patientId = homeJson.patient_id || 
+                                    homeJson.id || 
+                                    (homeJson.user && homeJson.user.patient_id);
+                        
+                        if (patientId) {
+                            console.log('Found patient ID in homeData:', patientId);
+                            localStorage.setItem('patientId', patientId.toString());
+                        }
+                    } catch (e) {
+                        console.warn('Failed to parse homeData:', e);
+                    }
+                }
+            }
+
+            // If still not found, try to fetch patient info to get the ID
+            if (!patientId) {
+                console.log('Attempting to fetch patient ID from API');
+                try {
+                    const patientResponse = await fetch(`${API_BASE_URL}/patient/getmine`, { 
+                        headers: { 
+                            'Authorization': `Bearer ${token}`, 
+                            'Content-Type': 'application/json' 
+                        }
+                    });
+                    
+                    if (patientResponse.ok) {
+                        const patientData = await patientResponse.json();
+                        if (patientData && patientData.id) {
+                            patientId = patientData.id;
+                            console.log('Retrieved patient ID from API:', patientId);
+                            localStorage.setItem('patientId', patientId.toString());
+                        }
+                    }
+                } catch (e) {
+                    console.error('Failed to fetch patient ID from API:', e);
+                }
+            }
+
+            if (!patientId) {
+                console.error('Patient ID not found in any source');
                 throw new Error('Patient ID is missing. Please log in again.');
             }
 
@@ -278,7 +328,7 @@ function AvailableDoctors() {
 
             console.log('Appointment Payload:', appointmentPayload);
 
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/appointment', {
+            const response = await fetch(`${API_BASE_URL}/appointment`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
