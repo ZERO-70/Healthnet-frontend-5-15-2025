@@ -290,7 +290,7 @@ function Register() {
                         <h3>Set up your credentials</h3>
                         <input
                             type="text"
-                            placeholder="Username"
+                            placeholder="Email"
                             required
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}

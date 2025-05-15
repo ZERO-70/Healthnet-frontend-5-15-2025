@@ -219,6 +219,9 @@ function AvailableDoctors() {
             if (!token) {
                 throw new Error('Authentication token is missing. Please log in again.');
             }
+            
+            // Log the token to verify it's correct (first 10 characters for security)
+            console.log('Auth Token (first 10 chars):', token.substring(0, 10) + '...');
 
             if (!selectedTimeRange) {
                 setResponseMessage('Please select a valid time range.');
@@ -284,14 +287,29 @@ function AvailableDoctors() {
                 body: JSON.stringify(appointmentPayload),
             });
 
+            // Log the entire response for debugging
+            console.log('Response status:', response.status);
+            console.log('Response headers:', [...response.headers.entries()]);
+            
+            const responseText = await response.text();
+            console.log('Response text:', responseText);
+            
             if (!response.ok) {
-                const errorResponse = await response.text();
-                console.error(`Appointment creation failed: ${errorResponse}`);
-                throw new Error(`Failed to send appointment proposal: ${errorResponse}`);
+                throw new Error(`Failed to send appointment proposal: ${responseText}`);
             }
 
-            const responseData = await response.json();
-            console.log("Appointment created successfully:", responseData);
+            // Try to parse as JSON only if there's actual content
+            let responseData;
+            if (responseText.trim()) {
+                try {
+                    responseData = JSON.parse(responseText);
+                    console.log("Appointment created successfully:", responseData);
+                } catch (jsonError) {
+                    console.log("Response wasn't valid JSON, using as plain text");
+                    // If parsing fails, just use the response text
+                }
+            }
+            
             setResponseMessage('Appointment request sent successfully!');
         } catch (error) {
             console.error('Error sending appointment proposal:', error);

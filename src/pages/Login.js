@@ -314,7 +314,7 @@ function Login() {
                                         onChange={(e) => setUsername(e.target.value)}
                                         required
                                         className="input-field"
-                                        placeholder="Enter username"
+                                        placeholder="Enter Email"
                                         disabled={loading}
                                     />
                                 </div>

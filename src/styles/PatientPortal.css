@@ -319,6 +319,45 @@
   }
 }
 
+/* View all buttons for appointments and medical records */
+.view-all-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--primary-light);
+  color: var(--text-white);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 250px;
+  box-shadow: 0 2px 8px rgba(90, 103, 216, 0.25);
+}
+
+.view-all-button:hover {
+  background-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(90, 103, 216, 0.35);
+}
+
+.view-all-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(90, 103, 216, 0.2);
+}
+
+/* Adjust spacing for view all button container */
+.view-all-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .patient-portal {
@@ -342,5 +381,9 @@
   
   .tab-content {
     padding: 1.5rem;
+  }
+  
+  .view-all-button {
+    max-width: 100%;
   }
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FiCalendar, FiFileText, FiAlertCircle, FiInfo, FiMessageSquare, FiCheck, FiPhone, FiChevronUp, FiChevronDown } from 'react-icons/fi';
+import { FiCalendar, FiFileText, FiAlertCircle, FiInfo, FiMessageSquare, FiCheck, FiChevronUp, FiChevronDown } from 'react-icons/fi';
 import '../styles/PatientDashboard.css';
 import LoadingSpinner from './LoadingSpinner';
 
@@ -11,7 +11,6 @@ const MedicalAdviceMessage = ({ text }) => {
     // Initialize with first section expanded
     const initialExpandedState = { 0: true };
     const [expandedSections, setExpandedSections] = useState(initialExpandedState);
-    const parentRef = useRef(null);
 
     // Function to process medical advice text
     const processText = (text) => {
@@ -159,7 +158,7 @@ const PatientDashboard = () => {
         temperature: '',
         oxygenSaturation: ''
     });
-    const [medications, setMedications] = useState([]);
+    const [medications] = useState([]);
     const [medicalAdvice, setMedicalAdvice] = useState(null);
     const [error, setError] = useState('');
 
@@ -299,14 +298,7 @@ const PatientDashboard = () => {
     };
 
     // Format the date in a nice readable format
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric'
-        });
-    };
+    // Using date formatting in the JSX directly instead of a separate function
 
     const nextAppointment = getNextAppointment();
     
@@ -479,9 +471,16 @@ const PatientDashboard = () => {
                                     </div>
                                 </div>
                             ))}
-                            <div className="view-all-link">
-                                <button className="view-all-button" onClick={() => console.log('View all appointments clicked')}>
-                                    View all appointments
+                            <div className="view-all-container">
+                                <button 
+                                    className="view-all-button" 
+                                    onClick={() => {
+                                        // Change tab to Appointments using custom event
+                                        const event = new CustomEvent('changeTab', { detail: { tab: 'Appointments' } });
+                                        window.dispatchEvent(event);
+                                    }}
+                                >
+                                    <FiCalendar className="button-icon" /> View all appointments
                                 </button>
                             </div>
                         </div>
@@ -518,9 +517,16 @@ const PatientDashboard = () => {
                                     </div>
                                 </div>
                             ))}
-                            <div className="view-all-link">
-                                <button className="view-all-button" onClick={() => console.log('View all medical records clicked')}>
-                                    View all medical records
+                            <div className="view-all-container">
+                                <button 
+                                    className="view-all-button" 
+                                    onClick={() => {
+                                        // Change tab to MedicalRecords using custom event
+                                        const event = new CustomEvent('changeTab', { detail: { tab: 'MedicalRecords' } });
+                                        window.dispatchEvent(event);
+                                    }}
+                                >
+                                    <FiFileText className="button-icon" /> View all medical records
                                 </button>
                             </div>
                         </div>
