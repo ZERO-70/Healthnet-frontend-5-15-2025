@@ -2,6 +2,7 @@ import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import SubscriptionPage from './pages/SubscriptionPage';
 
 // Import loading component
 import LoadingSpinner from './components/LoadingSpinner';
@@ -105,8 +106,13 @@ const AuthChecker = ({ children, allowedRole }) => {
       
       console.log(`AuthChecker: User role: ${userRole}, Allowed role: ${allowedRole}`);
       
-      // If roles don't match, redirect to the correct portal
-      if (userRole !== allowedRole) {
+      // If allowedRole is null, any role is permitted to access this route
+      if (allowedRole === null) {
+        console.log('AuthChecker: allowedRole is null, allowing any authenticated user');
+        // Continue with rendering children
+      }
+      // If roles don't match and allowedRole is not null, redirect to the correct portal
+      else if (userRole !== allowedRole) {
         console.log(`AuthChecker: Role mismatch, redirecting to appropriate portal`);
         
         switch (userRole) {
@@ -146,6 +152,15 @@ function App() {
         {/* Login & Register Routes - Not lazy loaded */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        {/* Subscription Route */}
+        <Route path="/subscription" element={
+          <Suspense fallback={<PortalLoading />}>
+            <AuthChecker allowedRole={null}>
+              <SubscriptionPage />
+            </AuthChecker>
+          </Suspense>
+        } />
 
         {/* Portal Routes - Lazy loaded with auth checking */}
         <Route path="/patient-portal" element={

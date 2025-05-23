@@ -1,7 +1,7 @@
 import React, { useState, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiLogOut, FiUser, FiClipboard, FiCalendar, FiEdit, FiUsers, FiActivity, FiPlusCircle, FiHome } from 'react-icons/fi';
+import { FiLogOut, FiUser, FiClipboard, FiCalendar, FiEdit, FiUsers, FiActivity, FiPlusCircle, FiHome, FiStar } from 'react-icons/fi';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../styles/DoctorPortal.css';
 
@@ -189,6 +189,12 @@ function DoctorPortal() {
                     onClick={() => setActiveTab('UpdateProfile')}
                 >
                     <FiEdit className="tab-icon" /> Update Profile
+                </button>
+                <button
+                    className="upgrade-button"
+                    onClick={() => navigate('/subscription')}
+                >
+                    <FiStar className="tab-icon" /> Upgrade Plan
                 </button>
             </motion.div>
 

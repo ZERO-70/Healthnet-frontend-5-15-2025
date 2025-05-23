@@ -22,14 +22,16 @@ const ensureStringId = (id) => {
  * @param {string} message - The user's message
  * @param {string} userId - Optional user identifier
  * @param {Array} conversationHistory - Optional array of previous messages for context
+ * @param {string} model - Optional model parameter (FAST or THINKING)
  * @returns {Promise<Object>} - The API response
  */
-export const sendChatMessage = async (message, userId = null, conversationHistory = []) => {
+export const sendChatMessage = async (message, userId = null, conversationHistory = [], model = 'FAST') => {
   try {
     // DEBUGGING: Log initial parameters
     console.log('=== CHAT DEBUG: Initial Parameters ===');
     console.log('Message:', message);
     console.log('UserID:', userId);
+    console.log('Model:', model);
     console.log('ConversationHistory Length:', conversationHistory.length);
     
     // Store conversation in local storage if user is logged in
@@ -47,10 +49,11 @@ export const sendChatMessage = async (message, userId = null, conversationHistor
     // DEBUGGING: Log authentication information
     console.log('=== CHAT DEBUG: Authentication Info ===');
     console.log('Auth Token Present:', !!authToken);
-    console.log('All localStorage keys:', Object.keys(localStorage));
-
-    // Prepare request body - simplified to just include the query
-    const requestBody = { query: message };
+    console.log('All localStorage keys:', Object.keys(localStorage));    // Prepare request body - include query and model
+    const requestBody = { 
+      query: message,
+      model: model
+    };
     
     // DEBUGGING: Log the final request
     console.log('=== CHAT DEBUG: API REQUEST ===');
@@ -60,27 +63,34 @@ export const sendChatMessage = async (message, userId = null, conversationHistor
       'Content-Type': 'application/json',
       ...(authToken && { 'Authorization': `Bearer ${authToken}` })
     });
-    console.log('Request Body:', JSON.stringify(requestBody, null, 2));
+    console.log('Request Body:', JSON.stringify(requestBody, null, 2));    console.log('Model value being sent:', model);    // Create AbortController with 10-minute timeout
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 600000); // 10 minutes timeout
 
-    // Make API call
+    // Make API call with abort signal
     const response = await fetch(CHAT_API_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         ...(authToken && { 'Authorization': `Bearer ${authToken}` })
       },
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify(requestBody),
+      signal: controller.signal
     });
+
+    // Clear the timeout since we got a response
+    clearTimeout(timeout);
 
     // DEBUGGING: Log response status
     console.log('=== CHAT DEBUG: API RESPONSE STATUS ===');
     console.log('Status:', response.status);
     console.log('Status Text:', response.statusText);
-    console.log('Headers:', Object.fromEntries([...response.headers]));
-
-    if (!response.ok) {
+    console.log('Headers:', Object.fromEntries([...response.headers]));    if (!response.ok) {
       const errorText = await response.text();
       console.error('Chat API error response:', errorText);
+      if (response.status === 503) {
+        throw new Error('The request is taking longer than expected (longer than 10 minutes). Please try again with a simpler query.');
+      }
       throw new Error(`Chat API error: ${errorText}`);
     }
 

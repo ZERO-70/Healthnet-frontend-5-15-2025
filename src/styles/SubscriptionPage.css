@@ -1,0 +1,176 @@
+.subscription-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    position: relative; /* For absolute positioning of close button */
+}
+
+.close-subscription-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.close-subscription-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+.subscription-container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.plans-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.plan-card {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    transition: transform 0.3s ease;
+}
+
+.plan-card:hover {
+    transform: translateY(-5px);
+}
+
+.plan-card.premium {
+    border: 2px solid #4CAF50;
+    position: relative;
+}
+
+.plan-card h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.plan-features {
+    margin: 1.5rem 0;
+}
+
+.plan-features ul {
+    list-style: none;
+    padding: 0;
+}
+
+.plan-features li {
+    padding: 0.5rem 0;
+    color: #666;
+    display: flex;
+    align-items: center;
+}
+
+.plan-features li:before {
+    content: "✓";
+    color: #4CAF50;
+    margin-right: 0.5rem;
+    font-weight: bold;
+}
+
+.plan-button {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.plan-button:hover:not(:disabled) {
+    background-color: #45a049;
+}
+
+.plan-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.plan-button.current-plan {
+    background-color: #666;
+}
+
+.error-message {
+    color: #ff0000;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.subscription-loading {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin: 2rem 0;
+}
+
+.current-plan-display {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.current-plan-display h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.current-plan-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.plan-badge {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.1em;
+}
+
+.plan-badge.default {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.plan-badge.plus {
+    background-color: #007bff;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .plans-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .plan-card {
+        width: 100%;
+        max-width: 100%;
+    }
+} 

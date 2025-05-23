@@ -221,6 +221,9 @@ const LiveChat = () => {
     const [userRole, setUserRole] = useState(localStorage.getItem('role'));
     const [isLoadingHistory, setIsLoadingHistory] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
+    const [subscription, setSubscription] = useState('DEFAULT');
+    const [selectedModel, setSelectedModel] = useState('FAST');
+    const [showModelSelector, setShowModelSelector] = useState(false);
     const messagesEndRef = useRef(null);
     
     // Log component rendering and state
@@ -243,14 +246,14 @@ const LiveChat = () => {
         console.log('LiveChat: verifying role and ID');
         verifyRoleAndId();
     }, []);
-    
-    // Load chat history when chat opens
+      // Load chat history when chat opens
     useEffect(() => {
         console.log('LiveChat: isOpen changed to', isOpen);
         console.log('LiveChat: authToken present?', !!authToken);
         if (isOpen && authToken) {
             console.log('LiveChat: Conditions met to fetch chat history');
             fetchChatHistory();
+            checkSubscription();
         }
     }, [isOpen, authToken]);
     
@@ -368,9 +371,7 @@ const LiveChat = () => {
             timestamp: new Date()
         };
         setMessages([welcomeMessage]);
-    };
-    
-    // Debug auth state
+    };    // Debug auth state
     useEffect(() => {
         const logAuthState = () => {
             verifyRoleAndId(); // Ensure role is correctly set
@@ -393,7 +394,53 @@ const LiveChat = () => {
         };
         
         logAuthState();
+        
+        // Check subscription status if authenticated
+        if (authToken) {
+            checkSubscription();
+        }
     }, [authToken, userRole]);
+    
+    // Log when selected model changes
+    useEffect(() => {
+        console.log('Selected model changed to:', selectedModel);
+    }, [selectedModel]);
+      // Check user's subscription status
+    const checkSubscription = async () => {
+        try {
+            const token = localStorage.getItem('authToken');
+            if (!token) return;
+            
+            console.log('Checking subscription status...');
+            
+            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/user_authentication/subscription', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Subscription data received:', data);
+                
+                // Set subscription state and show model selector if PLUS
+                if (data && data.subscription) {
+                    console.log('Setting subscription to:', data.subscription);
+                    setSubscription(data.subscription);
+                    // If user has PLUS subscription, update showModelSelector state
+                    const isPlus = data.subscription === 'PLUS';
+                    console.log('Is PLUS subscription:', isPlus);
+                    setShowModelSelector(isPlus);
+                }
+            } else {
+                console.error('Failed to fetch subscription data:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error checking subscription:', error);
+        }
+    };
 
     // Monitor auth state changes
     useEffect(() => {
@@ -489,8 +536,7 @@ const LiveChat = () => {
         e.stopPropagation();
         setIsMaximized(!isMaximized);
     };
-    
-    const handleSendMessage = async (e) => {
+      const handleSendMessage = async (e) => {
         e.preventDefault();
         
         if (!currentMessage.trim()) return;
@@ -538,13 +584,22 @@ const LiveChat = () => {
                         userId = localStorage.getItem('adminId');
                         break;
                 }
-            }
+            }            
+            // Use the selected model for PLUS users, otherwise default to FAST
+            const modelToUse = subscription === 'PLUS' ? selectedModel : 'FAST';
             
-            // Call the chat service
+            // Debug logging for model selection
+            console.log('=== MODEL SELECTION DEBUG ===');
+            console.log('Subscription status:', subscription);
+            console.log('Selected model:', selectedModel);
+            console.log('Model to use:', modelToUse);
+            
+            // Call the chat service with the model parameter
             const response = await sendChatMessage(
                 currentMessage, 
                 userId,
-                conversationHistory
+                conversationHistory,
+                modelToUse
             );
             
             // Add bot response to chat
@@ -561,11 +616,12 @@ const LiveChat = () => {
         } catch (error) {
             console.error('Error sending message:', error);
             setIsTyping(false);
-            
-            // Add error message
+              // Add error message
             const errorMessage = {
                 id: newMessageId + 1,
-                text: 'Sorry, there was an error processing your request. Please try again.',
+                text: error.message === 'The request is taking longer than expected (longer than 10 minutes). Please try again with a simpler query.' 
+                    ? error.message 
+                    : 'Sorry, there was an error processing your request. Please try again.',
                 sender: 'bot',
                 timestamp: new Date()
             };
@@ -666,8 +722,7 @@ const LiveChat = () => {
                                     )}
                                 </div>
                             ))}
-                            
-                            {isTyping && (
+                              {isTyping && (
                                 <div className="message-container bot-message">
                                     <div className="message-avatar">
                                         <img src="/chat-logo.svg" alt="HealthNet" />
@@ -678,12 +733,31 @@ const LiveChat = () => {
                                             <span></span>
                                             <span></span>
                                         </div>
+                                        <div className="typing-message">
+                                            Processing your request (up to 10 minutes for complex queries)...
+                                        </div>
                                     </div>
                                 </div>
                             )}
-                            
                             <div ref={messagesEndRef} />
                         </div>
+                          {/* Model selector for PLUS users */}
+                        {subscription === 'PLUS' && (
+                            <div className="model-selector-container">
+                                <label className="model-selector-label">Model:</label>
+                                <select 
+                                    className="model-selector"
+                                    value={selectedModel}
+                                    onChange={(e) => {
+                                        console.log('Model changed to:', e.target.value);
+                                        setSelectedModel(e.target.value);
+                                    }}
+                                >
+                                    <option value="FAST">FAST</option>
+                                    <option value="THINKING">THINKING</option>
+                                </select>
+                            </div>
+                        )}
                         
                         <form className="live-chat-input" onSubmit={handleSendMessage}>
                             <input
