@@ -255,57 +255,69 @@ function AvailableDoctors() {
                 }
             }
 
-            // Get the patient ID from multiple possible sources
-            let patientId = localStorage.getItem('patientId');
+            // Get the patient ID - prioritize API call for reliability
+            let patientId = null;
             
-            // If not found, try to get it from homeData which might have been stored during login
-            if (!patientId) {
-                console.log('Patient ID not found directly, attempting to extract from homeData');
-                const homeData = localStorage.getItem('homeData');
-                if (homeData) {
-                    try {
-                        const homeJson = JSON.parse(homeData);
-                        patientId = homeJson.patient_id || 
-                                    homeJson.id || 
-                                    (homeJson.user && homeJson.user.patient_id);
-                        
-                        if (patientId) {
-                            console.log('Found patient ID in homeData:', patientId);
-                            localStorage.setItem('patientId', patientId.toString());
-                        }
-                    } catch (e) {
-                        console.warn('Failed to parse homeData:', e);
+            try {
+                console.log('Fetching patient ID from API...');
+                const patientResponse = await fetch(`${API_BASE_URL}/patient/getmine`, { 
+                    headers: { 
+                        'Authorization': `Bearer ${token}`, 
+                        'Content-Type': 'application/json' 
                     }
-                }
-            }
-
-            // If still not found, try to fetch patient info to get the ID
-            if (!patientId) {
-                console.log('Attempting to fetch patient ID from API');
-                try {
-                    const patientResponse = await fetch(`${API_BASE_URL}/patient/getmine`, { 
-                        headers: { 
-                            'Authorization': `Bearer ${token}`, 
-                            'Content-Type': 'application/json' 
-                        }
-                    });
+                });
+                
+                if (patientResponse.ok) {
+                    const patientData = await patientResponse.json();
+                    console.log('Patient data from API:', patientData);
                     
-                    if (patientResponse.ok) {
-                        const patientData = await patientResponse.json();
-                        if (patientData && patientData.id) {
-                            patientId = patientData.id;
-                            console.log('Retrieved patient ID from API:', patientId);
-                            localStorage.setItem('patientId', patientId.toString());
+                    // Try different possible ID field names
+                    patientId = patientData.patient_id || 
+                               patientData.id || 
+                               patientData.patientId;
+                    
+                    if (patientId) {
+                        console.log('Successfully retrieved patient ID from API:', patientId);
+                        localStorage.setItem('patientId', patientId.toString());
+                    } else {
+                        console.error('Patient ID not found in API response:', patientData);
+                        throw new Error('Patient ID not found in API response');
+                    }
+                } else {
+                    const errorText = await patientResponse.text();
+                    console.error('Failed to fetch patient data:', errorText);
+                    throw new Error(`Failed to fetch patient data: ${errorText}`);
+                }
+            } catch (apiError) {
+                console.error('Error fetching patient ID from API:', apiError);
+                
+                // Fallback to localStorage if API fails
+                patientId = localStorage.getItem('patientId');
+                
+                if (!patientId) {
+                    // Try to get it from homeData as last resort
+                    const homeData = localStorage.getItem('homeData');
+                    if (homeData) {
+                        try {
+                            const homeJson = JSON.parse(homeData);
+                            patientId = homeJson.patient_id || 
+                                        homeJson.id || 
+                                        (homeJson.user && homeJson.user.patient_id);
+                            
+                            if (patientId) {
+                                console.log('Found patient ID in homeData:', patientId);
+                                localStorage.setItem('patientId', patientId.toString());
+                            }
+                        } catch (e) {
+                            console.warn('Failed to parse homeData:', e);
                         }
                     }
-                } catch (e) {
-                    console.error('Failed to fetch patient ID from API:', e);
                 }
             }
 
             if (!patientId) {
                 console.error('Patient ID not found in any source');
-                throw new Error('Patient ID is missing. Please log in again.');
+                throw new Error('Unable to retrieve patient ID. Please log out and log in again.');
             }
 
             const [hours, minutes] = startTime.split(':').map(Number);

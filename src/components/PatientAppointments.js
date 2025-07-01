@@ -75,10 +75,24 @@ function PatientAppointments() {
 
             // Sort appointments by date and time
             updatedAppointments.sort((a, b) => {
-                if (a.date === b.date) {
-                    return a.startTime.localeCompare(b.startTime);
+                // Handle null or undefined date values
+                const dateA = a.date || '';
+                const dateB = b.date || '';
+                
+                if (dateA === dateB) {
+                    // Handle null or undefined startTime values
+                    const startTimeA = a.startTime || '';
+                    const startTimeB = b.startTime || '';
+                    return startTimeA.localeCompare(startTimeB);
                 }
-                return new Date(a.date) - new Date(b.date);
+                
+                // If dates are different, compare them
+                if (dateA && dateB) {
+                    return new Date(dateA) - new Date(dateB);
+                }
+                
+                // If one date is missing, put it at the end
+                return dateA ? -1 : 1;
             });
 
             setAppointments(updatedAppointments);

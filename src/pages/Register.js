@@ -13,6 +13,12 @@ function Register() {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate(); // Initialize useNavigate for redirection
 
+    // Get today's date in YYYY-MM-DD format to prevent future birthdate selection
+    const getTodayDate = () => {
+        const today = new Date();
+        return today.toISOString().split('T')[0];
+    };
+
     // Handle form field changes
     const handleChange = (e) => {
         setFormData({
@@ -189,6 +195,7 @@ function Register() {
                                     type="date"
                                     name="birthdate"
                                     placeholder="Birthdate"
+                                    max={getTodayDate()}
                                     required
                                     onChange={handleChange}
                                 />
@@ -261,6 +268,7 @@ function Register() {
                                     type="date"
                                     name="birthdate"
                                     placeholder="Birthdate"
+                                    max={getTodayDate()}
                                     required
                                     onChange={handleChange}
                                 />

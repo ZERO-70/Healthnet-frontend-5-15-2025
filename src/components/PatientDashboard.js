@@ -232,19 +232,32 @@ const PatientDashboard = () => {
                 const recordsData = await recordsResponse.json();
                 setMedicalRecords(recordsData);
 
-                // Extract latest health metrics from medical records
+                // Set health metrics from patient profile data first (as fallback)
+                let currentMetrics = {
+                    height: patientData.height || '',
+                    weight: patientData.weight || '',
+                    bloodPressure: '',
+                    heartRate: '',
+                    respiratoryRate: '',
+                    temperature: '',
+                    oxygenSaturation: ''
+                };
+
+                // Extract latest health metrics from medical records (override patient data if available)
                 if (Array.isArray(recordsData) && recordsData.length) {
                     const latestRecord = recordsData.sort((a, b) => new Date(b.recordDate) - new Date(a.recordDate))[0];
-                    setHealthMetrics({
-                        height: latestRecord.height,
-                        weight: latestRecord.weight,
-                        bloodPressure: latestRecord.bloodPressure,
-                        heartRate: latestRecord.heartRate,
-                        respiratoryRate: latestRecord.respiratoryRate,
-                        temperature: latestRecord.temperature,
-                        oxygenSaturation: latestRecord.oxygenSaturation
-                    });
+                    currentMetrics = {
+                        height: latestRecord.height || currentMetrics.height,
+                        weight: latestRecord.weight || currentMetrics.weight,
+                        bloodPressure: latestRecord.bloodPressure || '',
+                        heartRate: latestRecord.heartRate || '',
+                        respiratoryRate: latestRecord.respiratoryRate || '',
+                        temperature: latestRecord.temperature || '',
+                        oxygenSaturation: latestRecord.oxygenSaturation || ''
+                    };
                 }
+                
+                setHealthMetrics(currentMetrics);
 
                 // No separate medications or healthMetrics APIs; metrics extracted above
 
