@@ -76,6 +76,7 @@ function SearchDoctor() {
                     ) : (
                         filteredDoctors.map((doctor) => (
                             <div key={doctor.id} className="doctorCard">
+                                <p><strong>Doctor ID:</strong> {doctor.id}</p>
                                 <p><strong>Name:</strong> {doctor.name}</p>
                                 <p><strong>Specialization:</strong> {doctor.specialization}</p>
                                 <p><strong>Gender:</strong> {doctor.gender}</p>

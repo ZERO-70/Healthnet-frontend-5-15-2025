@@ -112,6 +112,7 @@ function FindPatient() {
                     ) : (
                         filteredPatients.map((patient) => (
                             <div key={patient.id} className="patientCard">
+                                <p><strong>Patient ID:</strong> {patient.id}</p>
                                 <p><strong>Name:</strong> {patient.name}</p>
                                 <p><strong>Age:</strong> {patient.age}</p>
                                 <p><strong>Gender:</strong> {patient.gender}</p>

@@ -153,6 +153,25 @@ function StaffDepartmentManagement() {
 
     const deleteItem = async (type, id) => {
         setLoading(true);
+        
+        // Store the item to restore if deletion fails
+        let removedItem = null;
+        
+        // Optimistically remove the item from UI immediately
+        if (type === 'staff') {
+            removedItem = staffList.find(item => item.id === id);
+            setStaffList(prev => prev.filter(item => item.id !== id));
+        } else if (type === 'department') {
+            removedItem = departmentList.find(item => item.department_id === id);
+            setDepartmentList(prev => prev.filter(item => item.department_id !== id));
+        } else if (type === 'doctor') {
+            removedItem = doctorList.find(item => item.id === id);
+            setDoctorList(prev => prev.filter(item => item.id !== id));
+        } else if (type === 'patient') {
+            removedItem = patientList.find(item => item.id === id);
+            setPatientList(prev => prev.filter(item => item.id !== id));
+        }
+        
         try {
             const token = localStorage.getItem('authToken');
 
@@ -186,15 +205,26 @@ function StaffDepartmentManagement() {
             }
 
             console.log(`${type.charAt(0).toUpperCase() + type.slice(1)} with ID: ${id} deleted successfully`);
-
-            // Refresh the appropriate list
-            if (type === 'staff') fetchStaff();
-            if (type === 'department') fetchDepartments();
-            if (type === 'doctor') fetchDoctors();
-            if (type === 'patient') fetchPatients();
+            
+            // Clear any previous error messages on successful deletion
+            setErrorMessage('');
+            
         } catch (error) {
             console.error(`Error deleting ${type} with ID: ${id}`, error.message);
             setErrorMessage(`Error deleting ${type}: ${error.message}`);
+            
+            // Restore the item to the UI if deletion failed
+            if (removedItem) {
+                if (type === 'staff') {
+                    setStaffList(prev => [...prev, removedItem].sort((a, b) => a.id - b.id));
+                } else if (type === 'department') {
+                    setDepartmentList(prev => [...prev, removedItem].sort((a, b) => a.department_id - b.department_id));
+                } else if (type === 'doctor') {
+                    setDoctorList(prev => [...prev, removedItem].sort((a, b) => a.id - b.id));
+                } else if (type === 'patient') {
+                    setPatientList(prev => [...prev, removedItem].sort((a, b) => a.id - b.id));
+                }
+            }
         } finally {
             setLoading(false);
         }
