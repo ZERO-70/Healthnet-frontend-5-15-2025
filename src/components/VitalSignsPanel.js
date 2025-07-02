@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { API_BASE_URL } from '../constants/api';
 function VitalSignsPanel({ vitalSigns }) {
     const { bloodPressure, heartRate, respiratoryRate, temperature, oxygenSaturation, height, weight } = vitalSigns;
 

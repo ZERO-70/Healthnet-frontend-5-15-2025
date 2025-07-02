@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLoading } from '../hooks/useLoading';
 import LoadingSpinner from './LoadingSpinner';
 import '../styles/AdminInfo.css'; // CSS for AdminInfo component
+import { API_BASE_URL } from '../constants/api';
 
 /**
  * AdminInfo fetches and displays the current admin's profile information.
@@ -23,7 +24,7 @@ function AdminInfo() {
     const fetchAdminInfo = async () => {
         const token = localStorage.getItem('authToken');
         if (!token) throw new Error('Authentication token is missing. Please log in again.');
-        const response = await fetch(`http://localhost:8081/persons/getmine`, {
+        const response = await fetch(`${API_BASE_URL}/persons/getmine`, {
             method: 'GET',
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         });

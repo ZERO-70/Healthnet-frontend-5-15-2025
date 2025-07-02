@@ -51,7 +51,7 @@ function FileUploader({ recordId, onUploadSuccess }) {
                 formData.append('description', description);
             }
 
-            const response = await fetch(`http://localhost:8081/medical_record/${recordId}/attachments`, {
+            const response = await fetch(`${API_BASE_URL}/medical_record/${recordId}/attachments`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`

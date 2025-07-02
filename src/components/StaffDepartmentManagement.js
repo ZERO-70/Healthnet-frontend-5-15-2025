@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../constants/api';
 import '../styles/StaffDepartmentManagement.css';
 import LoadingSpinner from './LoadingSpinner';
 
@@ -42,7 +43,7 @@ function StaffDepartmentManagement() {
         setLoading(true);
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://localhost:8081/staff', {
+            const response = await fetch(`${API_BASE_URL}/staff`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -67,7 +68,7 @@ function StaffDepartmentManagement() {
         setLoading(true);
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://localhost:8081/department', {
+            const response = await fetch(`${API_BASE_URL}/department`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -92,7 +93,7 @@ function StaffDepartmentManagement() {
         setLoading(true);
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://localhost:8081/doctor', {
+            const response = await fetch(`${API_BASE_URL}/doctor`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -121,7 +122,7 @@ function StaffDepartmentManagement() {
             
             console.log('Fetching patients data...');
             
-            const response = await fetch('http://localhost:8081/patient', {
+            const response = await fetch(`${API_BASE_URL}/patient`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -163,10 +164,10 @@ function StaffDepartmentManagement() {
             }
 
             const endpointMap = {
-                staff: `http://localhost:8081/staff/${id}`,
-                department: `http://localhost:8081/department/${id}`,
-                doctor: `http://localhost:8081/doctor/${id}`,
-                patient: `http://localhost:8081/patient/${id}`,
+                staff: `${API_BASE_URL}/staff/${id}`,
+                department: `${API_BASE_URL}/department/${id}`,
+                doctor: `${API_BASE_URL}/doctor/${id}`,
+                patient: `${API_BASE_URL}/patient/${id}`,
             };
 
             const endpoint = endpointMap[type];
@@ -223,7 +224,7 @@ function StaffDepartmentManagement() {
             const staffPayload = { ...newStaff };
 
             // Send the staff data to the server and get the response as a plain text number
-            const staffResponse = await fetch('http://localhost:8081/staff', {
+            const staffResponse = await fetch(`${API_BASE_URL}/staff`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -259,7 +260,7 @@ function StaffDepartmentManagement() {
         setLoading(true);
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://localhost:8081/department', {
+            const response = await fetch(`${API_BASE_URL}/department`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -287,7 +288,7 @@ function StaffDepartmentManagement() {
             const token = localStorage.getItem('authToken');
             console.log(newStaff);
             const response = await fetch(
-                `http://localhost:8081/staff`,
+                `${API_BASE_URL}/staff`,
                 {
                     method: 'PUT',
                     headers: {
@@ -316,7 +317,7 @@ function StaffDepartmentManagement() {
         try {
             const token = localStorage.getItem('authToken');
             const response = await fetch(
-                `http://localhost:8081/department/${updateDepartment.department_id}`,
+                `${API_BASE_URL}/department/${updateDepartment.department_id}`,
                 {
                     method: 'PUT',
                     headers: {
@@ -463,7 +464,7 @@ function StaffDepartmentManagement() {
 
             console.log('Authentication Payload:', authPayload); // Debug payload
 
-            const response = await fetch('http://localhost:8081/user_authentication/register', {
+            const response = await fetch(`${API_BASE_URL}/user_authentication/register`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`, // Include the token
@@ -491,7 +492,7 @@ function StaffDepartmentManagement() {
             const token = localStorage.getItem('authToken');
             console.log(`Sending DELETE request to delete authentication for ID: ${id}`);
 
-            const response = await fetch(`http://localhost:8081/user_authentication/personwith/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/user_authentication/personwith/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

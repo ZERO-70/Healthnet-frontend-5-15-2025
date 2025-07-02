@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/ManageAppointments.css'; // Custom CSS for styling
 import LoadingSpinner from './LoadingSpinner'; // Import loading spinner component
-
+import { API_BASE_URL } from '../constants/api';
 const getAppointmentCardColor = (appointment) => {
     if (appointment.is_pending && !appointment.is_approved) {
         return 'lightyellow'; // Light yellow for Pending
@@ -28,7 +28,7 @@ function ManageAppointments() {
                 throw new Error('Authentication token is missing. Please log in again.');
             }
 
-            const response = await fetch('http://localhost:8081/appointment/getmine', {
+            const response = await fetch(`${API_BASE_URL}/appointment/getmine`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -73,7 +73,7 @@ function ManageAppointments() {
     const fetchPatientName = async (patientId, token) => {
         console.log(`Fetching patient name for patient_id: ${patientId}`);
         try {
-            const response = await fetch(`http://localhost:8081/patient/${patientId}`, {
+            const response = await fetch(`${API_BASE_URL}/patient/${patientId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -97,7 +97,7 @@ function ManageAppointments() {
         setLoading(true);
         const token = localStorage.getItem('authToken');
         try {
-            const response = await fetch(`http://localhost:8081/appointment/${id}/approve`, {
+            const response = await fetch(`${API_BASE_URL}/appointment/${id}/approve`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -123,7 +123,7 @@ function ManageAppointments() {
         setLoading(true);
         const token = localStorage.getItem('authToken');
         try {
-            const response = await fetch(`http://localhost:8081/appointment/${id}/mark-not-pending`, {
+            const response = await fetch(`${API_BASE_URL}/appointment/${id}/mark-not-pending`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

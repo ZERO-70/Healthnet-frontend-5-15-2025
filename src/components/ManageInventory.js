@@ -4,7 +4,7 @@ import { FiPackage, FiPlus, FiEdit, FiTrash2, FiSearch, FiX, FiAlertCircle, FiCh
 import '../styles/ManageInventory.css';
 import '../styles/StaffComponents.css';
 import LoadingSpinner from './LoadingSpinner';
-
+import { API_BASE_URL } from '../constants/api';
 function ManageInventory() {
     const [loading, setLoading] = useState(false);
     const [inventory, setInventory] = useState([]);
@@ -58,7 +58,7 @@ function ManageInventory() {
                 throw new Error('Authentication token is missing');
             }
             
-            const response = await fetch('http://localhost:8081/inventory', {
+            const response = await fetch(`${API_BASE_URL}/inventory`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -92,7 +92,7 @@ function ManageInventory() {
                 throw new Error('Authentication token is missing');
             }
             
-            const response = await fetch('http://localhost:8081/department', {
+            const response = await fetch(`${API_BASE_URL}/department`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -213,7 +213,7 @@ function ManageInventory() {
             console.log('Department ID type:', typeof submissionData.department_id, 'value:', submissionData.department_id);
             
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://localhost:8081/inventory', {
+            const response = await fetch(`${API_BASE_URL}/inventory`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -250,7 +250,7 @@ function ManageInventory() {
         setLoading(true);
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:8081/inventory/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/inventory/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -308,7 +308,7 @@ function ManageInventory() {
             console.log('Department ID type:', typeof selectedItem.department_id);
             
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:8081/inventory/${selectedItem.inventory_id}`, {
+            const response = await fetch(`${API_BASE_URL}/inventory/${selectedItem.inventory_id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

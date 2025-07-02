@@ -4,8 +4,7 @@ import { FiCalendar, FiFileText, FiAlertCircle, FiInfo, FiMessageSquare, FiCheck
 import '../styles/PatientDashboard.css';
 import LoadingSpinner from './LoadingSpinner';
 import GenerateAdvice from './GenerateAdvice';
-
-const API_BASE_URL = 'http://localhost:8081';
+import { API_BASE_URL } from '../constants/api';
 
 // Helper component for formatting medical advice messages
 const MedicalAdviceMessage = ({ text }) => {

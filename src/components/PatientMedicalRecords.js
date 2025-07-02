@@ -3,7 +3,7 @@ import '../styles/PatientMedicalRecords.css';
 import LoadingSpinner from './LoadingSpinner';
 import MedicalRecordDetail from './MedicalRecordDetail';
 import { useLoading } from '../hooks/useLoading';
-
+import { API_BASE_URL } from '../constants/api';
 function PatientMedicalRecords() {
     const [medicalRecords, setMedicalRecords] = useState([]);
     const [allMedicalRecords, setAllMedicalRecords] = useState([]); // Store all medical records
@@ -32,7 +32,7 @@ function PatientMedicalRecords() {
             }
 
             // Use the patient records endpoint (getmine) which will use JWT token for identification
-            let baseUrl = 'http://localhost:8081/medical_record/patient/records';
+            let baseUrl = `${API_BASE_URL}/medical_record/patient/records`;
             
             // Add date range parameters if specified
             const queryParams = [];

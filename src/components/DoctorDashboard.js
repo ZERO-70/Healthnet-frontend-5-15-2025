@@ -4,6 +4,7 @@ import { FiCalendar, FiUser, FiClock, FiInfo, FiCheckCircle, FiXCircle } from 'r
 import LoadingSpinner from './LoadingSpinner';
 import NotificationIcon from './NotificationIcon';
 import '../styles/DoctorDashboard.css';
+import { API_BASE_URL } from '../constants/api';
 
 const DoctorDashboard = () => {
     const [loading, setLoading] = useState(true);
@@ -27,7 +28,7 @@ const DoctorDashboard = () => {
                 }
 
                 // Fetch doctor info
-                const doctorResponse = await fetch('http://localhost:8081/doctor/getmine', {
+                const doctorResponse = await fetch(`${API_BASE_URL}/doctor/getmine`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
@@ -42,7 +43,7 @@ const DoctorDashboard = () => {
                 setDoctorInfo(doctorData);
                 
                 // Fetch doctor's appointments
-                const appointmentsResponse = await fetch('http://localhost:8081/appointment/getmine', {
+                const appointmentsResponse = await fetch(`${API_BASE_URL}/appointment/getmine`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -62,7 +63,7 @@ const DoctorDashboard = () => {
                     appointmentsData.map(async (appointment) => {
                         try {
                             // Fetch patient name
-                            const patientResponse = await fetch(`http://localhost:8081/patient/${appointment.patient_id}`, {
+                            const patientResponse = await fetch(`${API_BASE_URL}/patient/${appointment.patient_id}`, {
                                 method: 'GET',
                                 headers: {
                                     'Authorization': `Bearer ${token}`,

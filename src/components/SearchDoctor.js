@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/SearchDoctor.css';
 import LoadingSpinner from './LoadingSpinner';
 import { useLoading } from '../hooks/useLoading';
+import { API_BASE_URL } from '../constants/api';
 
 function SearchDoctor() {
     const [doctors, setDoctors] = useState([]);
@@ -14,7 +15,7 @@ function SearchDoctor() {
     const fetchDoctors = async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://localhost:8081/doctor', {
+            const response = await fetch(`${API_BASE_URL}/doctor`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

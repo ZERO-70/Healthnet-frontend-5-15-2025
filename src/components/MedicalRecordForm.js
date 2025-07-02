@@ -3,7 +3,7 @@ import LabResultsTable from './LabResultsTable';
 import AttachmentManager from './AttachmentManager';
 import AuditTrailViewer from './AuditTrailViewer';
 import '../styles/MedicalRecordForm.css';
-
+import { API_BASE_URL } from '../constants/api';
 const MedicalRecordForm = ({
   record = {},
   userRole = '',

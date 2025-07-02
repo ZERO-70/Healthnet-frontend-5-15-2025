@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/ManageAvailability.css'; // Link to the CSS file
 import LoadingSpinner from './LoadingSpinner';
 import { useLoading } from '../hooks/useLoading';
-
+import { API_BASE_URL } from '../constants/api';
 function ManageAvailability() {
     const [availability, setAvailability] = useState({});
     const [isNotFound, setIsNotFound] = useState(false);
@@ -22,7 +22,7 @@ function ManageAvailability() {
 
                 console.log('Fetching availability data...');
 
-                const response = await fetch('http://localhost:8081/avalibility/getmine', {
+                const response = await fetch(`${API_BASE_URL}/avalibility/getmine`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -82,8 +82,8 @@ function ManageAvailability() {
                 }
 
                 const url = isNotFound
-                    ? 'http://localhost:8081/avalibility'
-                    : 'http://localhost:8081/avalibility';
+                    ? `${API_BASE_URL}/avalibility`
+                    : `${API_BASE_URL}/avalibility`;
 
                 const method = isNotFound ? 'POST' : 'PUT';
 

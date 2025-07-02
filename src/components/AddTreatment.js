@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/AddTreatment.css';
 import LoadingSpinner from './LoadingSpinner';
 import { useLoading } from '../hooks/useLoading';
+import { API_BASE_URL } from '../constants/api';
 
 /**
  * AddTreatment allows doctors to add, view, and delete their treatments.
@@ -44,7 +45,7 @@ function AddTreatment() {
                 throw new Error('Authentication token is missing. Please log in again.');
             }
 
-            const response = await fetch('http://localhost:8081/department', {
+            const response = await fetch(`${API_BASE_URL}/department`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -73,7 +74,7 @@ function AddTreatment() {
                 throw new Error('Authentication token or doctor ID is missing. Please log in again.');
             }
 
-            const response = await fetch('http://localhost:8081/treatement', {
+            const response = await fetch(`${API_BASE_URL}/treatement`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -116,7 +117,7 @@ function AddTreatment() {
 
                 console.log('Sending Treatment Data:', treatmentData); // Log treatment data to the console
 
-                const response = await fetch('http://localhost:8081/treatement', {
+                const response = await fetch(`${API_BASE_URL}/treatement`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -164,7 +165,7 @@ function AddTreatment() {
                     throw new Error('Authentication token is missing. Please log in again.');
                 }
 
-                const response = await fetch(`http://localhost:8081/treatement/${treatmentId}`, {
+                const response = await fetch(`${API_BASE_URL}/treatement/${treatmentId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,

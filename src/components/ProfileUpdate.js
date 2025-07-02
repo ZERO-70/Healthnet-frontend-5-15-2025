@@ -4,7 +4,7 @@ import LoadingSpinner from './LoadingSpinner';
 import '../styles/UpdateProfile.css'; // Using the same CSS as other profile components
 import { FiUser, FiPhone, FiMapPin, FiEdit, FiImage, FiSave, FiCalendar } from 'react-icons/fi';
 import { motion } from 'framer-motion';
-
+import { API_BASE_URL } from '../constants/api';
 function UpdateAdminProfile() {
     const [formData, setFormData] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
@@ -48,7 +48,7 @@ function UpdateAdminProfile() {
                 throw new Error('Authentication token is missing. Please log in again.');
             }
 
-            const response = await fetch('http://localhost:8081/persons/getmine', {
+            const response = await fetch(`${API_BASE_URL}/persons/getmine`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -110,7 +110,7 @@ function UpdateAdminProfile() {
 
             const token = localStorage.getItem('authToken');
             const adminId = localStorage.getItem('adminId'); // Retrieve admin ID
-            const response = await fetch(`http://localhost:8081/persons/${adminId}`, {
+            const response = await fetch(`${API_BASE_URL}/persons/${adminId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

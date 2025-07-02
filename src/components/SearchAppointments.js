@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/SearchAppointment.css';
 import LoadingSpinner from './LoadingSpinner';
 import { useLoading } from '../hooks/useLoading';
+import { API_BASE_URL } from '../constants/api';
 
 function SearchAppointment() {
     const [appointments, setAppointments] = useState([]);
@@ -13,7 +14,7 @@ function SearchAppointment() {
     const fetchAppointments = useCallback(async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://localhost:8081/appointment', {
+            const response = await fetch(`${API_BASE_URL}/appointment`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -52,7 +53,7 @@ function SearchAppointment() {
 
     const fetchPatientName = async (id, token) => {
         try {
-            const response = await fetch(`http://localhost:8081/patient/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/patient/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -74,7 +75,7 @@ function SearchAppointment() {
 
     const fetchDoctorName = async (id, token) => {
         try {
-            const response = await fetch(`http://localhost:8081/doctor/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/doctor/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

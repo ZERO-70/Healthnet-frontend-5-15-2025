@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/LabResultsTable.css';
-
+import { API_BASE_URL } from '../constants/api';
 function LabResultsTable({ labResults, editable = false, onChange, recordId }) {    // Debug logging to check the lab results received
     React.useEffect(() => {
         console.log('LabResultsTable received labResults:', labResults);
@@ -108,7 +108,7 @@ function LabResultsTable({ labResults, editable = false, onChange, recordId }) {
                 console.log('[DEBUG] Sending DELETE request for lab result ID:', numericId);
                 
                 // Use the medical_record endpoint pattern consistent with other API calls
-                const response = await fetch(`http://localhost:8081/medical_record/lab-results/${numericId}`, {
+                const response = await fetch(`${API_BASE_URL}/medical_record/lab-results/${numericId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,

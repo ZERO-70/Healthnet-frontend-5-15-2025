@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/AttachmentManager.css';
+import { API_BASE_URL } from '../constants/api';
+
 
 function AttachmentManager({ attachments, editable = false, onChange }) {    const [downloadError, setDownloadError] = useState('');
     const [newAttachment, setNewAttachment] = useState({ name: '', file: null });
@@ -51,7 +53,7 @@ function AttachmentManager({ attachments, editable = false, onChange }) {    con
             }
             
             // Try to download the file
-            const response = await fetch(`http://localhost:8081/medical_record/attachments/${apiAttachmentId}`, {
+            const response = await fetch(`${API_BASE_URL}/medical_record/attachments/${apiAttachmentId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -182,7 +184,7 @@ function AttachmentManager({ attachments, editable = false, onChange }) {    con
                   console.log('[DEBUG] Sending DELETE request for attachment ID:', id);
                 console.log('[DEBUG] Attachment ID type:', typeof id);
                   // Use the medical_record endpoint pattern consistent with other API calls
-                const response = await fetch(`http://localhost:8081/medical_record/attachments/${id}`, {
+                const response = await fetch(`${API_BASE_URL}/medical_record/attachments/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,

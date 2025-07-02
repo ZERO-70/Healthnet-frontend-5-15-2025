@@ -3,8 +3,10 @@
  * This service handles all API interactions for the chat functionality
  */
 
+import { API_BASE_URL } from '../constants/api';
+
 // API endpoint for chat
-const CHAT_API_ENDPOINT = 'http://localhost:8081/chat/query';
+const CHAT_API_ENDPOINT = `${API_BASE_URL}/chat/query`;
 
 // Local storage key for chat history
 const CHAT_HISTORY_KEY = 'healthnet_chat_history';

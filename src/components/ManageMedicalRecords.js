@@ -5,7 +5,7 @@ import '../styles/ManageMedicalRecords.css';
 import '../styles/StaffComponents.css';
 import LoadingSpinner from './LoadingSpinner';
 import MedicalRecordForm from './MedicalRecordForm';
-
+import { API_BASE_URL } from '../constants/api';
 function ManageMedicalRecords() {
     const [medicalRecords, setMedicalRecords] = useState([]);
     const [filteredRecords, setFilteredRecords] = useState([]);
@@ -72,7 +72,7 @@ function ManageMedicalRecords() {
                 throw new Error('Authentication token is missing');
             }
             
-            const response = await fetch('http://localhost:8081/medical_record', {
+            const response = await fetch('${API_BASE_URL}/medical_record', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -116,7 +116,7 @@ function ManageMedicalRecords() {
                 throw new Error('Authentication token is missing');
             }
             
-            const response = await fetch('http://localhost:8081/treatement', {
+            const response = await fetch('${API_BASE_URL}/treatement', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -148,7 +148,7 @@ function ManageMedicalRecords() {
                 throw new Error('Authentication token is missing');
             }
             
-            const response = await fetch('http://localhost:8081/department', {
+            const response = await fetch('${API_BASE_URL}/department', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -260,7 +260,7 @@ function ManageMedicalRecords() {
                 weight: formData.weight || null
             };
             
-            const response = await fetch('http://localhost:8081/medical_record', {
+            const response = await fetch('${API_BASE_URL}/medical_record', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -321,7 +321,7 @@ function ManageMedicalRecords() {
                     throw new Error('Authentication token is missing. Please log in again.');
                 }
                 
-                const response = await fetch(`http://localhost:8081/medical_record/${recordId}`, {
+                const response = await fetch(`${API_BASE_URL}/medical_record/${recordId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -418,7 +418,7 @@ function ManageMedicalRecords() {
             console.log('Full request payload:', JSON.stringify(recordData, null, 2));
 
             const response = await fetch(
-                `http://localhost:8081/medical_record/${formData.recordId}`, {
+                `${API_BASE_URL}/medical_record/${formData.recordId}`, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -482,7 +482,7 @@ function ManageMedicalRecords() {
             console.log('Fetching complete record for editing, record ID:', record.recordId);
             
             // Fetch the complete record with lab results from the server
-            const response = await fetch(`http://localhost:8081/medical_record/${record.recordId}`, {
+            const response = await fetch(`${API_BASE_URL}/medical_record/${record.recordId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

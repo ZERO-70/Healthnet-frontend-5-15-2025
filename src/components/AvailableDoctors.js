@@ -4,8 +4,7 @@ import LoadingSpinner from './LoadingSpinner';
 import { useLoading } from '../hooks/useLoading';
 import { FiUser, FiPhone, FiMapPin, FiCalendar, FiActivity, FiArrowLeft } from 'react-icons/fi';
 import { motion } from 'framer-motion';
-
-const API_BASE_URL = 'http://localhost:8081';
+import { API_BASE_URL } from '../constants/api';
 
 function AvailableDoctors() {
     const [doctors, setDoctors] = useState([]);

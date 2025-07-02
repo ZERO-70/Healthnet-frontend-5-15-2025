@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/PatientAppointments.css'; // Custom CSS for styling
 import LoadingSpinner from './LoadingSpinner';
 import { useLoading } from '../hooks/useLoading';
-
+import { API_BASE_URL } from '../constants/api';
 const getAppointmentCardColor = (appointment) => {
     if (appointment.is_pending && !appointment.is_approved) {
         return 'lightyellow'; // Light yellow for Pending
@@ -23,7 +23,7 @@ function PatientAppointments() {
 
     const fetchDoctorName = async (doctorId, token) => {
         try {
-            const response = await fetch(`http://localhost:8081/doctor/${doctorId}`, {
+            const response = await fetch(`${API_BASE_URL}/doctor/${doctorId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -50,7 +50,7 @@ function PatientAppointments() {
                 throw new Error('Authentication token is missing. Please log in again.');
             }
 
-            const response = await fetch('http://localhost:8081/appointment/getmine', {
+            const response = await fetch(`${API_BASE_URL}/appointment/getmine`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

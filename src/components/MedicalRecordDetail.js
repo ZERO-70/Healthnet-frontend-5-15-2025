@@ -3,7 +3,7 @@ import VitalSignsPanel from './VitalSignsPanel';
 import LabResultsTable from './LabResultsTable';
 import AttachmentManager from './AttachmentManager';
 import AuditTrailViewer from './AuditTrailViewer';
-
+import { API_BASE_URL } from '../constants/api';
 function MedicalRecordDetail({ record, userRole = '', onClose }) {
     const [activeTab, setActiveTab] = useState('general');
 

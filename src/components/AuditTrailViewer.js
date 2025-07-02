@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLoading } from '../hooks/useLoading';
 import LoadingSpinner from './LoadingSpinner';
+import { API_BASE_URL } from '../constants/api';
 
 function AuditTrailViewer({ recordId }) {
     const [auditTrail, setAuditTrail] = useState([]);
@@ -16,7 +17,7 @@ function AuditTrailViewer({ recordId }) {
                     throw new Error('Authentication token is missing. Please log in again.');
                 }
 
-                const response = await fetch(`http://localhost:8081/medical_record/${recordId}/audit-trail`, {
+                const response = await fetch(`${API_BASE_URL}/medical_record/${recordId}/audit-trail`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,

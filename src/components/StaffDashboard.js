@@ -24,7 +24,7 @@ import { Bar, Pie, Line, Doughnut, PolarArea } from 'react-chartjs-2';
 import LoadingSpinner from './LoadingSpinner';
 import NotificationIcon from './NotificationIcon';
 import '../styles/StaffDashboard.css';
-
+import { API_BASE_URL } from '../constants/api';
 // Register ChartJS components
 ChartJS.register(
   ArcElement,
@@ -126,7 +126,7 @@ const StaffDashboard = () => {
       const token = localStorage.getItem('authToken');
       if (!token) throw new Error('Authentication information missing');
       const response = await fetch(
-        'http://localhost:8081/staff/getmine',
+        `${API_BASE_URL}/staff/getmine`,
         {
           method: 'GET',
           headers: {
@@ -153,7 +153,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('http://localhost:8081/medical_record', {
+      const response = await fetch(`${API_BASE_URL}/medical_record`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -198,7 +198,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('http://localhost:8081/appointment', {
+      const response = await fetch(`${API_BASE_URL}/appointment`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -275,7 +275,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('http://localhost:8081/inventory', {
+      const response = await fetch(`${API_BASE_URL}/inventory`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -308,7 +308,7 @@ const StaffDashboard = () => {
       const token = localStorage.getItem('authToken');
       
       // Fetch all doctors
-      const doctorsResponse = await fetch('http://localhost:8081/doctor', {
+      const doctorsResponse = await fetch(`${API_BASE_URL}/doctor`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -323,7 +323,7 @@ const StaffDashboard = () => {
       const doctors = await doctorsResponse.json();
       
       // Fetch all appointments
-      const appointmentsResponse = await fetch('http://localhost:8081/appointment', {
+      const appointmentsResponse = await fetch(`${API_BASE_URL}/appointment`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -369,7 +369,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('http://localhost:8081/appointment', {
+      const response = await fetch(`${API_BASE_URL}/appointment`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -407,7 +407,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('http://localhost:8081/department', {
+      const response = await fetch(`${API_BASE_URL}/department`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -435,7 +435,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('http://localhost:8081/staff', {
+      const response = await fetch(`${API_BASE_URL}/staff`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -527,7 +527,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('http://localhost:8081/patient', {
+      const response = await fetch(`${API_BASE_URL}/patient`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

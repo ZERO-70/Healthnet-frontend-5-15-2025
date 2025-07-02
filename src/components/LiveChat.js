@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiMessageSquare, FiX, FiSend, FiUser, FiChevronDown, FiChevronUp, FiMinimize2, FiMaximize2 } from 'react-icons/fi';
 import { sendChatMessage, clearChatHistory } from '../services/chatService';
 import '../styles/LiveChat.css';
+import { API_BASE_URL } from '../constants/api';
+
 
 // Helper function to ensure proper role and ID
 const verifyRoleAndId = () => {
@@ -270,7 +272,7 @@ const LiveChat = () => {
             
             console.log('Using headers:', headers);
             
-            const response = await fetch('http://localhost:8081/chat/getmine', {
+            const response = await fetch(`${API_BASE_URL}/chat/getmine`, {
                 method: 'GET',
                 headers
             });
@@ -413,7 +415,7 @@ const LiveChat = () => {
             
             console.log('Checking subscription status...');
             
-            const response = await fetch('http://localhost:8081/user_authentication/subscription', {
+            const response = await fetch(`${API_BASE_URL}/user_authentication/subscription`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

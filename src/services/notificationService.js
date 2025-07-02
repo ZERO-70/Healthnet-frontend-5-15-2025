@@ -1,5 +1,5 @@
 // Notification service for handling user notifications
-const API_BASE_URL = 'http://localhost:8081';
+import { API_BASE_URL } from '../constants/api';
 
 // Key for storing last notification fetch timestamp in localStorage
 const LAST_FETCH_KEY = 'lastNotificationFetch';

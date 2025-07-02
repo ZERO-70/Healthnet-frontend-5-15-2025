@@ -5,6 +5,7 @@ import { FiLogOut, FiUser, FiCalendar, FiEdit, FiUserPlus, FiFileText, FiHome, F
 import LoadingSpinner from '../components/LoadingSpinner';
 import { checkAndAddSuggestions } from '../services/notificationService';
 import '../styles/PatientPortal.css';
+import { API_BASE_URL } from '../constants/api';
 
 // Lazy load all components
 const LazyPatientDashboard = lazy(() => import('../components/PatientDashboard'));
@@ -31,7 +32,7 @@ function PatientPortal() {
         const fetchPatientInfo = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch('http://localhost:8081/patient/getmine', {
+                const response = await fetch(`${API_BASE_URL}/patient/getmine`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,

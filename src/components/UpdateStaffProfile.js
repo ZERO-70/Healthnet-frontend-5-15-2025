@@ -4,7 +4,7 @@ import LoadingSpinner from './LoadingSpinner';
 import { useLoading } from '../hooks/useLoading';
 import { FiUser, FiPhone, FiMapPin, FiEdit, FiImage, FiSave, FiBriefcase, FiCalendar } from 'react-icons/fi';
 import { motion } from 'framer-motion';
-
+import { API_BASE_URL } from '../constants/api';
 function UpdateStaffProfile() {
     const [formData, setFormData] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
@@ -49,7 +49,7 @@ function UpdateStaffProfile() {
                     throw new Error('Authentication token is missing. Please log in again.');
                 }
 
-                const response = await fetch('http://localhost:8081/staff/getmine', {
+                const response = await fetch(`${API_BASE_URL}/staff/getmine`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -127,7 +127,7 @@ function UpdateStaffProfile() {
                 console.log('Submitting form data:', formData);
 
                 const token = localStorage.getItem('authToken');
-                const response = await fetch('http://localhost:8081/staff', {
+                const response = await fetch(`${API_BASE_URL}/staff`, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`,

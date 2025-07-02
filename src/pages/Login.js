@@ -5,6 +5,7 @@ import LoadingSpinner from '../components/LoadingSpinner'; // Import LoadingSpin
 import { motion } from 'framer-motion';
 import { FiUser, FiLock, FiArrowRight } from 'react-icons/fi';
 import { FaRegHospital } from 'react-icons/fa';
+import { API_BASE_URL } from '../constants/api';
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -19,9 +20,8 @@ function Login() {
         setErrorMessage(''); // Clear any previous error messages
 
         // Debug the API URLs being used
-        const apiBaseUrl = 'http://localhost:8081';
-        const loginUrl = `${apiBaseUrl}/user_authentication/login`;
-        const homeUrl = `${apiBaseUrl}/home`;
+        const loginUrl = `${API_BASE_URL}/user_authentication/login`;
+        const homeUrl = `${API_BASE_URL}/home`;
 
         console.log('Using login URL:', loginUrl);
         console.log('Using home URL:', homeUrl);

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiCpu, FiClock, FiCheck, FiAlertCircle } from 'react-icons/fi';
 import '../styles/GenerateAdvice.css';
+import { API_BASE_URL } from '../constants/api';
+
 
 const GenerateAdvice = ({ onAdviceGenerated, patientId }) => {
     const [isGenerating, setIsGenerating] = useState(false);
@@ -30,7 +32,7 @@ const GenerateAdvice = ({ onAdviceGenerated, patientId }) => {
             }
 
             // Start advice generation
-            const response = await fetch('http://localhost:8081/suggestion/generate', {
+            const response = await fetch(`${API_BASE_URL}/suggestion/generate`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -61,7 +63,7 @@ const GenerateAdvice = ({ onAdviceGenerated, patientId }) => {
         const interval = setInterval(async () => {
             try {
                 const token = localStorage.getItem('authToken');
-                const response = await fetch('http://localhost:8081/suggestion/generation-status', {
+                const response = await fetch(`${API_BASE_URL}/suggestion/generation-status`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',

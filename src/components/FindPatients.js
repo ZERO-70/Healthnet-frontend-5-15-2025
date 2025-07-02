@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/FindPatients.css';
 import LoadingSpinner from './LoadingSpinner';
 import { useLoading } from '../hooks/useLoading';
+import { API_BASE_URL } from '../constants/api';
 
 function FindPatient() {
     const [patients, setPatients] = useState([]);
@@ -14,7 +15,7 @@ function FindPatient() {
     const fetchPatients = async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://localhost:8081/patient', {
+            const response = await fetch(`${API_BASE_URL}/patient`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -39,7 +40,7 @@ function FindPatient() {
     const fetchPatientById = async (id) => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:8081/patient/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/patient/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

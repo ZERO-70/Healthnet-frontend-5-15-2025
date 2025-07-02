@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../styles/Register.css';
+import { API_BASE_URL } from '../constants/api';
 
 function Register() {
     const [userType, setUserType] = useState(''); // To track if the user is a patient or doctor
@@ -86,7 +87,7 @@ function Register() {
             const updatedFormData = { ...formData, image: imageBase64, image_type: 'jpeg' };
 
             // Step 1: Send patient/doctor data
-            const baseUrl = 'http://localhost:8081';
+            const baseUrl = `${API_BASE_URL}`;
             const personEndpoint = userType === 'PATIENT' ? '/patient' : '/doctor';
 
             const personResponse = await fetch(`${baseUrl}${personEndpoint}`, {

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
 import '../styles/Analytics.css';
+import { API_BASE_URL } from '../constants/api';
+
 
 import {
     Chart as ChartJS,
@@ -42,7 +44,7 @@ function Analytics() {
     const fetchData = async (endpoint, setData) => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:8081/${endpoint}`, {
+            const response = await fetch(`${API_BASE_URL}/${endpoint}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,

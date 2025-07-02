@@ -4,6 +4,7 @@ import LoadingSpinner from './LoadingSpinner';
 import { motion } from 'framer-motion';
 import { FiUser, FiMail, FiPhone, FiMapPin, FiCalendar, FiActivity } from 'react-icons/fi';
 import '../styles/DoctorInfo.css'; // CSS for the DoctorInfo component
+import { API_BASE_URL } from '../constants/api';
 
 function DoctorInfo() {
     const [doctorData, setDoctorData] = useState({});
@@ -44,7 +45,7 @@ function DoctorInfo() {
                 throw new Error('Authentication token is missing. Please log in again.');
             }
 
-            const response = await fetch('http://localhost:8081/doctor/getmine', {
+            const response = await fetch(`${API_BASE_URL}/doctor/getmine`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

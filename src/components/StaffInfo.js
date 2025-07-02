@@ -4,6 +4,7 @@ import LoadingSpinner from './LoadingSpinner';
 import { motion } from 'framer-motion';
 import { FiUser, FiCalendar, FiPhone, FiMapPin, FiBriefcase, FiInfo } from 'react-icons/fi';
 import '../styles/StaffInfo.css';
+import { API_BASE_URL } from '../constants/api';
 
 function StaffInfo() {
     const [staffData, setStaffData] = useState({});
@@ -13,7 +14,7 @@ function StaffInfo() {
     const fetchStaffInfo = async () => {
         const token = localStorage.getItem('authToken');
         if (!token) throw new Error('Authentication token is missing. Please log in again.');
-        const response = await fetch('http://localhost:8081/staff/getmine', {
+        const response = await fetch(`${API_BASE_URL}/staff/getmine`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,

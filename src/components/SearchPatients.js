@@ -5,7 +5,7 @@ import '../styles/PatientMedicalRecords.css'; // Import patient medical records 
 import LoadingSpinner from './LoadingSpinner';
 import MedicalRecordDetail from './MedicalRecordDetail';
 import { useLoading } from '../hooks/useLoading';
-
+import { API_BASE_URL } from '../constants/api';
 function SearchPatients() {
     const [searchQuery, setSearchQuery] = useState('');
     const [patients, setPatients] = useState([]);
@@ -53,7 +53,7 @@ function SearchPatients() {
                     throw new Error('Authentication token is missing. Please log in again.');
                 }
 
-                const response = await fetch(`http://localhost:8081/patient`, {
+                const response = await fetch(`${API_BASE_URL}/patient`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -87,7 +87,7 @@ function SearchPatients() {
 
                 console.log('Fetching medical records for patient ID:', patientId);
                 // Include the patient ID in the URL path to access specific patient records
-                const response = await fetch(`http://localhost:8081/medical_record/${patientId}`, {
+                const response = await fetch(`${API_BASE_URL}/medical_record/${patientId}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,

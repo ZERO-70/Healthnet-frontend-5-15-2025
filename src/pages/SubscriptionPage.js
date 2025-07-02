@@ -4,7 +4,8 @@ import axios from 'axios';
 import '../styles/SubscriptionPage.css';
 import { FiX } from 'react-icons/fi';
 
-const API_BASE_URL = 'http://localhost:8081';
+import { API_BASE_URL } from '../constants/api';
+
 
 const SubscriptionPage = () => {
     const [currentSubscription, setCurrentSubscription] = useState('');
