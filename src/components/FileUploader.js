@@ -51,7 +51,7 @@ function FileUploader({ recordId, onUploadSuccess }) {
                 formData.append('description', description);
             }
 
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/medical_record/${recordId}/attachments`, {
+            const response = await fetch(`http://localhost:8081/medical_record/${recordId}/attachments`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`

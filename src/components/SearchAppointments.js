@@ -13,7 +13,7 @@ function SearchAppointment() {
     const fetchAppointments = useCallback(async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/appointment', {
+            const response = await fetch('http://localhost:8081/appointment', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -52,7 +52,7 @@ function SearchAppointment() {
 
     const fetchPatientName = async (id, token) => {
         try {
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/patient/${id}`, {
+            const response = await fetch(`http://localhost:8081/patient/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -74,7 +74,7 @@ function SearchAppointment() {
 
     const fetchDoctorName = async (id, token) => {
         try {
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/doctor/${id}`, {
+            const response = await fetch(`http://localhost:8081/doctor/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

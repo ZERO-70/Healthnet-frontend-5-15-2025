@@ -270,7 +270,7 @@ const LiveChat = () => {
             
             console.log('Using headers:', headers);
             
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/chat/getmine', {
+            const response = await fetch('http://localhost:8081/chat/getmine', {
                 method: 'GET',
                 headers
             });
@@ -413,7 +413,7 @@ const LiveChat = () => {
             
             console.log('Checking subscription status...');
             
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/user_authentication/subscription', {
+            const response = await fetch('http://localhost:8081/user_authentication/subscription', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

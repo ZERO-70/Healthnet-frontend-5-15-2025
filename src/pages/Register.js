@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import LoadingSpinner from '../components/LoadingSpinner';
 import '../styles/Register.css';
 
 function Register() {
@@ -11,12 +12,34 @@ function Register() {
     const [password, setPassword] = useState('');
     const [responseMessage, setResponseMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [loading, setLoading] = useState(false); // Add loading state
+    const [emailError, setEmailError] = useState(''); // Add email validation error state
     const navigate = useNavigate(); // Initialize useNavigate for redirection
 
     // Get today's date in YYYY-MM-DD format to prevent future birthdate selection
     const getTodayDate = () => {
         const today = new Date();
         return today.toISOString().split('T')[0];
+    };
+
+    // Email validation function
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    // Handle email input changes with validation
+    const handleEmailChange = (e) => {
+        const email = e.target.value;
+        setUsername(email);
+        
+        // Clear previous email error
+        setEmailError('');
+        
+        // Validate email if not empty
+        if (email && !validateEmail(email)) {
+            setEmailError('Please enter a valid email address');
+        }
     };
 
     // Handle form field changes
@@ -46,13 +69,24 @@ function Register() {
     // Handle submission
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Validate email before proceeding
+        if (!validateEmail(username)) {
+            setEmailError('Please enter a valid email address');
+            return;
+        }
+        
+        setLoading(true); // Set loading to true when starting registration
+        setErrorMessage(''); // Clear any previous error messages
+        setResponseMessage(''); // Clear any previous response messages
+        setEmailError(''); // Clear any email validation errors
 
         try {
             // Add image data to the formData object
             const updatedFormData = { ...formData, image: imageBase64, image_type: 'jpeg' };
 
             // Step 1: Send patient/doctor data
-            const baseUrl = 'https://frozen-sands-51239-b849a8d5756e.herokuapp.com';
+            const baseUrl = 'http://localhost:8081';
             const personEndpoint = userType === 'PATIENT' ? '/patient' : '/doctor';
 
             const personResponse = await fetch(`${baseUrl}${personEndpoint}`, {
@@ -96,6 +130,8 @@ function Register() {
         } catch (error) {
             console.error(error.message);
             setErrorMessage(error.message);
+        } finally {
+            setLoading(false); // Set loading to false when registration completes or fails
         }
     };
 
@@ -109,10 +145,13 @@ function Register() {
         setPassword('');
         setResponseMessage('');
         setErrorMessage('');
+        setEmailError(''); // Reset email validation error
+        setLoading(false); // Reset loading state as well
     };
 
     return (
         <div className="wrapper">
+            {loading && <LoadingSpinner />} {/* Display LoadingSpinner when loading */}
             <div className="container">
                 <h1 className="title">Create Your Account</h1>
                 {!userType && (
@@ -296,26 +335,43 @@ function Register() {
                             </div>
                         )}
                         <h3>Set up your credentials</h3>
-                        <input
-                            type="text"
-                            placeholder="Email"
-                            required
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
+                        <div className="email-input-container">
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                required
+                                value={username}
+                                onChange={handleEmailChange}
+                                className={emailError ? 'input-error' : ''}
+                                disabled={loading}
+                            />
+                            {emailError && <p className="email-error-message">{emailError}</p>}
+                        </div>
                         <input
                             type="password"
                             placeholder="Password"
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            disabled={loading}
                         />
                         <div style={{ display: 'flex', justifyContent: 'space-between', gap: '15px', marginTop: '10px' }}>
-                            <button type="button" onClick={handleReset} className="button" style={{ flex: '1', background: 'linear-gradient(to right, #9ca3a3, #c6cccc)' }}>
+                            <button 
+                                type="button" 
+                                onClick={handleReset} 
+                                className="button" 
+                                style={{ flex: '1', background: 'linear-gradient(to right, #9ca3a3, #c6cccc)' }}
+                                disabled={loading}
+                            >
                                 Reset
                             </button>
-                            <button type="submit" className="button" style={{ flex: '2' }}>
-                                Complete Registration
+                            <button 
+                                type="submit" 
+                                className="button" 
+                                style={{ flex: '2' }}
+                                disabled={loading}
+                            >
+                                {loading ? 'Registering...' : 'Complete Registration'}
                             </button>
                         </div>
                     </form>

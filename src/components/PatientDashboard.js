@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiCalendar, FiFileText, FiAlertCircle, FiInfo, FiMessageSquare, FiCheck, FiChevronUp, FiChevronDown } from 'react-icons/fi';
 import '../styles/PatientDashboard.css';
 import LoadingSpinner from './LoadingSpinner';
+import GenerateAdvice from './GenerateAdvice';
 
-const API_BASE_URL = 'https://frozen-sands-51239-b849a8d5756e.herokuapp.com';
+const API_BASE_URL = 'http://localhost:8081';
 
 // Helper component for formatting medical advice messages
 const MedicalAdviceMessage = ({ text }) => {
@@ -164,6 +165,36 @@ const PatientDashboard = () => {
 
     // Helper to safely capitalize status strings
     const capitalize = (s = '') => s.charAt(0).toUpperCase() + s.slice(1);
+
+    // Function to refresh medical advice after generation
+    const refreshMedicalAdvice = async () => {
+        try {
+            const token = localStorage.getItem('authToken');
+            if (!token) return;
+            const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+
+            const suggestionsResponse = await fetch(`${API_BASE_URL}/suggestion/getmine`, { headers });
+            if (suggestionsResponse.ok) {
+                const suggestionsData = await suggestionsResponse.json();
+                if (Array.isArray(suggestionsData) && suggestionsData.length) {
+                    const sorted = suggestionsData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    let processedAdvice = sorted[0];
+                    if (processedAdvice.suggestionText) {
+                        processedAdvice = {...processedAdvice, collapsed: false};
+                    }
+                    setMedicalAdvice(processedAdvice);
+                } else if (suggestionsData) {
+                    let processedAdvice = suggestionsData;
+                    if (processedAdvice.suggestionText) {
+                        processedAdvice = {...processedAdvice, collapsed: false};
+                    }
+                    setMedicalAdvice(processedAdvice);
+                }
+            }
+        } catch (error) {
+            console.error('Error refreshing medical advice:', error);
+        }
+    };
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -346,13 +377,16 @@ const PatientDashboard = () => {
                         <FiMessageSquare className="card-icon" />
                         <h3>Recent Medical Advice</h3>
                         <span className="ai-generated-label">-  AI Generated</span>
-                        <motion.button 
-                            className="toggle-button collapse-card-button"
-                            animate={{ rotate: medicalAdvice.collapsed ? 0 : 180 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <FiChevronDown />
-                        </motion.button>
+                        <div className="header-actions">
+                            <GenerateAdvice onAdviceGenerated={refreshMedicalAdvice} />
+                            <motion.button 
+                                className="toggle-button collapse-card-button"
+                                animate={{ rotate: medicalAdvice.collapsed ? 0 : 180 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <FiChevronDown />
+                            </motion.button>
+                        </div>
                     </motion.div>
                     <motion.div 
                         className={`advice-content ${medicalAdvice.collapsed ? 'collapsed' : ''}`}
@@ -360,6 +394,24 @@ const PatientDashboard = () => {
                     >
                         <MedicalAdviceMessage text={medicalAdvice.suggestionText} />
                     </motion.div>
+                </motion.div>
+            )}
+
+            {!medicalAdvice && (
+                <motion.div className="generate-advice-card" variants={itemVariants}>
+                    <div className="card-header">
+                        <FiMessageSquare className="card-icon" />
+                        <h3>Medical Advice</h3>
+                        <span className="ai-generated-label">-  AI Generated</span>
+                    </div>
+                    <div className="advice-content">
+                        <p className="no-advice-message">
+                            Get personalized medical advice based on your health records and current condition.
+                        </p>
+                        <div className="generate-advice-container">
+                            <GenerateAdvice onAdviceGenerated={refreshMedicalAdvice} />
+                        </div>
+                    </div>
                 </motion.div>
             )}
 

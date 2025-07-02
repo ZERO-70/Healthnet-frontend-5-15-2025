@@ -28,7 +28,7 @@ function ManageAppointments() {
                 throw new Error('Authentication token is missing. Please log in again.');
             }
 
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/appointment/getmine', {
+            const response = await fetch('http://localhost:8081/appointment/getmine', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -73,7 +73,7 @@ function ManageAppointments() {
     const fetchPatientName = async (patientId, token) => {
         console.log(`Fetching patient name for patient_id: ${patientId}`);
         try {
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/patient/${patientId}`, {
+            const response = await fetch(`http://localhost:8081/patient/${patientId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -97,7 +97,7 @@ function ManageAppointments() {
         setLoading(true);
         const token = localStorage.getItem('authToken');
         try {
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/appointment/${id}/approve`, {
+            const response = await fetch(`http://localhost:8081/appointment/${id}/approve`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -123,7 +123,7 @@ function ManageAppointments() {
         setLoading(true);
         const token = localStorage.getItem('authToken');
         try {
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/appointment/${id}/mark-not-pending`, {
+            const response = await fetch(`http://localhost:8081/appointment/${id}/mark-not-pending`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

@@ -126,7 +126,7 @@ const StaffDashboard = () => {
       const token = localStorage.getItem('authToken');
       if (!token) throw new Error('Authentication information missing');
       const response = await fetch(
-        'https://frozen-sands-51239-b849a8d5756e.herokuapp.com/staff/getmine',
+        'http://localhost:8081/staff/getmine',
         {
           method: 'GET',
           headers: {
@@ -153,7 +153,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/medical_record', {
+      const response = await fetch('http://localhost:8081/medical_record', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -198,7 +198,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/appointment', {
+      const response = await fetch('http://localhost:8081/appointment', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -275,7 +275,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/inventory', {
+      const response = await fetch('http://localhost:8081/inventory', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -308,7 +308,7 @@ const StaffDashboard = () => {
       const token = localStorage.getItem('authToken');
       
       // Fetch all doctors
-      const doctorsResponse = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/doctor', {
+      const doctorsResponse = await fetch('http://localhost:8081/doctor', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -323,7 +323,7 @@ const StaffDashboard = () => {
       const doctors = await doctorsResponse.json();
       
       // Fetch all appointments
-      const appointmentsResponse = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/appointment', {
+      const appointmentsResponse = await fetch('http://localhost:8081/appointment', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -369,7 +369,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/appointment', {
+      const response = await fetch('http://localhost:8081/appointment', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -407,7 +407,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/department', {
+      const response = await fetch('http://localhost:8081/department', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -435,7 +435,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/staff', {
+      const response = await fetch('http://localhost:8081/staff', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -527,7 +527,7 @@ const StaffDashboard = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/patient', {
+      const response = await fetch('http://localhost:8081/patient', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

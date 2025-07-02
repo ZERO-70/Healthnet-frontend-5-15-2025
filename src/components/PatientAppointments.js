@@ -23,7 +23,7 @@ function PatientAppointments() {
 
     const fetchDoctorName = async (doctorId, token) => {
         try {
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/doctor/${doctorId}`, {
+            const response = await fetch(`http://localhost:8081/doctor/${doctorId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -50,7 +50,7 @@ function PatientAppointments() {
                 throw new Error('Authentication token is missing. Please log in again.');
             }
 
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/appointment/getmine', {
+            const response = await fetch('http://localhost:8081/appointment/getmine', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

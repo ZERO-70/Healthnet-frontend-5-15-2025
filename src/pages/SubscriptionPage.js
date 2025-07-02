@@ -4,7 +4,7 @@ import axios from 'axios';
 import '../styles/SubscriptionPage.css';
 import { FiX } from 'react-icons/fi';
 
-const API_BASE_URL = 'https://frozen-sands-51239-b849a8d5756e.herokuapp.com';
+const API_BASE_URL = 'http://localhost:8081';
 
 const SubscriptionPage = () => {
     const [currentSubscription, setCurrentSubscription] = useState('');

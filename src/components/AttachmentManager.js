@@ -51,7 +51,7 @@ function AttachmentManager({ attachments, editable = false, onChange }) {    con
             }
             
             // Try to download the file
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/medical_record/attachments/${apiAttachmentId}`, {
+            const response = await fetch(`http://localhost:8081/medical_record/attachments/${apiAttachmentId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -182,7 +182,7 @@ function AttachmentManager({ attachments, editable = false, onChange }) {    con
                   console.log('[DEBUG] Sending DELETE request for attachment ID:', id);
                 console.log('[DEBUG] Attachment ID type:', typeof id);
                   // Use the medical_record endpoint pattern consistent with other API calls
-                const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/medical_record/attachments/${id}`, {
+                const response = await fetch(`http://localhost:8081/medical_record/attachments/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,

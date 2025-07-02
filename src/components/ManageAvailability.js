@@ -22,7 +22,7 @@ function ManageAvailability() {
 
                 console.log('Fetching availability data...');
 
-                const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/avalibility/getmine', {
+                const response = await fetch('http://localhost:8081/avalibility/getmine', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -82,8 +82,8 @@ function ManageAvailability() {
                 }
 
                 const url = isNotFound
-                    ? 'https://frozen-sands-51239-b849a8d5756e.herokuapp.com/avalibility'
-                    : 'https://frozen-sands-51239-b849a8d5756e.herokuapp.com/avalibility';
+                    ? 'http://localhost:8081/avalibility'
+                    : 'http://localhost:8081/avalibility';
 
                 const method = isNotFound ? 'POST' : 'PUT';
 

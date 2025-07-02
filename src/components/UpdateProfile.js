@@ -49,7 +49,7 @@ function UpdateProfile() {
                     throw new Error('Authentication token is missing. Please log in again.');
                 }
 
-                const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/patient/getmine', {
+                const response = await fetch('http://localhost:8081/patient/getmine', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -109,7 +109,7 @@ function UpdateProfile() {
         const submitProfile = async () => {
             try {
                 const token = localStorage.getItem('authToken');
-                const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/patient', {
+                const response = await fetch('http://localhost:8081/patient', {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`,

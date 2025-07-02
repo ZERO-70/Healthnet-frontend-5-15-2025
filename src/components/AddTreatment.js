@@ -44,7 +44,7 @@ function AddTreatment() {
                 throw new Error('Authentication token is missing. Please log in again.');
             }
 
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/department', {
+            const response = await fetch('http://localhost:8081/department', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -73,7 +73,7 @@ function AddTreatment() {
                 throw new Error('Authentication token or doctor ID is missing. Please log in again.');
             }
 
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/treatement', {
+            const response = await fetch('http://localhost:8081/treatement', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -116,7 +116,7 @@ function AddTreatment() {
 
                 console.log('Sending Treatment Data:', treatmentData); // Log treatment data to the console
 
-                const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/treatement', {
+                const response = await fetch('http://localhost:8081/treatement', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -164,7 +164,7 @@ function AddTreatment() {
                     throw new Error('Authentication token is missing. Please log in again.');
                 }
 
-                const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/treatement/${treatmentId}`, {
+                const response = await fetch(`http://localhost:8081/treatement/${treatmentId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,

@@ -153,6 +153,7 @@
 }
 
 .form input[type="text"],
+.form input[type="email"],
 .form input[type="password"],
 .form input[type="number"],
 .form input[type="date"] {
@@ -376,4 +377,61 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 1.5rem;
+}
+
+/* Email validation styles */
+.email-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.email-input-container input {
+  width: 100%;
+  height: 48px;
+  padding: 0 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background-color: var(--secondary-color);
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  transition: all 0.2s ease-in-out;
+  box-shadow: var(--input-shadow);
+}
+
+.email-input-container input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(91, 123, 122, 0.15);
+}
+
+.email-input-container input::placeholder {
+  color: #b2b9b9;
+  font-size: 0.875rem;
+  opacity: 0.75;
+}
+
+.input-error {
+  border-color: var(--error-color) !important;
+  box-shadow: 0 0 0 2px rgba(214, 121, 103, 0.2) !important;
+}
+
+.email-error-message {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  padding-left: 0.5rem;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

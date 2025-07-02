@@ -108,7 +108,7 @@ function LabResultsTable({ labResults, editable = false, onChange, recordId }) {
                 console.log('[DEBUG] Sending DELETE request for lab result ID:', numericId);
                 
                 // Use the medical_record endpoint pattern consistent with other API calls
-                const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/medical_record/lab-results/${numericId}`, {
+                const response = await fetch(`http://localhost:8081/medical_record/lab-results/${numericId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,

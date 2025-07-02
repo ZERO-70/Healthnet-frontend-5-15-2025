@@ -23,7 +23,7 @@ function AdminInfo() {
     const fetchAdminInfo = async () => {
         const token = localStorage.getItem('authToken');
         if (!token) throw new Error('Authentication token is missing. Please log in again.');
-        const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/persons/getmine`, {
+        const response = await fetch(`http://localhost:8081/persons/getmine`, {
             method: 'GET',
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         });

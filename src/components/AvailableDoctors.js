@@ -5,7 +5,7 @@ import { useLoading } from '../hooks/useLoading';
 import { FiUser, FiPhone, FiMapPin, FiCalendar, FiActivity, FiArrowLeft } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 
-const API_BASE_URL = 'https://frozen-sands-51239-b849a8d5756e.herokuapp.com';
+const API_BASE_URL = 'http://localhost:8081';
 
 function AvailableDoctors() {
     const [doctors, setDoctors] = useState([]);

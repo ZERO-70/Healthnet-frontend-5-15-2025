@@ -48,7 +48,7 @@ function UpdateAdminProfile() {
                 throw new Error('Authentication token is missing. Please log in again.');
             }
 
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/persons/getmine', {
+            const response = await fetch('http://localhost:8081/persons/getmine', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -110,7 +110,7 @@ function UpdateAdminProfile() {
 
             const token = localStorage.getItem('authToken');
             const adminId = localStorage.getItem('adminId'); // Retrieve admin ID
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/persons/${adminId}`, {
+            const response = await fetch(`http://localhost:8081/persons/${adminId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

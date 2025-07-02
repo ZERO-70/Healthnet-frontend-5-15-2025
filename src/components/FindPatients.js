@@ -14,7 +14,7 @@ function FindPatient() {
     const fetchPatients = async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/patient', {
+            const response = await fetch('http://localhost:8081/patient', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -39,7 +39,7 @@ function FindPatient() {
     const fetchPatientById = async (id) => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/patient/${id}`, {
+            const response = await fetch(`http://localhost:8081/patient/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

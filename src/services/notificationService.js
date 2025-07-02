@@ -1,5 +1,5 @@
 // Notification service for handling user notifications
-const API_BASE_URL = 'https://frozen-sands-51239-b849a8d5756e.herokuapp.com';
+const API_BASE_URL = 'http://localhost:8081';
 
 // Key for storing last notification fetch timestamp in localStorage
 const LAST_FETCH_KEY = 'lastNotificationFetch';

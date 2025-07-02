@@ -14,7 +14,7 @@ function SearchDoctor() {
     const fetchDoctors = async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/doctor', {
+            const response = await fetch('http://localhost:8081/doctor', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

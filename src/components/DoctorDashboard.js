@@ -27,7 +27,7 @@ const DoctorDashboard = () => {
                 }
 
                 // Fetch doctor info
-                const doctorResponse = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/doctor/getmine', {
+                const doctorResponse = await fetch('http://localhost:8081/doctor/getmine', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const DoctorDashboard = () => {
                 setDoctorInfo(doctorData);
                 
                 // Fetch doctor's appointments
-                const appointmentsResponse = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/appointment/getmine', {
+                const appointmentsResponse = await fetch('http://localhost:8081/appointment/getmine', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -62,7 +62,7 @@ const DoctorDashboard = () => {
                     appointmentsData.map(async (appointment) => {
                         try {
                             // Fetch patient name
-                            const patientResponse = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/patient/${appointment.patient_id}`, {
+                            const patientResponse = await fetch(`http://localhost:8081/patient/${appointment.patient_id}`, {
                                 method: 'GET',
                                 headers: {
                                     'Authorization': `Bearer ${token}`,

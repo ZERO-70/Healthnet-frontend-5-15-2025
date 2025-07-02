@@ -32,7 +32,7 @@ function PatientMedicalRecords() {
             }
 
             // Use the patient records endpoint (getmine) which will use JWT token for identification
-            let baseUrl = 'https://frozen-sands-51239-b849a8d5756e.herokuapp.com/medical_record/patient/records';
+            let baseUrl = 'http://localhost:8081/medical_record/patient/records';
             
             // Add date range parameters if specified
             const queryParams = [];

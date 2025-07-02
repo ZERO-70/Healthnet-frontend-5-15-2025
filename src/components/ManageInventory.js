@@ -58,7 +58,7 @@ function ManageInventory() {
                 throw new Error('Authentication token is missing');
             }
             
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/inventory', {
+            const response = await fetch('http://localhost:8081/inventory', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -92,7 +92,7 @@ function ManageInventory() {
                 throw new Error('Authentication token is missing');
             }
             
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/department', {
+            const response = await fetch('http://localhost:8081/department', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -213,7 +213,7 @@ function ManageInventory() {
             console.log('Department ID type:', typeof submissionData.department_id, 'value:', submissionData.department_id);
             
             const token = localStorage.getItem('authToken');
-            const response = await fetch('https://frozen-sands-51239-b849a8d5756e.herokuapp.com/inventory', {
+            const response = await fetch('http://localhost:8081/inventory', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -250,7 +250,7 @@ function ManageInventory() {
         setLoading(true);
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/inventory/${id}`, {
+            const response = await fetch(`http://localhost:8081/inventory/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -308,7 +308,7 @@ function ManageInventory() {
             console.log('Department ID type:', typeof selectedItem.department_id);
             
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/inventory/${selectedItem.inventory_id}`, {
+            const response = await fetch(`http://localhost:8081/inventory/${selectedItem.inventory_id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

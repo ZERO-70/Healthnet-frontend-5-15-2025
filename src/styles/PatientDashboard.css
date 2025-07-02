@@ -569,18 +569,26 @@
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Changed to space-between for proper layout */
   margin-bottom: 0;
   padding-bottom: 0.75rem;
   transition: margin-bottom 0.3s ease;
 }
 
+.medical-advice-card .card-header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.medical-advice-card .card-header h3 {
+  flex: 1; /* Allow title to take available space */
+}
+
 .medical-advice-card .card-header:hover {
   background-color: rgba(90, 103, 216, 0.05);
   border-radius: 8px;
-}
-
-.medical-advice-card .collapse-card-button {
-  margin-left: auto;
 }
 
 .medical-advice-card .ai-generated-label {
@@ -831,4 +839,48 @@
   100% {
     transform: translateX(150%) skewX(-20deg);
   }
-} 
+}
+
+/* Generate Advice Card - when no advice exists */
+.generate-advice-card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  transition: all 0.25s ease;
+  border-left: 4px solid var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.generate-advice-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--hover-shadow);
+}
+
+.generate-advice-card .card-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(90, 103, 216, 0.1);
+}
+
+.generate-advice-card .advice-content {
+  max-height: none;
+  opacity: 1;
+  padding-top: 0;
+}
+
+.no-advice-message {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.generate-advice-container {
+  display: flex;
+  justify-content: center;
+}

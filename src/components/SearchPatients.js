@@ -53,7 +53,7 @@ function SearchPatients() {
                     throw new Error('Authentication token is missing. Please log in again.');
                 }
 
-                const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/patient`, {
+                const response = await fetch(`http://localhost:8081/patient`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -87,7 +87,7 @@ function SearchPatients() {
 
                 console.log('Fetching medical records for patient ID:', patientId);
                 // Include the patient ID in the URL path to access specific patient records
-                const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/medical_record/${patientId}`, {
+                const response = await fetch(`http://localhost:8081/medical_record/${patientId}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,

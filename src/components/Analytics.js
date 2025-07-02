@@ -42,7 +42,7 @@ function Analytics() {
     const fetchData = async (endpoint, setData) => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`https://frozen-sands-51239-b849a8d5756e.herokuapp.com/${endpoint}`, {
+            const response = await fetch(`http://localhost:8081/${endpoint}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,

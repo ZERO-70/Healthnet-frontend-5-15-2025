@@ -4,7 +4,7 @@
  */
 
 // API endpoint for chat
-const CHAT_API_ENDPOINT = 'https://frozen-sands-51239-b849a8d5756e.herokuapp.com/chat/query';
+const CHAT_API_ENDPOINT = 'http://localhost:8081/chat/query';
 
 // Local storage key for chat history
 const CHAT_HISTORY_KEY = 'healthnet_chat_history';
