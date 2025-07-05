@@ -66,9 +66,6 @@ const StaffDashboard = () => {
     lowInventoryItems: 0
   });
   
-  // New state for staff info summary
-  const [staffSummary, setStaffSummary] = useState([]);
-  
   // Add department performance metrics state
   const [departmentPerformance, setDepartmentPerformance] = useState([]);
   
@@ -430,36 +427,6 @@ const StaffDashboard = () => {
     }
   }, []);
 
-  // Fetch staff summary data
-  const fetchStaffSummary = useCallback(async () => {
-    try {
-      const token = localStorage.getItem('authToken');
-      
-      const response = await fetch(`${API_BASE_URL}/staff`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch staff data');
-      }
-      
-      const staffList = await response.json();
-      
-      // Instead of using departments directly (which could change), 
-      // use the department IDs and names passed to this function
-      setStaffSummary(staffList);
-      return staffList;
-    } catch (error) {
-      console.error('Error fetching staff summary:', error);
-      setError(error.message);
-      return [];
-    }
-  }, []); // Remove departments dependency to prevent loops
-
   // Fix dependency issues in calculateDepartmentPerformance
   const calculateDepartmentPerformance = useCallback(() => {
     if (!departments.length || !appointments.length || !topDoctors.length) return [];
@@ -581,7 +548,6 @@ const StaffDashboard = () => {
       
       // Group 3: Additional data
       Promise.all([
-        fetchStaffSummary(),
         fetchDiseaseStats(),
         fetchTopDoctors()
       ]).catch(error => {
@@ -601,7 +567,6 @@ const StaffDashboard = () => {
     fetchAppointmentTrends,
     fetchDiseaseStats, 
     fetchTopDoctors, 
-    fetchStaffSummary,
     fetchPatientStats
   ]);
 
@@ -1151,47 +1116,6 @@ const StaffDashboard = () => {
                 },
               }}
             />
-          </div>
-        </motion.div>
-      )}
-      
-      {/* Staff Summary Table - Only show if we have staff data */}
-      {hasData(staffSummary) && (
-        <motion.div 
-          className="dashboard-card"
-          variants={itemVariants}
-          whileHover={{ boxShadow: '0 8px 30px rgba(0, 0, 0, 0.12)' }}
-        >
-          <div className="card-header">
-            <h2><FiUsers /> Staff Information</h2>
-          </div>
-          <div className="staff-table-container">
-            <table className="staff-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Contact</th>
-                  <th>Gender</th>
-                  <th>Department</th>
-                </tr>
-              </thead>
-              <tbody>
-                {staffSummary.slice(0, 5).map((staff, index) => {
-                  const dept = departments.find(d => d.id === staff.department_id);
-                  const departmentName = dept ? dept.name : 'Unknown';
-                  return (
-                    <tr key={staff.staff_id ?? index}>
-                      <td>{`${staff.first_name || ''} ${staff.last_name || ''}`}</td>
-                      <td>{staff.email || 'N/A'}</td>
-                      <td>{staff.contact || 'N/A'}</td>
-                      <td>{staff.gender || 'N/A'}</td>
-                      <td>{departmentName}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
           </div>
         </motion.div>
       )}

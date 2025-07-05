@@ -3,10 +3,23 @@
  * 
  * This service manages isolated user sessions across multiple browser tabs,
  * allowing different users to be logged in simultaneously in different tabs.
+ * 
+ * Set DISABLE_SESSION_MANAGER=true in environment or add to constants to disable
  */
+
+// Configuration - set this to true to disable session management entirely
+const DISABLE_SESSION_MANAGER = false; // Change to true to disable
 
 class SessionManager {
     constructor() {
+        this.disabled = DISABLE_SESSION_MANAGER;
+        
+        if (this.disabled) {
+            console.log('SessionManager disabled - using standard localStorage');
+            this.setupStandardStorage();
+            return;
+        }
+        
         this.sessionId = this.getOrCreateSessionId();
         this.originalLocalStorage = window.localStorage;
         this.setupStorageProxy();
@@ -15,9 +28,18 @@ class SessionManager {
     }
 
     /**
+     * Setup standard localStorage when session manager is disabled
+     */
+    setupStandardStorage() {
+        this.scopedStorage = window.localStorage;
+    }
+
+    /**
      * Generate or retrieve the session ID for this tab
      */
     getOrCreateSessionId() {
+        if (this.disabled) return null;
+        
         // First check if we already have a session ID in sessionStorage (tab-specific)
         let sessionId = sessionStorage.getItem('healthnet_session_id');
         
@@ -37,6 +59,8 @@ class SessionManager {
      * Create scoped storage key
      */
     getScopedKey(key) {
+        if (this.disabled) return key;
+        
         // Don't scope certain keys that should be shared across all tabs
         const globalKeys = [
             'healthnet_session_registry',
@@ -55,6 +79,8 @@ class SessionManager {
      * Setup localStorage proxy to automatically scope keys
      */
     setupStorageProxy() {
+        if (this.disabled) return;
+        
         const self = this;
         
         // Create a proxy for localStorage
@@ -62,25 +88,29 @@ class SessionManager {
             getItem: function(key) {
                 const scopedKey = self.getScopedKey(key);
                 const value = self.originalLocalStorage.getItem(scopedKey);
-                console.log(`[Session ${self.sessionId}] GET ${key} -> ${scopedKey} = ${value ? 'found' : 'null'}`);
+                // Disabled verbose logging for performance
+                // console.log(`[Session ${self.sessionId}] GET ${key} -> ${scopedKey} = ${value ? 'found' : 'null'}`);
                 return value;
             },
             
             setItem: function(key, value) {
                 const scopedKey = self.getScopedKey(key);
-                console.log(`[Session ${self.sessionId}] SET ${key} -> ${scopedKey}`);
+                // Disabled verbose logging for performance  
+                // console.log(`[Session ${self.sessionId}] SET ${key} -> ${scopedKey}`);
                 return self.originalLocalStorage.setItem(scopedKey, value);
             },
             
             removeItem: function(key) {
                 const scopedKey = self.getScopedKey(key);
-                console.log(`[Session ${self.sessionId}] REMOVE ${key} -> ${scopedKey}`);
+                // Disabled verbose logging for performance
+                // console.log(`[Session ${self.sessionId}] REMOVE ${key} -> ${scopedKey}`);
                 return self.originalLocalStorage.removeItem(scopedKey);
             },
             
             clear: function() {
                 // Only clear items for this session
-                console.log(`[Session ${self.sessionId}] CLEAR session data`);
+                // Disabled verbose logging for performance
+                // console.log(`[Session ${self.sessionId}] CLEAR session data`);
                 self.clearSessionData();
             },
             
