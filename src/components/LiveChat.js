@@ -11,9 +11,7 @@ const verifyRoleAndId = () => {
     // Check for an authentication token
     const authToken = localStorage.getItem('authToken');
     if (!authToken) {
-        console.log('DEBUG: No auth token found, no role verification needed');
         if (localStorage.getItem('role')) {
-            console.log('DEBUG: Removing leftover role without auth token');
             localStorage.removeItem('role');
         }
         return;
@@ -29,15 +27,6 @@ const verifyRoleAndId = () => {
     const staffId = localStorage.getItem('staffId');
     const adminId = localStorage.getItem('adminId');
     
-    console.log('DEBUG: Role Verification - Current State:', { 
-        authToken: !!authToken,
-        userRole,
-        patientId,
-        doctorId,
-        staffId,
-        adminId
-    });
-    
     // Check if the role is valid (has a corresponding ID)
     if (userRole === 'patient' && !patientId) {
         console.warn('DEBUG: Patient role found but no ID. Role may be invalid.');
@@ -51,30 +40,22 @@ const verifyRoleAndId = () => {
     
     // Determine the correct role based on available IDs
     if (patientId && (!userRole || userRole !== 'patient')) {
-        console.log('DEBUG: Setting role to patient based on patientId');
         localStorage.setItem('role', 'patient');
     } else if (doctorId && (!userRole || userRole !== 'doctor')) {
-        console.log('DEBUG: Setting role to doctor based on doctorId');
         localStorage.setItem('role', 'doctor');
     } else if (staffId && (!userRole || userRole !== 'staff')) {
-        console.log('DEBUG: Setting role to staff based on staffId');
         localStorage.setItem('role', 'staff');
     } else if (adminId && (!userRole || userRole !== 'admin')) {
-        console.log('DEBUG: Setting role to admin based on adminId');
         localStorage.setItem('role', 'admin');
     } else if (!userRole && (patientId || doctorId || staffId || adminId)) {
         // If we have an ID but no role, try to determine role
         if (patientId) {
-            console.log('DEBUG: Setting role to patient based on patientId');
             localStorage.setItem('role', 'patient');
         } else if (doctorId) {
-            console.log('DEBUG: Setting role to doctor based on doctorId');
             localStorage.setItem('role', 'doctor');
         } else if (staffId) {
-            console.log('DEBUG: Setting role to staff based on staffId');
             localStorage.setItem('role', 'staff');
         } else if (adminId) {
-            console.log('DEBUG: Setting role to admin based on adminId');
             localStorage.setItem('role', 'admin');
         }
     }
@@ -82,7 +63,6 @@ const verifyRoleAndId = () => {
     // Handle userRole if it exists but role doesn't
     if (!localStorage.getItem('role') && localStorage.getItem('userRole')) {
         const legacyRole = localStorage.getItem('userRole').toLowerCase();
-        console.log('DEBUG: Converting legacy userRole to role:', legacyRole);
         localStorage.setItem('role', legacyRole);
     }
 };
@@ -228,32 +208,13 @@ const LiveChat = () => {
     const [showModelSelector, setShowModelSelector] = useState(false);
     const messagesEndRef = useRef(null);
     
-    // Log component rendering and state
-    useEffect(() => {
-        console.log('LiveChat component rendering');
-        console.log('LiveChat state:', {
-            isOpen,
-            isMaximized,
-            messagesCount: messages.length,
-            isTyping,
-            isLoadingHistory,
-            isVisible,
-            authToken: authToken ? 'Present' : 'None',
-            userRole
-        });
-    }, [isOpen, isMaximized, messages, isTyping, isLoadingHistory, isVisible, authToken, userRole]);
-    
     // Verify role and ID setup
     useEffect(() => {
-        console.log('LiveChat: verifying role and ID');
         verifyRoleAndId();
     }, []);
       // Load chat history when chat opens
     useEffect(() => {
-        console.log('LiveChat: isOpen changed to', isOpen);
-        console.log('LiveChat: authToken present?', !!authToken);
         if (isOpen && authToken) {
-            console.log('LiveChat: Conditions met to fetch chat history');
             fetchChatHistory();
             checkSubscription();
         }
@@ -261,23 +222,17 @@ const LiveChat = () => {
     
     // Fetch chat history from the server
     const fetchChatHistory = async () => {
-        console.log('LiveChat: fetchChatHistory called');
         setIsLoadingHistory(true);
         try {
-            console.log('Fetching chat history...');
             const headers = { 
                 'Authorization': `Bearer ${authToken}`, 
                 'Content-Type': 'application/json' 
             };
             
-            console.log('Using headers:', headers);
-            
             const response = await fetch(`${API_BASE_URL}/chat/getmine`, {
                 method: 'GET',
                 headers
             });
-            
-            console.log('Chat history response status:', response.status);
             
             if (!response.ok) {
                 console.error('Error fetching chat history:', response.statusText);
@@ -285,7 +240,6 @@ const LiveChat = () => {
             }
             
             const data = await response.json();
-            console.log('Fetched chat history (raw):', data);
             
             if (Array.isArray(data) && data.length > 0) {
                 // Clear out any existing messages first
@@ -293,7 +247,6 @@ const LiveChat = () => {
                 
                 // Process each chat message
                 data.forEach((chat, index) => {
-                    console.log(`Processing chat item ${index}:`, chat);
                     
                     // Check if we have either request or message_text 
                     const userMessage = chat.request || chat.message_text || chat.messageText;
@@ -309,8 +262,6 @@ const LiveChat = () => {
                             sender: 'user',
                             timestamp: new Date(chat.timestamp || chat.createdAt || Date.now())
                         });
-                        
-                        console.log(`Added user message: ${userMessage}`);
                     }
                     
                     if (botResponse) {
@@ -321,12 +272,8 @@ const LiveChat = () => {
                             sender: 'bot',
                             timestamp: new Date(chat.timestamp ? new Date(chat.timestamp).getTime() + 1000 : Date.now())
                         });
-                        
-                        console.log(`Added bot response: ${botResponse.substring(0, 30)}...`);
                     }
                 });
-                
-                console.log('Processed messages:', processedMessages);
                 
                 // Add a divider message to indicate previous chat history
                 const dividerMessage = {
@@ -341,11 +288,9 @@ const LiveChat = () => {
                 
                 // If we have processed messages, set them as our messages
                 if (processedMessages.length > 0) {
-                    console.log('Setting processed messages with divider');
                     setMessages([...processedMessages, dividerMessage]);
                 } else {
                     // Add welcome message if no processed messages
-                    console.log('No processed messages, adding welcome message');
                     addWelcomeMessage();
                 }
             } else {
@@ -384,15 +329,6 @@ const LiveChat = () => {
             const doctorId = localStorage.getItem('doctorId');
             const staffId = localStorage.getItem('staffId');
             const adminId = localStorage.getItem('adminId');
-            
-            console.log('LiveChat Auth State:', {
-                authToken: token ? 'Present' : 'None',
-                role,
-                patientId,
-                doctorId,
-                staffId,
-                adminId
-            });
         };
         
         logAuthState();
@@ -402,18 +338,12 @@ const LiveChat = () => {
             checkSubscription();
         }
     }, [authToken, userRole]);
-    
-    // Log when selected model changes
-    useEffect(() => {
-        console.log('Selected model changed to:', selectedModel);
-    }, [selectedModel]);
+
       // Check user's subscription status
     const checkSubscription = async () => {
         try {
             const token = localStorage.getItem('authToken');
             if (!token) return;
-            
-            console.log('Checking subscription status...');
             
             const response = await fetch(`${API_BASE_URL}/user_authentication/subscription`, {
                 method: 'GET',
@@ -425,15 +355,12 @@ const LiveChat = () => {
             
             if (response.ok) {
                 const data = await response.json();
-                console.log('Subscription data received:', data);
                 
                 // Set subscription state and show model selector if PLUS
                 if (data && data.subscription) {
-                    console.log('Setting subscription to:', data.subscription);
                     setSubscription(data.subscription);
                     // If user has PLUS subscription, update showModelSelector state
                     const isPlus = data.subscription === 'PLUS';
-                    console.log('Is PLUS subscription:', isPlus);
                     setShowModelSelector(isPlus);
                 }
             } else {
@@ -455,14 +382,6 @@ const LiveChat = () => {
                 setAuthToken(currentToken);
                 setUserRole(currentRole);
                 resetChat();
-                
-                // Log auth state change
-                console.log('Auth state changed:', {
-                    tokenChanged: currentToken !== authToken,
-                    roleChanged: currentRole !== userRole,
-                    newToken: currentToken ? 'Present' : 'None',
-                    newRole: currentRole
-                });
             }
         };
 
@@ -589,12 +508,6 @@ const LiveChat = () => {
             }            
             // Use the selected model for PLUS users, otherwise default to FAST
             const modelToUse = subscription === 'PLUS' ? selectedModel : 'FAST';
-            
-            // Debug logging for model selection
-            console.log('=== MODEL SELECTION DEBUG ===');
-            console.log('Subscription status:', subscription);
-            console.log('Selected model:', selectedModel);
-            console.log('Model to use:', modelToUse);
             
             // Call the chat service with the model parameter
             const response = await sendChatMessage(
@@ -751,7 +664,6 @@ const LiveChat = () => {
                                     className="model-selector"
                                     value={selectedModel}
                                     onChange={(e) => {
-                                        console.log('Model changed to:', e.target.value);
                                         setSelectedModel(e.target.value);
                                     }}
                                 >
