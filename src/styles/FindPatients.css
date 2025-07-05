@@ -17,6 +17,18 @@
     text-align: center;
 }
 
+/* Optimization info message */
+.optimization-info {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* Search Bar */
 .searchBar {
     width: 100%;
@@ -58,10 +70,148 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Enhanced patient card styles for optimized version */
+.patientCard.enhanced {
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    border-left: 5px solid #3498db;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.patientCard.enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3498db, #2ecc71, #f39c12);
+}
+
+.patientCard.enhanced:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    border-left-color: #2ecc71;
+}
+
 /* Card Details */
 .patientCard p {
     margin: 5px 0;
     font-size: 16px;
+    color: #34495e;
+}
+
+/* Patient header */
+.patient-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.patient-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 18px;
+}
+
+/* Patient status */
+.patient-status {
+    background: #3498db;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Patient basic info */
+.patient-basic-info {
+    margin-bottom: 20px;
+}
+
+.patient-basic-info p {
+    margin: 8px 0;
+    color: #34495e;
+    font-size: 14px;
+}
+
+/* Patient stats */
+.patient-stats {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.stat-group {
+    margin-bottom: 15px;
+}
+
+.stat-group:last-child {
+    margin-bottom: 0;
+}
+
+.stat-group h4 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+
+.stats-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.stat-item {
+    background: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    min-width: 80px;
+    text-align: center;
+}
+
+.stat-item.pending {
+    border-left: 3px solid #f39c12;
+}
+
+.stat-item.approved {
+    border-left: 3px solid #2ecc71;
+}
+
+/* Patient additional info */
+.patient-additional-info {
+    background: #e8f4fd;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.patient-additional-info h4 {
+    margin: 0 0 10px 0;
+    color: #2980b9;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.patient-additional-info p {
+    margin: 5px 0;
+    font-size: 13px;
     color: #34495e;
 }
 
@@ -84,5 +234,23 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Responsive design for enhanced cards */
+@media (max-width: 768px) {
+    .patient-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .stats-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .stat-item {
+        text-align: left;
     }
 }

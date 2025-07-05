@@ -202,19 +202,32 @@ const MedicalRecordForm = ({
           <label>Weight (kg)<input type="number" step="0.1" name="weight" value={form.weight} onChange={handleChange} /></label>
         </div>
 
-        <h4>Lab Results</h4>
-        <LabResultsTable 
-          editable 
-          labResults={form.labResults}
-          recordId={form.recordId} 
-          onChange={(labResults) => {
-            console.log('[DEBUG] Lab results changed in MedicalRecordForm:', labResults);
-            setForm(prev => ({ ...prev, labResults }));
-          }} 
-        />
+        {/* Only show Lab Results and Attachments when editing an existing record */}
+        {form.recordId ? (
+          <>
+            <h4>Lab Results</h4>
+            <LabResultsTable 
+              editable 
+              labResults={form.labResults}
+              recordId={form.recordId} 
+              onChange={(labResults) => {
+                console.log('[DEBUG] Lab results changed in MedicalRecordForm:', labResults);
+                setForm(prev => ({ ...prev, labResults }));
+              }} 
+            />
 
-        <h4>Attachments</h4>
-        <AttachmentManager editable attachments={form.attachments} onChange={(attachments) => setForm(prev => ({ ...prev, attachments }))} />
+            <h4>Attachments</h4>
+            <AttachmentManager editable attachments={form.attachments} onChange={(attachments) => setForm(prev => ({ ...prev, attachments }))} />
+          </>
+        ) : (
+          <div className="disabled-sections-notice">
+            <h4>Lab Results & Attachments</h4>
+            <p className="info-message">
+              <strong>Note:</strong> Lab results and attachments can be added after saving the medical record for the first time. 
+              Please fill in the basic information above and click "Save" to continue.
+            </p>
+          </div>
+        )}
 
         {(userRole === 'DOCTOR' || userRole === 'ADMIN') && (
           <>

@@ -11,8 +11,8 @@ const LazyStaffDashboard = lazy(() => import('../components/LazyStaffDashboard')
 const LazyStaffInfo = lazy(() => import('../components/StaffInfo'));
 const LazyManageMedicalRecords = lazy(() => import('../components/ManageMedicalRecords'));
 const LazyManageInventory = lazy(() => import('../components/ManageInventory'));
-const LazyFindPatients = lazy(() => import('../components/FindPatients'));
-const LazySearchAppointments = lazy(() => import('../components/SearchAppointments'));
+const LazyFindPatients = lazy(() => import('../components/FindPatientsOptimized'));
+const LazySearchAppointments = lazy(() => import('../components/SearchAppointmentsOptimized'));
 const LazyUpdateStaffProfile = lazy(() => import('../components/UpdateStaffProfile'));
 const LazySearchDoctor = lazy(() => import('../components/SearchDoctor'));
 

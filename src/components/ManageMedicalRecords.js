@@ -33,7 +33,10 @@ function ManageMedicalRecords() {
         temperature: '',
         oxygenSaturation: '',
         height: '',
-        weight: ''
+        weight: '',
+        // Initialize lab results and attachments arrays
+        labResults: [],
+        attachments: []
     });
     const [loading, setLoading] = useState(false);
     const [initialDataLoaded, setInitialDataLoaded] = useState(false);
@@ -241,6 +244,8 @@ function ManageMedicalRecords() {
             }
             
             // Make a clean copy of the data for sending to API
+            // For new record creation, we don't include lab results and attachments
+            // as they can only be added after the record exists with a valid recordId
             const recordData = {
                 patientId: formData.patientId,
                 doctorId: formData.doctorId || '',
@@ -258,6 +263,8 @@ function ManageMedicalRecords() {
                 oxygenSaturation: formData.oxygenSaturation || null,
                 height: formData.height || null,
                 weight: formData.weight || null
+                // Note: Lab results and attachments are not included for new record creation
+                // They will be added in subsequent update operations after the record is created
             };
             
             const response = await fetch(`${API_BASE_URL}/medical_record`, {
@@ -292,7 +299,10 @@ function ManageMedicalRecords() {
                 temperature: '',
                 oxygenSaturation: '',
                 height: '',
-                weight: ''
+                weight: '',
+                // Reset lab results and attachments arrays
+                labResults: [],
+                attachments: []
             });
             setIsCreateMode(false);
             setSuccessMessage('Medical record created successfully!');

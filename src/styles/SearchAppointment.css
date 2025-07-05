@@ -104,3 +104,121 @@
     margin: 5px 0;
     font-size: 0.95rem;
 }
+
+/* Enhanced styles for the optimized search appointments component */
+
+.search-appointment .optimization-note {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    margin: 10px auto 20px auto;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.search-appointment .results-summary {
+    background: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #28a745;
+}
+
+.search-appointment .results-summary p {
+    margin: 0;
+    color: #495057;
+    font-weight: 500;
+}
+
+.search-appointment .appointmentCard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.search-appointment .status-badge {
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+    background: #6c757d;
+}
+
+.search-appointment .appointmentCard-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.search-appointment .appointment-participants,
+.search-appointment .appointment-timing {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.search-appointment .appointment-participants p,
+.search-appointment .appointment-timing p {
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.search-appointment .title {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.search-appointment .appointmentCard {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.search-appointment .appointmentCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+    .search-appointment .appointmentCard-body {
+        grid-template-columns: 1fr;
+    }
+    
+    .search-appointment .appointmentCard-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
+
+/* Performance indicator */
+.search-appointment::before {
+    content: "⚡ OPTIMIZED";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #28a745;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    z-index: 10;
+}

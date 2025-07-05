@@ -48,32 +48,32 @@ function LabResultsTable({ labResults, editable = false, onChange, recordId }) {
     const handleAddResult = () => {
         if (!editable || !newResult.testName || !newResult.testValue) return;
         
-        // Try to get the recordId from props first, if not available, try to find in existing lab results
-        let currentRecordId = recordId;
-        if (!currentRecordId && labResults && labResults.length > 0) {
-            // Look for recordId in existing lab results
-            for (const result of labResults) {
-                if (result.recordId) {
-                    currentRecordId = result.recordId;
-                    console.log('[DEBUG] Found recordId in existing lab results:', currentRecordId);
-                    break;
-                }
-            }
-        }
-          // Generate a temporary ID as a negative number
+        // Generate a temporary ID as a negative number
         // This ensures it won't conflict with real IDs from the server (which are positive)
         // and satisfies the Java Long type requirement
         const temporaryId = -Math.floor(Math.random() * 1000000);
         
+        // When creating a new medical record, recordId will be null/undefined
+        // We should NOT set recordId in the lab result until the medical record is saved
+        // The recordId will be assigned when the entire medical record is saved to the server
+        const newLabResult = {
+            resultId: temporaryId, // Temporary ID as a negative number
+            ...newResult
+        };
+        
+        // Only include recordId if we have a valid one (editing existing record)
+        if (recordId && recordId > 0) {
+            newLabResult.recordId = recordId;
+            console.log('[DEBUG] Adding lab result to existing record with ID:', recordId);
+        } else {
+            console.log('[DEBUG] Adding lab result to new medical record (no recordId yet)');
+        }
+        
         const updatedResults = [
             ...(labResults || []),
-            {
-                resultId: temporaryId, // Temporary ID as a negative number
-                recordId: currentRecordId, // Include the recordId from prop or existing results
-                ...newResult
-            }
+            newLabResult
         ];
-          console.log('[DEBUG] Adding new lab result with recordId:', currentRecordId);
+          
         console.log('[DEBUG] Using temporary resultId (as Long):', temporaryId);
         console.log('[DEBUG] Updated lab results array:', updatedResults);
         
@@ -96,8 +96,13 @@ function LabResultsTable({ labResults, editable = false, onChange, recordId }) {
             // Check if this is a temporary ID (negative number) or an existing lab result from server
             const isTemporary = typeof resultId === 'number' && resultId < 0;
             
-            if (!isTemporary) {
-                // This is an existing lab result, so we need to send a DELETE request to the server
+            // Only send DELETE request if:
+            // 1. It's not a temporary ID (positive number means it exists on server)
+            // 2. We have a valid recordId (meaning we're editing an existing record, not creating new one)
+            const shouldDeleteFromServer = !isTemporary && recordId && recordId > 0;
+            
+            if (shouldDeleteFromServer) {
+                // This is an existing lab result from an existing record, so we need to send a DELETE request to the server
                 const token = localStorage.getItem('authToken');
                 if (!token) {
                     throw new Error('Authentication token is missing');
@@ -124,7 +129,7 @@ function LabResultsTable({ labResults, editable = false, onChange, recordId }) {
                 
                 console.log('[DEBUG] Successfully deleted lab result from server');
             } else {
-                console.log('[DEBUG] Skipping DELETE request for temporary lab result');
+                console.log('[DEBUG] Skipping DELETE request - either temporary result or creating new record');
             }
             
             // Update local state regardless of whether it was temporary or server-side
@@ -193,6 +198,7 @@ function LabResultsTable({ labResults, editable = false, onChange, recordId }) {
                                 <td>{notes}</td>
                                 {editable && (
                                     <td>                                        <button 
+                                            type="button"
                                             onClick={() => {
                                                 console.log('[DEBUG] Remove button clicked for ID:', resultId, 'Type:', typeof resultId);
                                                 handleRemoveResult(resultId);
@@ -252,7 +258,7 @@ function LabResultsTable({ labResults, editable = false, onChange, recordId }) {
                             />
                             Abnormal Result
                         </label>
-                        <button onClick={handleAddResult}>Add Result</button>
+                        <button type="button" onClick={handleAddResult}>Add Result</button>
                     </div>
                 </div>
             )}
