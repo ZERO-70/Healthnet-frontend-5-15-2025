@@ -67,13 +67,88 @@ function Register() {
         }
     };
 
+    // Handle contact info changes with validation
+    const handleContactChange = (e) => {
+        const value = e.target.value;
+        // Allow only numbers, spaces, hyphens, plus signs, and parentheses
+        if (/^[\d\s\-\+\(\)]*$/.test(value)) {
+            setFormData({
+                ...formData,
+                [e.target.name]: value,
+            });
+        }
+    };
+
+    // Comprehensive form validation
+    const validateForm = () => {
+        const errors = [];
+        
+        // Validate email
+        if (!username || !validateEmail(username)) {
+            errors.push('Please enter a valid email address');
+        }
+        
+        // Validate password (minimum 6 characters)
+        if (!password || password.length < 6) {
+            errors.push('Password must be at least 6 characters long');
+        }
+        
+        // Validate required fields based on user type
+        const requiredFields = ['name', 'gender', 'age', 'birthdate', 'contact_info', 'address'];
+        
+        if (userType === 'PATIENT') {
+            requiredFields.push('weight', 'height');
+        } else if (userType === 'DOCTOR') {
+            requiredFields.push('specialization');
+        }
+        
+        for (const field of requiredFields) {
+            if (!formData[field] || formData[field].toString().trim() === '') {
+                const fieldName = field.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                errors.push(`${fieldName} is required`);
+            }
+        }
+        
+        // Validate age (must be positive number)
+        if (formData.age && (isNaN(formData.age) || parseInt(formData.age) <= 0 || parseInt(formData.age) > 120)) {
+            errors.push('Please enter a valid age (1-120)');
+        }
+        
+        // Validate weight and height for patients
+        if (userType === 'PATIENT') {
+            if (formData.weight && (isNaN(formData.weight) || parseFloat(formData.weight) <= 0 || parseFloat(formData.weight) > 500)) {
+                errors.push('Please enter a valid weight (1-500 kg)');
+            }
+            if (formData.height && (isNaN(formData.height) || parseFloat(formData.height) <= 0 || parseFloat(formData.height) > 300)) {
+                errors.push('Please enter a valid height (1-300 cm)');
+            }
+        }
+        
+        // Validate contact info (basic phone number check)
+        if (formData.contact_info && !/^[\d\s\-\+\(\)]+$/.test(formData.contact_info)) {
+            errors.push('Please enter a valid contact number');
+        }
+        
+        // Validate birthdate (not in future)
+        if (formData.birthdate) {
+            const birthDate = new Date(formData.birthdate);
+            const today = new Date();
+            if (birthDate > today) {
+                errors.push('Birthdate cannot be in the future');
+            }
+        }
+        
+        return errors;
+    };
+
     // Handle submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // Validate email before proceeding
-        if (!validateEmail(username)) {
-            setEmailError('Please enter a valid email address');
+        // Validate form
+        const validationErrors = validateForm();
+        if (validationErrors.length > 0) {
+            setErrorMessage(validationErrors.join('. '));
             return;
         }
         
@@ -171,6 +246,20 @@ function Register() {
                 {userType && (
                     <form onSubmit={handleSubmit} className="form">
                         <h2>Register as a {userType}</h2>
+                        <div className="required-fields-note">
+                            <p style={{ 
+                                fontSize: '14px', 
+                                color: '#666', 
+                                marginBottom: '15px',
+                                padding: '10px',
+                                backgroundColor: '#f8f9fa',
+                                borderRadius: '6px',
+                                border: '1px solid #e9ecef'
+                            }}>
+                                <strong>Note:</strong> All fields marked with * are required. 
+                                Please ensure all information is accurate before submitting.
+                            </p>
+                        </div>
                         
                         <div className="image-upload-container">
                             <div className="file-input-container">
@@ -244,7 +333,7 @@ function Register() {
                                     name="contact_info"
                                     placeholder="Contact Info"
                                     required
-                                    onChange={handleChange}
+                                    onChange={handleContactChange}
                                 />
                                 <input
                                     type="text"
@@ -254,16 +343,22 @@ function Register() {
                                     onChange={handleChange}
                                 />
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="weight"
                                     placeholder="Weight (kg)"
+                                    min="1"
+                                    max="500"
+                                    step="0.1"
                                     required
                                     onChange={handleChange}
                                 />
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="height"
                                     placeholder="Height (cm)"
+                                    min="1"
+                                    max="300"
+                                    step="0.1"
                                     required
                                     onChange={handleChange}
                                 />
@@ -317,7 +412,7 @@ function Register() {
                                     name="contact_info"
                                     placeholder="Contact Info"
                                     required
-                                    onChange={handleChange}
+                                    onChange={handleContactChange}
                                 />
                                 <input
                                     type="text"
@@ -350,12 +445,22 @@ function Register() {
                         </div>
                         <input
                             type="password"
-                            placeholder="Password"
+                            placeholder="Password (minimum 6 characters)"
                             required
+                            minLength="6"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             disabled={loading}
                         />
+                        {password && password.length < 6 && (
+                            <p style={{ 
+                                color: '#e74c3c', 
+                                fontSize: '14px', 
+                                margin: '5px 0' 
+                            }}>
+                                Password must be at least 6 characters long
+                            </p>
+                        )}
                         <div style={{ display: 'flex', justifyContent: 'space-between', gap: '15px', marginTop: '10px' }}>
                             <button 
                                 type="button" 

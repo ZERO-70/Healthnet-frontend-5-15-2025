@@ -103,8 +103,63 @@ function UpdateProfile() {
         }
     };
 
+    // Form validation function
+    const validateForm = () => {
+        const errors = [];
+        
+        // Check required fields
+        if (!formData.name || formData.name.trim() === '') {
+            errors.push('Full Name is required');
+        }
+        
+        if (!formData.contact_info || formData.contact_info.trim() === '') {
+            errors.push('Contact Info is required');
+        }
+        
+        if (!formData.address || formData.address.trim() === '') {
+            errors.push('Address is required');
+        }
+        
+        // Validate weight if provided
+        if (formData.weight && formData.weight.trim() !== '') {
+            const weight = parseFloat(formData.weight);
+            if (isNaN(weight) || weight <= 0 || weight > 1000) {
+                errors.push('Weight must be a valid number between 1 and 1000 kg');
+            }
+        }
+        
+        // Validate height if provided
+        if (formData.height && formData.height.trim() !== '') {
+            const height = parseFloat(formData.height);
+            if (isNaN(height) || height <= 0 || height > 300) {
+                errors.push('Height must be a valid number between 1 and 300 cm');
+            }
+        }
+        
+        // Validate contact info format (basic phone number validation)
+        if (formData.contact_info && formData.contact_info.trim() !== '') {
+            const contactRegex = /^[\d\s\-\+\(\)]+$/;
+            if (!contactRegex.test(formData.contact_info.trim())) {
+                errors.push('Contact Info should contain only numbers, spaces, hyphens, plus signs, and parentheses');
+            }
+        }
+        
+        return errors;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Clear previous messages
+        setErrorMessage('');
+        setSuccessMessage('');
+        
+        // Validate form
+        const validationErrors = validateForm();
+        if (validationErrors.length > 0) {
+            setErrorMessage(validationErrors.join('. '));
+            return;
+        }
 
         const submitProfile = async () => {
             try {
@@ -158,6 +213,9 @@ function UpdateProfile() {
                     animate="visible"
                 >
                     <form onSubmit={handleSubmit} className="updateForm">
+                        <div className="required-fields-note">
+                            <small>* Required fields</small>
+                        </div>
                         <motion.div className="form-columns" variants={itemVariants}>
                             <div className="form-column">
                                 <div className="profile-image-section">
@@ -194,10 +252,11 @@ function UpdateProfile() {
                                             type="text"
                                             name="name"
                                             id="name"
-                                            placeholder="Full Name"
+                                            placeholder="Full Name *"
                                             value={formData.name || ''}
                                             onChange={handleChange}
                                             className="form-input"
+                                            required
                                         />
                                     </div>
                                 </motion.div>
@@ -209,10 +268,11 @@ function UpdateProfile() {
                                             type="text"
                                             name="contact_info"
                                             id="contact_info"
-                                            placeholder="Contact Info"
+                                            placeholder="Contact Info *"
                                             value={formData.contact_info || ''}
                                             onChange={handleChange}
                                             className="form-input"
+                                            required
                                         />
                                     </div>
                                 </motion.div>
@@ -224,10 +284,11 @@ function UpdateProfile() {
                                             type="text"
                                             name="address"
                                             id="address"
-                                            placeholder="Address"
+                                            placeholder="Address *"
                                             value={formData.address || ''}
                                             onChange={handleChange}
                                             className="form-input"
+                                            required
                                         />
                                     </div>
                                 </motion.div>
@@ -238,26 +299,32 @@ function UpdateProfile() {
                             <div className="form-group half-width">
                                 <label htmlFor="weight">Weight (kg)</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="weight"
                                     id="weight"
-                                    placeholder="Weight"
+                                    placeholder="Weight (optional)"
                                     value={formData.weight || ''}
                                     onChange={handleChange}
                                     className="form-input"
+                                    min="1"
+                                    max="1000"
+                                    step="0.1"
                                 />
                             </div>
                             
                             <div className="form-group half-width">
                                 <label htmlFor="height">Height (cm)</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="height"
                                     id="height"
-                                    placeholder="Height"
+                                    placeholder="Height (optional)"
                                     value={formData.height || ''}
                                     onChange={handleChange}
                                     className="form-input"
+                                    min="1"
+                                    max="300"
+                                    step="0.1"
                                 />
                             </div>
                         </motion.div>

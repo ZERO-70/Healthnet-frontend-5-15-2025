@@ -32,6 +32,17 @@
     gap: 20px;
 }
 
+.required-fields-note {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.required-fields-note small {
+    color: #e74c3c;
+    font-style: italic;
+    font-weight: 500;
+}
+
 .form-columns {
     display: flex;
     flex-wrap: wrap;
@@ -235,6 +246,9 @@ label {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
+    border-left: 4px solid #e74c3c;
+    font-size: 0.95rem;
+    white-space: pre-line;
 }
 
 /* Loading spinner overlay */
