@@ -5,6 +5,8 @@ import '../styles/IDReference.css';
 const IDReferenceHelper = ({ isVisible, onClose, onDataFetched }) => {
   const [patients, setPatients] = useState([]);
   const [doctors, setDoctors] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [treatments, setTreatments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('patients');
   const [dataFetched, setDataFetched] = useState(false); // Track if data has been sent to parent
@@ -49,6 +51,32 @@ const IDReferenceHelper = ({ isVisible, onClose, onDataFetched }) => {
       } else {
         console.error('Failed to fetch doctor summaries:', doctorsResponse.status, doctorsResponse.statusText);
       }
+
+      // Fetch department summaries
+      console.log('Fetching department summaries from:', `${API_BASE_URL}/department/summaries`);
+      const departmentsResponse = await fetch(`${API_BASE_URL}/department/summaries`, { headers });
+      if (departmentsResponse.ok) {
+        const departmentsData = await departmentsResponse.json();
+        console.log('Department summaries response:', departmentsData);
+        // Sort departments by ID in ascending order
+        const sortedDepartments = departmentsData.sort((a, b) => a.id - b.id);
+        setDepartments(sortedDepartments);
+      } else {
+        console.error('Failed to fetch department summaries:', departmentsResponse.status, departmentsResponse.statusText);
+      }
+
+      // Fetch treatment summaries
+      console.log('Fetching treatment summaries from:', `${API_BASE_URL}/treatement/summaries`);
+      const treatmentsResponse = await fetch(`${API_BASE_URL}/treatement/summaries`, { headers });
+      if (treatmentsResponse.ok) {
+        const treatmentsData = await treatmentsResponse.json();
+        console.log('Treatment summaries response:', treatmentsData);
+        // Sort treatments by ID in ascending order
+        const sortedTreatments = treatmentsData.sort((a, b) => a.id - b.id);
+        setTreatments(sortedTreatments);
+      } else {
+        console.error('Failed to fetch treatment summaries:', treatmentsResponse.status, treatmentsResponse.statusText);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -58,11 +86,11 @@ const IDReferenceHelper = ({ isVisible, onClose, onDataFetched }) => {
 
   // Notify parent component when data is fetched
   useEffect(() => {
-    if ((patients.length > 0 || doctors.length > 0) && onDataFetched && !dataFetched) {
-      onDataFetched({ patients, doctors });
+    if ((patients.length > 0 || doctors.length > 0 || departments.length > 0 || treatments.length > 0) && onDataFetched && !dataFetched) {
+      onDataFetched({ patients, doctors, departments, treatments });
       setDataFetched(true);
     }
-  }, [patients.length, doctors.length, dataFetched]); // Only depend on the lengths and dataFetched flag
+  }, [patients.length, doctors.length, departments.length, treatments.length, dataFetched]); // Only depend on the lengths and dataFetched flag
 
   if (!isVisible) return null;
 
@@ -86,6 +114,18 @@ const IDReferenceHelper = ({ isVisible, onClose, onDataFetched }) => {
             onClick={() => setActiveTab('doctors')}
           >
             Doctors
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'departments' ? 'active' : ''}`}
+            onClick={() => setActiveTab('departments')}
+          >
+            Departments
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'treatments' ? 'active' : ''}`}
+            onClick={() => setActiveTab('treatments')}
+          >
+            Treatments
           </button>
         </div>
 
@@ -123,6 +163,42 @@ const IDReferenceHelper = ({ isVisible, onClose, onDataFetched }) => {
                         <div key={doctor.id} className="id-item">
                           <strong>ID: {doctor.id}</strong>
                           <span>{doctor.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'departments' && (
+                <div className="id-list">
+                  <h4>Available Department IDs:</h4>
+                  {departments.length === 0 ? (
+                    <p>No departments found</p>
+                  ) : (
+                    <div className="id-grid">
+                      {departments.map(department => (
+                        <div key={department.id} className="id-item">
+                          <strong>ID: {department.id}</strong>
+                          <span>{department.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'treatments' && (
+                <div className="id-list">
+                  <h4>Available Treatment IDs:</h4>
+                  {treatments.length === 0 ? (
+                    <p>No treatments found</p>
+                  ) : (
+                    <div className="id-grid">
+                      {treatments.map(treatment => (
+                        <div key={treatment.id} className="id-item">
+                          <strong>ID: {treatment.id}</strong>
+                          <span>{treatment.name}</span>
                         </div>
                       ))}
                     </div>

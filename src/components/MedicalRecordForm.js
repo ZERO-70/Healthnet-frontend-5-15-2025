@@ -13,14 +13,20 @@ const MedicalRecordForm = ({
   onSave,
   cachedPatients = [],
   cachedDoctors = [],
+  cachedDepartments = [],
+  cachedTreatments = [],
 }) => {
   const [validationErrors, setValidationErrors] = useState({});
   const [patientSuggestions, setPatientSuggestions] = useState([]);
   const [doctorSuggestions, setDoctorSuggestions] = useState([]);
+  const [departmentSuggestions, setDepartmentSuggestions] = useState([]);
+  const [treatmentSuggestions, setTreatmentSuggestions] = useState([]);
   const [showPatientSuggestions, setShowPatientSuggestions] = useState(false);
   const [showDoctorSuggestions, setShowDoctorSuggestions] = useState(false);
+  const [showDepartmentSuggestions, setShowDepartmentSuggestions] = useState(false);
+  const [showTreatmentSuggestions, setShowTreatmentSuggestions] = useState(false);
   const [showIDReference, setShowIDReference] = useState(false);
-  const [cachedData, setCachedData] = useState({ patients: [], doctors: [] });
+  const [cachedData, setCachedData] = useState({ patients: [], doctors: [], departments: [], treatments: [] });
 
   // Function to validate patient ID using cached data
   const validatePatientId = (patientId) => {
@@ -71,6 +77,58 @@ const MedicalRecordForm = ({
     } else {
       // Fallback to API call if no cached data
       validateDoctorIdAPI(doctorId);
+    }
+  };
+
+  // Function to validate department ID using cached data
+  const validateDepartmentId = (departmentId) => {
+    if (!departmentId || departmentId.trim() === '') {
+      setValidationErrors(prev => ({ ...prev, departmentId: '' }));
+      return;
+    }
+
+    // Use cached data for validation if available
+    const dataToUse = cachedDepartments.length > 0 ? cachedDepartments : cachedData.departments;
+    
+    if (dataToUse.length > 0) {
+      const department = dataToUse.find(d => d.id.toString() === departmentId.toString());
+      if (department) {
+        setValidationErrors(prev => ({ ...prev, departmentId: '' }));
+      } else {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          departmentId: `Department ID ${departmentId} does not exist. Please check the available IDs using "View Available IDs".` 
+        }));
+      }
+    } else {
+      // Fallback to API call if no cached data
+      validateDepartmentIdAPI(departmentId);
+    }
+  };
+
+  // Function to validate treatment ID using cached data
+  const validateTreatmentId = (treatmentId) => {
+    if (!treatmentId || treatmentId.trim() === '') {
+      setValidationErrors(prev => ({ ...prev, treatmentId: '' }));
+      return;
+    }
+
+    // Use cached data for validation if available
+    const dataToUse = cachedTreatments.length > 0 ? cachedTreatments : cachedData.treatments;
+    
+    if (dataToUse.length > 0) {
+      const treatment = dataToUse.find(t => t.id.toString() === treatmentId.toString());
+      if (treatment) {
+        setValidationErrors(prev => ({ ...prev, treatmentId: '' }));
+      } else {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          treatmentId: `Treatment ID ${treatmentId} does not exist. Please check the available IDs using "View Available IDs".` 
+        }));
+      }
+    } else {
+      // Fallback to API call if no cached data
+      validateTreatmentIdAPI(treatmentId);
     }
   };
 
@@ -146,6 +204,82 @@ const MedicalRecordForm = ({
       setValidationErrors(prev => ({ 
         ...prev, 
         doctorId: 'Unable to verify Doctor ID.' 
+      }));
+    }
+  };
+
+  // Fallback API validation for department ID
+  const validateDepartmentIdAPI = async (departmentId) => {
+    if (!departmentId || departmentId.trim() === '') {
+      setValidationErrors(prev => ({ ...prev, departmentId: '' }));
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${API_BASE_URL}/department/${departmentId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        setValidationErrors(prev => ({ ...prev, departmentId: '' }));
+      } else if (response.status === 404) {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          departmentId: `Department ID ${departmentId} does not exist. Please verify the ID.` 
+        }));
+      } else {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          departmentId: 'Unable to verify Department ID.' 
+        }));
+      }
+    } catch (error) {
+      console.error('Error validating department ID:', error);
+      setValidationErrors(prev => ({ 
+        ...prev, 
+        departmentId: 'Unable to verify Department ID.' 
+      }));
+    }
+  };
+
+  // Fallback API validation for treatment ID
+  const validateTreatmentIdAPI = async (treatmentId) => {
+    if (!treatmentId || treatmentId.trim() === '') {
+      setValidationErrors(prev => ({ ...prev, treatmentId: '' }));
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${API_BASE_URL}/treatement/${treatmentId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        setValidationErrors(prev => ({ ...prev, treatmentId: '' }));
+      } else if (response.status === 404) {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          treatmentId: `Treatment ID ${treatmentId} does not exist. Please verify the ID.` 
+        }));
+      } else {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          treatmentId: 'Unable to verify Treatment ID.' 
+        }));
+      }
+    } catch (error) {
+      console.error('Error validating treatment ID:', error);
+      setValidationErrors(prev => ({ 
+        ...prev, 
+        treatmentId: 'Unable to verify Treatment ID.' 
       }));
     }
   };
@@ -360,6 +494,14 @@ const MedicalRecordForm = ({
       // Debounce validation
       setTimeout(() => validateDoctorId(value), 500);
       searchDoctors(value);
+    } else if (name === 'departmentId') {
+      // Debounce validation
+      setTimeout(() => validateDepartmentId(value), 500);
+      searchDepartments(value);
+    } else if (name === 'treatmentId') {
+      // Debounce validation
+      setTimeout(() => validateTreatmentId(value), 500);
+      searchTreatments(value);
     }
   };  const handleSave = (e) => {
     e.preventDefault();
@@ -430,6 +572,112 @@ const MedicalRecordForm = ({
   const handleDataFetched = useCallback((data) => {
     setCachedData(data);
   }, []);
+
+  // Function to search for departments using cached data when available
+  const searchDepartments = (searchTerm) => {
+    if (!searchTerm || searchTerm.length < 2) {
+      setDepartmentSuggestions([]);
+      setShowDepartmentSuggestions(false);
+      return;
+    }
+
+    // Use cached data for search if available
+    const dataToUse = cachedDepartments.length > 0 ? cachedDepartments : cachedData.departments;
+    
+    if (dataToUse.length > 0) {
+      const filtered = dataToUse
+        .filter(d => 
+          d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          d.id.toString().includes(searchTerm)
+        )
+        .slice(0, 5); // Limit to 5 suggestions
+      setDepartmentSuggestions(filtered);
+      setShowDepartmentSuggestions(filtered.length > 0);
+    } else {
+      // Fallback to API search
+      searchDepartmentsAPI(searchTerm);
+    }
+  };
+
+  // Fallback API search for departments
+  const searchDepartmentsAPI = async (searchTerm) => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${API_BASE_URL}/department`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const departments = await response.json();
+        const filtered = departments
+          .filter(d => 
+            d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            d.department_id.toString().includes(searchTerm)
+          )
+          .slice(0, 5); // Limit to 5 suggestions
+        setDepartmentSuggestions(filtered);
+        setShowDepartmentSuggestions(filtered.length > 0);
+      }
+    } catch (error) {
+      console.error('Error searching departments:', error);
+    }
+  };
+
+  // Function to search for treatments using cached data when available
+  const searchTreatments = (searchTerm) => {
+    if (!searchTerm || searchTerm.length < 2) {
+      setTreatmentSuggestions([]);
+      setShowTreatmentSuggestions(false);
+      return;
+    }
+
+    // Use cached data for search if available
+    const dataToUse = cachedTreatments.length > 0 ? cachedTreatments : cachedData.treatments;
+    
+    if (dataToUse.length > 0) {
+      const filtered = dataToUse
+        .filter(t => 
+          t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          t.id.toString().includes(searchTerm)
+        )
+        .slice(0, 5); // Limit to 5 suggestions
+      setTreatmentSuggestions(filtered);
+      setShowTreatmentSuggestions(filtered.length > 0);
+    } else {
+      // Fallback to API search
+      searchTreatmentsAPI(searchTerm);
+    }
+  };
+
+  // Fallback API search for treatments
+  const searchTreatmentsAPI = async (searchTerm) => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${API_BASE_URL}/treatement`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const treatments = await response.json();
+        const filtered = treatments
+          .filter(t => 
+            t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            t.treatement_id.toString().includes(searchTerm)
+          )
+          .slice(0, 5); // Limit to 5 suggestions
+        setTreatmentSuggestions(filtered);
+        setShowTreatmentSuggestions(filtered.length > 0);
+      }
+    } catch (error) {
+      console.error('Error searching treatments:', error);
+    }
+  };
 
   return (
     <div className="recordFormContainer">
@@ -513,8 +761,71 @@ const MedicalRecordForm = ({
             </label>
           </div>
           
-          <label>Department ID<input name="departmentId" value={form.departmentId} onChange={handleChange} /></label>
-          <label>Treatment ID<input name="treatmentId" value={form.treatmentId} onChange={handleChange} /></label>
+          <div className="form-field-wrapper">
+            <label>Department ID
+              <input 
+                name="departmentId" 
+                value={form.departmentId} 
+                onChange={handleChange}
+                className={validationErrors.departmentId ? 'error' : ''}
+                placeholder="Enter Department ID or search by name (optional)"
+              />
+              {validationErrors.departmentId && (
+                <div className="validation-error">{validationErrors.departmentId}</div>
+              )}
+              {showDepartmentSuggestions && (
+                <div className="suggestions-dropdown">
+                  {departmentSuggestions.map(department => (
+                    <div 
+                      key={department.id || department.department_id} 
+                      className="suggestion-item"
+                      onClick={() => {
+                        const deptId = department.id || department.department_id;
+                        setForm(prev => ({ ...prev, departmentId: deptId.toString() }));
+                        setShowDepartmentSuggestions(false);
+                        validateDepartmentId(deptId.toString());
+                      }}
+                    >
+                      ID: {department.id || department.department_id} - {department.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </label>
+          </div>
+          
+          <div className="form-field-wrapper">
+            <label>Treatment ID
+              <input 
+                name="treatmentId" 
+                value={form.treatmentId} 
+                onChange={handleChange}
+                className={validationErrors.treatmentId ? 'error' : ''}
+                placeholder="Enter Treatment ID or search by name (optional)"
+              />
+              {validationErrors.treatmentId && (
+                <div className="validation-error">{validationErrors.treatmentId}</div>
+              )}
+              {showTreatmentSuggestions && (
+                <div className="suggestions-dropdown">
+                  {treatmentSuggestions.map(treatment => (
+                    <div 
+                      key={treatment.id || treatment.treatement_id} 
+                      className="suggestion-item"
+                      onClick={() => {
+                        const treatmentIdVal = treatment.id || treatment.treatement_id;
+                        setForm(prev => ({ ...prev, treatmentId: treatmentIdVal.toString() }));
+                        setShowTreatmentSuggestions(false);
+                        validateTreatmentId(treatmentIdVal.toString());
+                      }}
+                    >
+                      ID: {treatment.id || treatment.treatement_id} - {treatment.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </label>
+          </div>
           <label>Record Type<select name="recordType" value={form.recordType} onChange={handleChange} required>
             <option value="">Select...</option>
             <option value="CONSULTATION">Consultation</option>

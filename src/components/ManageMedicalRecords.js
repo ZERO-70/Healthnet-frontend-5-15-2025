@@ -43,6 +43,8 @@ function ManageMedicalRecords() {
     // State for cached patient and doctor data for validation
     const [cachedPatients, setCachedPatients] = useState([]);
     const [cachedDoctors, setCachedDoctors] = useState([]);
+    const [cachedDepartments, setCachedDepartments] = useState([]);
+    const [cachedTreatments, setCachedTreatments] = useState([]);
 
     // Animation variants - memoized to prevent recreating on every render
     const containerVariants = useMemo(() => ({
@@ -205,6 +207,24 @@ function ManageMedicalRecords() {
                 const sortedDoctors = doctorsData.sort((a, b) => a.id - b.id);
                 setCachedDoctors(sortedDoctors);
                 console.log('Cached doctor data loaded:', sortedDoctors.length, 'doctors');
+            }
+
+            // Fetch department summaries
+            const departmentsResponse = await fetch(`${API_BASE_URL}/department/summaries`, { headers });
+            if (departmentsResponse.ok) {
+                const departmentsData = await departmentsResponse.json();
+                const sortedDepartments = departmentsData.sort((a, b) => a.id - b.id);
+                setCachedDepartments(sortedDepartments);
+                console.log('Cached department data loaded:', sortedDepartments.length, 'departments');
+            }
+
+            // Fetch treatment summaries
+            const treatmentsResponse = await fetch(`${API_BASE_URL}/treatement/summaries`, { headers });
+            if (treatmentsResponse.ok) {
+                const treatmentsData = await treatmentsResponse.json();
+                const sortedTreatments = treatmentsData.sort((a, b) => a.id - b.id);
+                setCachedTreatments(sortedTreatments);
+                console.log('Cached treatment data loaded:', sortedTreatments.length, 'treatments');
             }
         } catch (error) {
             console.error('Error fetching cached data:', error);
@@ -822,6 +842,8 @@ function ManageMedicalRecords() {
                         userRole={localStorage.getItem('userRole') || ''}
                         cachedPatients={cachedPatients}
                         cachedDoctors={cachedDoctors}
+                        cachedDepartments={cachedDepartments}
+                        cachedTreatments={cachedTreatments}
                         onCancel={() => setIsCreateMode(false)}
                         onSave={(formData) => {
                             handleCreateSubmit(formData);
@@ -843,6 +865,8 @@ function ManageMedicalRecords() {
                         userRole={localStorage.getItem('userRole') || ''}
                         cachedPatients={cachedPatients}
                         cachedDoctors={cachedDoctors}
+                        cachedDepartments={cachedDepartments}
+                        cachedTreatments={cachedTreatments}
                         onCancel={() => setSelectedRecord(null)}
                         onSave={(formData) => {
                             handleUpdateSubmit(formData);
