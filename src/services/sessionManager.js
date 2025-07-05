@@ -8,7 +8,7 @@
  */
 
 // Configuration - set this to true to disable session management entirely
-const DISABLE_SESSION_MANAGER = false; // Change to true to disable
+const DISABLE_SESSION_MANAGER = true; // Changed to true to disable
 
 class SessionManager {
     constructor() {
@@ -156,6 +156,8 @@ class SessionManager {
      * Register this session in the global registry
      */
     registerSession(userInfo) {
+        if (this.disabled) return; // Skip registration when disabled
+        
         const registry = this.getSessionRegistry();
         const sessionData = {
             sessionId: this.sessionId,
@@ -174,6 +176,8 @@ class SessionManager {
      * Unregister this session
      */
     unregisterSession() {
+        if (this.disabled) return; // Skip unregistration when disabled
+        
         const registry = this.getSessionRegistry();
         delete registry[this.sessionId];
         this.originalLocalStorage.setItem('healthnet_session_registry', JSON.stringify(registry));
@@ -185,6 +189,8 @@ class SessionManager {
      * Get all active sessions
      */
     getSessionRegistry() {
+        if (this.disabled) return {}; // Return empty registry when disabled
+        
         const registryJson = this.originalLocalStorage.getItem('healthnet_session_registry');
         return registryJson ? JSON.parse(registryJson) : {};
     }
@@ -193,6 +199,8 @@ class SessionManager {
      * Get all active sessions for display
      */
     getActiveSessions() {
+        if (this.disabled) return []; // Return empty array when disabled
+        
         const registry = this.getSessionRegistry();
         return Object.values(registry).map(session => ({
             sessionId: session.sessionId,
@@ -220,6 +228,11 @@ class SessionManager {
      * Check for session conflicts and provide resolution options
      */
     detectSessionConflicts() {
+        if (this.disabled) {
+            // When disabled, never report conflicts
+            return { hasConflicts: false };
+        }
+        
         const activeSessions = this.getActiveSessions();
         const currentSession = activeSessions.find(s => s.isCurrentSession);
         const otherSessions = activeSessions.filter(s => !s.isCurrentSession);
