@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { FiUser, FiLock, FiArrowRight } from 'react-icons/fi';
 import { FaRegHospital } from 'react-icons/fa';
 import { API_BASE_URL } from '../constants/api';
+import { storage } from '../services/storageAdapter'; // Import scoped storage
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -54,7 +55,7 @@ function Login() {
                 const errorResponse = await loginResponse.text();
                 console.error('Login response not OK. Status:', loginResponse.status);
                 console.error('Error response body:', errorResponse);
-                throw new Error(`Login failed: ${errorResponse || loginResponse.statusText}`);
+                throw new Error(errorResponse || loginResponse.statusText);
             }
 
             // Get the token from login response
@@ -65,7 +66,7 @@ function Login() {
                 throw new Error('No token received from server');
             }
 
-            // Store the token in localStorage
+            // Store the token in localStorage (keeping original logic)
             localStorage.setItem('authToken', token);
             // Store the username for later staff lookup
             localStorage.setItem('username', username);
@@ -84,7 +85,7 @@ function Login() {
             if (!homeResponse.ok) {
                 const errorResponse = await homeResponse.text();
                 console.error('Home response not OK:', homeResponse.status, errorResponse);
-                throw new Error(`Failed to fetch home data: ${errorResponse || homeResponse.statusText}`);
+                throw new Error(errorResponse || homeResponse.statusText);
             }
 
             // Process home response based on content type
@@ -125,6 +126,7 @@ function Login() {
 
             // Set user role for chat and other components
             let userRole = null;
+            let userInfo = {};
             
             if (hasPatient) {
                 userRole = 'patient';
@@ -141,9 +143,25 @@ function Login() {
                 if (patientId) {
                     console.log('Setting patient ID:', patientId);
                     localStorage.setItem('patientId', patientId.toString());
+                    userInfo.patientId = patientId;
                 } else {
                     console.warn('Patient ID not found in response');
                 }
+                
+                // Store the role in localStorage (keeping original logic)
+                localStorage.setItem('role', userRole);
+                
+                // Register session for conflict detection (new feature)
+                storage.auth.setAuth({
+                    token,
+                    homeData,
+                    role: userRole,
+                    userInfo: {
+                        ...userInfo,
+                        username,
+                        portal: 'patient-portal'
+                    }
+                });
                 
                 navigate('/patient-portal');
             } else if (hasDoctor) {
@@ -161,9 +179,25 @@ function Login() {
                 if (doctorId) {
                     console.log('Setting doctor ID:', doctorId);
                     localStorage.setItem('doctorId', doctorId.toString());
+                    userInfo.doctorId = doctorId;
                 } else {
                     console.warn('Doctor ID not found in response');
                 }
+                
+                // Store the role in localStorage (keeping original logic)
+                localStorage.setItem('role', userRole);
+                
+                // Register session for conflict detection (new feature)
+                storage.auth.setAuth({
+                    token,
+                    homeData,
+                    role: userRole,
+                    userInfo: {
+                        ...userInfo,
+                        username,
+                        portal: 'doctor-portal'
+                    }
+                });
                 
                 navigate('/doctor-portal');
             } else if (hasStaff) {
@@ -181,9 +215,25 @@ function Login() {
                 if (staffId) {
                     console.log('Setting staff ID:', staffId);
                     localStorage.setItem('staffId', staffId.toString());
+                    userInfo.staffId = staffId;
                 } else {
                     console.warn('Staff ID not found in response');
                 }
+                
+                // Store the role in localStorage (keeping original logic)
+                localStorage.setItem('role', userRole);
+                
+                // Register session for conflict detection (new feature)
+                storage.auth.setAuth({
+                    token,
+                    homeData,
+                    role: userRole,
+                    userInfo: {
+                        ...userInfo,
+                        username,
+                        portal: 'staff-portal'
+                    }
+                });
                 
                 navigate('/staff-portal');
             } else if (hasAdmin) {
@@ -201,9 +251,25 @@ function Login() {
                 if (adminId) {
                     console.log('Setting admin ID:', adminId);
                     localStorage.setItem('adminId', adminId.toString());
+                    userInfo.adminId = adminId;
                 } else {
                     console.warn('Admin ID not found in response');
                 }
+                
+                // Store the role in localStorage (keeping original logic)
+                localStorage.setItem('role', userRole);
+                
+                // Register session for conflict detection (new feature)
+                storage.auth.setAuth({
+                    token,
+                    homeData,
+                    role: userRole,
+                    userInfo: {
+                        ...userInfo,
+                        username,
+                        portal: 'admin-portal'
+                    }
+                });
                 
                 navigate('/admin-portal');
             } else {
@@ -211,16 +277,16 @@ function Login() {
                 setErrorMessage('Login successful but unable to determine user role. Please try again or contact support.');
                 navigate('/login');
             }
-            
-            // Store the role in localStorage
-            if (userRole) {
-                console.log('Setting user role:', userRole);
-                localStorage.setItem('role', userRole);
-            }
         } 
         catch (error) {
             console.error('Error during login process:', error);
-            setErrorMessage('Login failed: ' + (error.message || 'Please check your username and password.'));
+            // Format the error message to avoid duplication
+            let errorMsg = error.message || 'Please check your username and password.';
+            // If the error message doesn't already start with "Login failed", add it
+            if (!errorMsg.toLowerCase().startsWith('login failed')) {
+                errorMsg = 'Login failed: ' + errorMsg;
+            }
+            setErrorMessage(errorMsg);
             // Clear any stored tokens/data if login fails
             localStorage.removeItem('authToken');
             localStorage.removeItem('homeData');

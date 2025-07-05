@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/AvailableDoctors.css';
 import LoadingSpinner from './LoadingSpinner';
 import { useLoading } from '../hooks/useLoading';
-import { FiUser, FiPhone, FiMapPin, FiCalendar, FiActivity, FiArrowLeft } from 'react-icons/fi';
+import { FiUser, FiPhone, FiMapPin, FiCalendar, FiActivity, FiArrowLeft, FiClock } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { API_BASE_URL } from '../constants/api';
 
@@ -378,6 +378,25 @@ function AvailableDoctors() {
         }
     };
 
+    // Utility function to check if browser supports time input
+    const supportsTimeInput = () => {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'time');
+        return input.type === 'time';
+    };
+
+    // Generate time options for fallback select
+    const generateTimeOptions = () => {
+        const times = [];
+        for (let hour = 6; hour <= 22; hour++) {
+            for (let minute = 0; minute < 60; minute += 15) {
+                const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                times.push(timeString);
+            }
+        }
+        return times;
+    };
+
     if (errorMessage) {
         return (
             <div className="error-container">
@@ -579,13 +598,39 @@ function AvailableDoctors() {
                                         {selectedTimeRange && (
                                             <>
                                                 <div className="form-group">
-                                                    <label className="form-label">Select Start Time</label>
-                                                    <input
-                                                        type="time"
-                                                        value={startTime}
-                                                        onChange={handleStartTimeChange}
-                                                        className="form-input"
-                                                    />
+                                                    <label className="form-label">
+                                                        <FiClock className="form-icon" />
+                                                        Select Start Time
+                                                    </label>
+                                                    <div className="time-input-wrapper">
+                                                        {supportsTimeInput() ? (
+                                                            <input
+                                                                type="time"
+                                                                value={startTime}
+                                                                onChange={handleStartTimeChange}
+                                                                className="form-input time-input"
+                                                                placeholder="HH:MM"
+                                                                title="Click to select time"
+                                                                required
+                                                            />
+                                                        ) : (
+                                                            <select
+                                                                value={startTime}
+                                                                onChange={handleStartTimeChange}
+                                                                className="form-select"
+                                                            >
+                                                                <option value="">Select start time</option>
+                                                                {generateTimeOptions().map((timeOption) => (
+                                                                    <option key={timeOption} value={timeOption}>
+                                                                        {timeOption}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                        )}
+                                                    </div>
+                                                    <small className="form-hint">
+                                                        Choose your preferred appointment start time
+                                                    </small>
                                                 </div>
                                                 
                                                 <div className="form-group">

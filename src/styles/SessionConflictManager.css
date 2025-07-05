@@ -1,0 +1,325 @@
+/* SessionConflictManager.css */
+
+.session-conflict-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+}
+
+.session-conflict-modal {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid #e1e5e9;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.header-icon {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.header-content {
+    flex: 1;
+}
+
+.header-content h2 {
+    margin: 0 0 4px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.header-content p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.close-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.close-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+.modal-content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.warning-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #fff8e1;
+    border: 1px solid #ffcc02;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.warning-icon {
+    color: #f57c00;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.warning-section p {
+    margin: 0;
+    color: #5d4e0c;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.sessions-list h3 {
+    margin: 0 0 16px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.session-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.session-item:hover {
+    border-color: #d1d5db;
+    background-color: #f9fafb;
+}
+
+.session-item.selected {
+    border-color: #667eea;
+    background-color: #f0f4ff;
+}
+
+.session-item.current-session {
+    border-color: #10b981;
+    background-color: #f0fdf4;
+    cursor: default;
+}
+
+.session-item.current-session:hover {
+    border-color: #10b981;
+    background-color: #f0fdf4;
+}
+
+.session-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.session-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.session-details {
+    flex: 1;
+}
+
+.session-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+
+.session-title strong {
+    font-size: 0.95rem;
+    color: #111827;
+}
+
+.session-portal {
+    background: #e5e7eb;
+    color: #374151;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.session-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+.session-role {
+    background: #f3f4f6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.session-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.current-badge {
+    background: #10b981;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.switch-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.switch-button:hover {
+    background: #5a67d8;
+}
+
+.switch-button svg {
+    width: 14px;
+    height: 14px;
+}
+
+.modal-footer {
+    padding: 24px;
+    border-top: 1px solid #e1e5e9;
+    background: #f9fafb;
+}
+
+.dismiss-button {
+    width: 100%;
+    background: #374151;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 12px;
+}
+
+.dismiss-button:hover {
+    background: #111827;
+}
+
+.footer-info {
+    text-align: center;
+}
+
+.footer-info small {
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .session-conflict-overlay {
+        padding: 16px;
+    }
+    
+    .session-conflict-modal {
+        max-width: 100%;
+        max-height: 90vh;
+    }
+    
+    .modal-header {
+        padding: 20px;
+    }
+    
+    .header-content h2 {
+        font-size: 1.3rem;
+    }
+    
+    .modal-content {
+        padding: 20px;
+    }
+    
+    .session-item {
+        padding: 12px;
+    }
+    
+    .session-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .switch-button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}

@@ -6,6 +6,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { checkAndAddSuggestions } from '../services/notificationService';
 import '../styles/PatientPortal.css';
 import { API_BASE_URL } from '../constants/api';
+import { storage } from '../services/storageAdapter'; // Import scoped storage
 
 // Lazy load all components
 const LazyPatientDashboard = lazy(() => import('../components/PatientDashboard'));
@@ -22,7 +23,7 @@ function PatientPortal() {
 
     useEffect(() => {
         // Check if user is authenticated
-        const token = localStorage.getItem('authToken');
+        const token = storage.getItem('authToken');
         if (!token) {
             navigate('/');
             return;
@@ -90,12 +91,15 @@ function PatientPortal() {
     }, [navigate]);
 
     const handleLogout = () => {
-        // Clear all auth and user data
+        // Clear all auth and user data from regular localStorage
         localStorage.removeItem('authToken');
         localStorage.removeItem('homeData');
         localStorage.removeItem('patientId');
         localStorage.removeItem('userRole');
-        localStorage.removeItem('role'); // Clear the role for LiveChat
+        localStorage.removeItem('role');
+        
+        // Also clear session data for conflict detection
+        storage.auth.clearAuth();
         
         // Navigate to homepage
         navigate('/');

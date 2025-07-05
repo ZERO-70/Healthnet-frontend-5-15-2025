@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { FiLogOut, FiUser, FiFilePlus, FiPackage, FiUsers, FiCalendar, FiEdit, FiSearch, FiHome } from 'react-icons/fi';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../styles/StaffPortal.css';
+import { storage } from '../services/storageAdapter'; // Import scoped storage
 
 // Lazy load all components
 const LazyStaffDashboard = lazy(() => import('../components/LazyStaffDashboard'));
@@ -23,6 +24,7 @@ function StaffPortal() {
         localStorage.removeItem('authToken');
         localStorage.removeItem('homeData');
         localStorage.removeItem('staffId');
+        storage.auth.clearAuth();
         navigate('/');
     };
 

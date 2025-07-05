@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { FiLogOut, FiUser, FiClipboard, FiCalendar, FiEdit, FiUsers, FiActivity, FiPlusCircle, FiHome, FiStar } from 'react-icons/fi';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../styles/DoctorPortal.css';
+import { storage } from '../services/storageAdapter'; // Import scoped storage
 
 // Lazy load all components
 const LazyDoctorDashboard = lazy(() => import('../components/DoctorDashboard'));
@@ -22,6 +23,7 @@ function DoctorPortal() {
         localStorage.removeItem('authToken');
         localStorage.removeItem('homeData');
         localStorage.removeItem('doctorId');
+        storage.auth.clearAuth();
         navigate('/');
     };
 

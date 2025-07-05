@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -12,6 +12,12 @@ import HomePage from './pages/HomePage';
 
 // Import LiveChat component
 import LiveChat from './components/LiveChat';
+
+// Import Session Management
+import { storage } from './services/storageAdapter';
+import SessionConflictManager from './components/SessionConflictManager';
+import SessionDebugger from './components/SessionDebugger';
+import { enableGlobalStorageOverride } from './services/storageWrapper';
 
 // Lazy load all portals
 const PatientPortal = lazy(() => import('./pages/PatientPortal'));
@@ -30,6 +36,7 @@ const PortalLoading = () => (
 // Improved Auth checker component
 const AuthChecker = ({ children, allowedRole }) => {
   const navigate = useNavigate();
+  const [showConflictManager, setShowConflictManager] = useState(false);
   
   useEffect(() => {
     const checkAuth = () => {
@@ -49,6 +56,13 @@ const AuthChecker = ({ children, allowedRole }) => {
         return;
       }
       
+      // Check for session conflicts after successful auth
+      const conflicts = storage.session.detectConflicts();
+      if (conflicts.hasConflicts) {
+        console.log('AuthChecker: Session conflicts detected:', conflicts);
+        setShowConflictManager(true);
+      }
+
       let userRole = '';
       
       // Try different methods to determine the user's role
@@ -138,11 +152,57 @@ const AuthChecker = ({ children, allowedRole }) => {
     
     checkAuth();
   }, [navigate, allowedRole]);
+
+  const handleSessionSwitch = (sessionId) => {
+    storage.session.switchTo(sessionId);
+  };
+
+  const handleConflictDismiss = () => {
+    setShowConflictManager(false);
+  };
   
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      {showConflictManager && (
+        <SessionConflictManager 
+          onSessionSwitch={handleSessionSwitch}
+          onDismiss={handleConflictDismiss}
+        />
+      )}
+    </>
+  );
 };
 
 function App() {
+  const [showGlobalConflicts, setShowGlobalConflicts] = useState(false);
+
+  useEffect(() => {
+    // Enable global localStorage override for automatic session scoping
+    enableGlobalStorageOverride();
+    
+    // Check for conflicts on app startup
+    const checkGlobalConflicts = () => {
+      const conflicts = storage.session.detectConflicts();
+      if (conflicts.hasConflicts) {
+        console.log('App: Global session conflicts detected on startup');
+        setShowGlobalConflicts(true);
+      }
+    };
+
+    // Check after a brief delay to allow session manager to initialize
+    const timer = setTimeout(checkGlobalConflicts, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleGlobalSessionSwitch = (sessionId) => {
+    storage.session.switchTo(sessionId);
+  };
+
+  const handleGlobalConflictDismiss = () => {
+    setShowGlobalConflicts(false);
+  };
+
   return (
     <Router>
       <Routes>
@@ -196,6 +256,17 @@ function App() {
       
       {/* LiveChat component - available on all pages */}
       <LiveChat />
+      
+      {/* Session Debugger - only in development */}
+      {process.env.NODE_ENV === 'development' && <SessionDebugger />}
+      
+      {/* Global Session Conflict Manager */}
+      {showGlobalConflicts && (
+        <SessionConflictManager 
+          onSessionSwitch={handleGlobalSessionSwitch}
+          onDismiss={handleGlobalConflictDismiss}
+        />
+      )}
     </Router>
   );
 }

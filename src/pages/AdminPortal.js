@@ -5,6 +5,7 @@ import { FiLogOut, FiUser, FiUsers, FiBarChart2, FiEdit, FiBriefcase, FiSettings
 import LoadingSpinner from '../components/LoadingSpinner';
 import NotificationIcon from '../components/NotificationIcon';
 import '../styles/AdminPortal.css';
+import { storage } from '../services/storageAdapter'; // Import scoped storage
 
 // Lazy load all components
 const LazyAdminInfo = lazy(() => import('../components/AdminInfo'));
@@ -21,6 +22,7 @@ function AdminPortal() {
         localStorage.removeItem('authToken');
         localStorage.removeItem('homeData');
         localStorage.removeItem('adminId');
+        storage.auth.clearAuth();
         
         // Redirect to login page
         navigate('/');
