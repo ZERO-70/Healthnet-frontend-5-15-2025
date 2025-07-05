@@ -40,6 +40,9 @@ function ManageMedicalRecords() {
     });
     const [loading, setLoading] = useState(false);
     const [initialDataLoaded, setInitialDataLoaded] = useState(false);
+    // State for cached patient and doctor data for validation
+    const [cachedPatients, setCachedPatients] = useState([]);
+    const [cachedDoctors, setCachedDoctors] = useState([]);
 
     // Animation variants - memoized to prevent recreating on every render
     const containerVariants = useMemo(() => ({
@@ -175,10 +178,46 @@ function ManageMedicalRecords() {
         }
     }, []);
 
+    // Function to fetch patient and doctor summaries for cached validation
+    const fetchCachedData = useCallback(async () => {
+        try {
+            const token = localStorage.getItem('authToken');
+            if (!token) return;
+
+            const headers = {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            };
+
+            // Fetch patient summaries
+            const patientsResponse = await fetch(`${API_BASE_URL}/patient/summaries`, { headers });
+            if (patientsResponse.ok) {
+                const patientsData = await patientsResponse.json();
+                const sortedPatients = patientsData.sort((a, b) => a.id - b.id);
+                setCachedPatients(sortedPatients);
+                console.log('Cached patient data loaded:', sortedPatients.length, 'patients');
+            }
+
+            // Fetch doctor summaries
+            const doctorsResponse = await fetch(`${API_BASE_URL}/doctor/summaries`, { headers });
+            if (doctorsResponse.ok) {
+                const doctorsData = await doctorsResponse.json();
+                const sortedDoctors = doctorsData.sort((a, b) => a.id - b.id);
+                setCachedDoctors(sortedDoctors);
+                console.log('Cached doctor data loaded:', sortedDoctors.length, 'doctors');
+            }
+        } catch (error) {
+            console.error('Error fetching cached data:', error);
+        }
+    }, []);
+
     const loadInitialData = useCallback(async () => {
         try {
             setLoading(true);
             setErrorMessage(''); // Clear any previous errors
+            
+            // Fetch cached patient and doctor data for validation (run in parallel)
+            fetchCachedData(); // Run async without await to not block initial load
             
             // Fetch data sequentially to avoid concurrent requests
             try {
@@ -205,7 +244,7 @@ function ManageMedicalRecords() {
         } finally {
             setLoading(false);
         }
-    }, [fetchDepartments, fetchTreatments, fetchMedicalRecords]);
+    }, [fetchDepartments, fetchTreatments, fetchMedicalRecords, fetchCachedData]);
 
     // Use effect to load data only once
     useEffect(() => {
@@ -279,7 +318,21 @@ function ManageMedicalRecords() {
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('Server response:', errorText);
-                throw new Error(`Failed to create medical record: ${response.status} ${response.statusText}`);
+                
+                // Try to parse error response as JSON to get specific error message
+                let errorMessage = `Failed to create medical record: ${response.status} ${response.statusText}`;
+                try {
+                    const errorData = JSON.parse(errorText);
+                    if (errorData.message) {
+                        errorMessage = errorData.message;
+                    }
+                } catch (e) {
+                    // If not valid JSON, use the raw text
+                    if (errorText) {
+                        errorMessage = errorText;
+                    }
+                }
+                throw new Error(errorMessage);
             }
 
             // Reset the form
@@ -441,7 +494,21 @@ function ManageMedicalRecords() {
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('Server response:', errorText);
-                throw new Error(`Failed to update medical record: ${response.status} ${response.statusText}`);
+                
+                // Try to parse error response as JSON to get specific error message
+                let errorMessage = `Failed to update medical record: ${response.status} ${response.statusText}`;
+                try {
+                    const errorData = JSON.parse(errorText);
+                    if (errorData.message) {
+                        errorMessage = errorData.message;
+                    }
+                } catch (e) {
+                    // If not valid JSON, use the raw text
+                    if (errorText) {
+                        errorMessage = errorText;
+                    }
+                }
+                throw new Error(errorMessage);
             }
 
             setSelectedRecord(null);
@@ -753,6 +820,8 @@ function ManageMedicalRecords() {
                     <MedicalRecordForm
                         record={newRecord}
                         userRole={localStorage.getItem('userRole') || ''}
+                        cachedPatients={cachedPatients}
+                        cachedDoctors={cachedDoctors}
                         onCancel={() => setIsCreateMode(false)}
                         onSave={(formData) => {
                             handleCreateSubmit(formData);
@@ -772,6 +841,8 @@ function ManageMedicalRecords() {
                     <MedicalRecordForm
                         record={selectedRecord}
                         userRole={localStorage.getItem('userRole') || ''}
+                        cachedPatients={cachedPatients}
+                        cachedDoctors={cachedDoctors}
                         onCancel={() => setSelectedRecord(null)}
                         onSave={(formData) => {
                             handleUpdateSubmit(formData);

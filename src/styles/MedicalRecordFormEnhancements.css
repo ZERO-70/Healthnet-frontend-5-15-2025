@@ -1,0 +1,168 @@
+/* Enhanced Medical Record Form Styles */
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.form-header h3 {
+  margin: 0;
+  color: #2d3748;
+  font-size: 1.5rem;
+}
+
+.id-reference-button {
+  background-color: #4299e1;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.id-reference-button:hover {
+  background-color: #3182ce;
+}
+
+.form-field-wrapper {
+  position: relative;
+}
+
+.validation-error {
+  color: #e53e3e;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.validation-error::before {
+  content: "⚠";
+  font-size: 0.9rem;
+}
+
+.form-input.error {
+  border-color: #e53e3e !important;
+  box-shadow: 0 0 0 1px #e53e3e;
+  background-color: #fef5f5;
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  padding: 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f7fafc;
+  transition: background-color 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.suggestion-item:hover {
+  background-color: #f7fafc;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:active {
+  background-color: #e2e8f0;
+}
+
+/* Help text for better UX */
+.field-help-text {
+  font-size: 0.75rem;
+  color: #718096;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+/* Enhanced form grid to accommodate validation */
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.formGrid label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: #2d3748;
+  gap: 0.5rem;
+}
+
+.formGrid input, .formGrid select, .formGrid textarea {
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formGrid input:focus, .formGrid select:focus, .formGrid textarea:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 1px #4299e1;
+}
+
+/* Success state for validated fields */
+.form-input.success {
+  border-color: #48bb78 !important;
+  background-color: #f0fff4;
+}
+
+.validation-success {
+  color: #48bb78;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.validation-success::before {
+  content: "✓";
+  margin-right: 0.25rem;
+}
+
+/* Loading state for validation */
+.validating {
+  border-color: #4299e1 !important;
+  background-color: #ebf8ff;
+}
+
+.validation-loading {
+  color: #4299e1;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.validation-loading::before {
+  content: "⏳";
+  margin-right: 0.25rem;
+}

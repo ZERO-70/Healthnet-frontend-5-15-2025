@@ -1,15 +1,261 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import LabResultsTable from './LabResultsTable';
 import AttachmentManager from './AttachmentManager';
 import AuditTrailViewer from './AuditTrailViewer';
+import IDReferenceHelper from './IDReferenceHelper';
 import '../styles/MedicalRecordForm.css';
+import '../styles/MedicalRecordFormEnhancements.css';
 import { API_BASE_URL } from '../constants/api';
 const MedicalRecordForm = ({
   record = {},
   userRole = '',
   onCancel,
   onSave,
-}) => {  // Function to extract lab results from record object
+  cachedPatients = [],
+  cachedDoctors = [],
+}) => {
+  const [validationErrors, setValidationErrors] = useState({});
+  const [patientSuggestions, setPatientSuggestions] = useState([]);
+  const [doctorSuggestions, setDoctorSuggestions] = useState([]);
+  const [showPatientSuggestions, setShowPatientSuggestions] = useState(false);
+  const [showDoctorSuggestions, setShowDoctorSuggestions] = useState(false);
+  const [showIDReference, setShowIDReference] = useState(false);
+  const [cachedData, setCachedData] = useState({ patients: [], doctors: [] });
+
+  // Function to validate patient ID using cached data
+  const validatePatientId = (patientId) => {
+    if (!patientId || patientId.trim() === '') {
+      setValidationErrors(prev => ({ ...prev, patientId: '' }));
+      return;
+    }
+
+    // Use cached data for validation if available
+    const dataToUse = cachedPatients.length > 0 ? cachedPatients : cachedData.patients;
+    
+    if (dataToUse.length > 0) {
+      const patient = dataToUse.find(p => p.id.toString() === patientId.toString());
+      if (patient) {
+        setValidationErrors(prev => ({ ...prev, patientId: '' }));
+      } else {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          patientId: `Patient ID ${patientId} does not exist. Please check the available IDs using "View Available IDs".` 
+        }));
+      }
+    } else {
+      // Fallback to API call if no cached data
+      validatePatientIdAPI(patientId);
+    }
+  };
+
+  // Function to validate doctor ID using cached data
+  const validateDoctorId = (doctorId) => {
+    if (!doctorId || doctorId.trim() === '') {
+      setValidationErrors(prev => ({ ...prev, doctorId: '' }));
+      return;
+    }
+
+    // Use cached data for validation if available
+    const dataToUse = cachedDoctors.length > 0 ? cachedDoctors : cachedData.doctors;
+    
+    if (dataToUse.length > 0) {
+      const doctor = dataToUse.find(d => d.id.toString() === doctorId.toString());
+      if (doctor) {
+        setValidationErrors(prev => ({ ...prev, doctorId: '' }));
+      } else {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          doctorId: `Doctor ID ${doctorId} does not exist. Please check the available IDs using "View Available IDs".` 
+        }));
+      }
+    } else {
+      // Fallback to API call if no cached data
+      validateDoctorIdAPI(doctorId);
+    }
+  };
+
+  // Fallback API validation functions (only used when cached data is not available)
+  const validatePatientIdAPI = async (patientId) => {
+    if (!patientId || patientId.trim() === '') {
+      setValidationErrors(prev => ({ ...prev, patientId: '' }));
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${API_BASE_URL}/patient/${patientId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        setValidationErrors(prev => ({ ...prev, patientId: '' }));
+      } else if (response.status === 404) {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          patientId: `Patient ID ${patientId} does not exist. Please verify the ID.` 
+        }));
+      } else {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          patientId: 'Unable to verify Patient ID.' 
+        }));
+      }
+    } catch (error) {
+      console.error('Error validating patient ID:', error);
+      setValidationErrors(prev => ({ 
+        ...prev, 
+        patientId: 'Unable to verify Patient ID.' 
+      }));
+    }
+  };
+
+  // Fallback API validation for doctor ID
+  const validateDoctorIdAPI = async (doctorId) => {
+    if (!doctorId || doctorId.trim() === '') {
+      setValidationErrors(prev => ({ ...prev, doctorId: '' }));
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${API_BASE_URL}/doctor/${doctorId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        setValidationErrors(prev => ({ ...prev, doctorId: '' }));
+      } else if (response.status === 404) {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          doctorId: `Doctor ID ${doctorId} does not exist. Please verify the ID.` 
+        }));
+      } else {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          doctorId: 'Unable to verify Doctor ID.' 
+        }));
+      }
+    } catch (error) {
+      console.error('Error validating doctor ID:', error);
+      setValidationErrors(prev => ({ 
+        ...prev, 
+        doctorId: 'Unable to verify Doctor ID.' 
+      }));
+    }
+  };
+
+  // Function to search for patients using cached data when available
+  const searchPatients = (searchTerm) => {
+    if (!searchTerm || searchTerm.length < 2) {
+      setPatientSuggestions([]);
+      setShowPatientSuggestions(false);
+      return;
+    }
+
+    // Use cached data for search if available
+    const dataToUse = cachedPatients.length > 0 ? cachedPatients : cachedData.patients;
+    
+    if (dataToUse.length > 0) {
+      const filtered = dataToUse
+        .filter(p => 
+          p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          p.id.toString().includes(searchTerm)
+        )
+        .slice(0, 5); // Limit to 5 suggestions
+      setPatientSuggestions(filtered);
+      setShowPatientSuggestions(filtered.length > 0);
+    } else {
+      // Fallback to API search
+      searchPatientsAPI(searchTerm);
+    }
+  };
+
+  // Fallback API search for patients
+  const searchPatientsAPI = async (searchTerm) => {
+
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${API_BASE_URL}/patient`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const patients = await response.json();
+        const filtered = patients
+          .filter(p => 
+            p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            p.id.toString().includes(searchTerm)
+          )
+          .slice(0, 5); // Limit to 5 suggestions
+        setPatientSuggestions(filtered);
+        setShowPatientSuggestions(filtered.length > 0);
+      }
+    } catch (error) {
+      console.error('Error searching patients:', error);
+    }
+  };
+
+  // Function to search for doctors using cached data when available
+  const searchDoctors = (searchTerm) => {
+    if (!searchTerm || searchTerm.length < 2) {
+      setDoctorSuggestions([]);
+      setShowDoctorSuggestions(false);
+      return;
+    }
+
+    // Use cached data for search if available
+    const dataToUse = cachedDoctors.length > 0 ? cachedDoctors : cachedData.doctors;
+    
+    if (dataToUse.length > 0) {
+      const filtered = dataToUse
+        .filter(d => 
+          d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          d.id.toString().includes(searchTerm)
+        )
+        .slice(0, 5); // Limit to 5 suggestions
+      setDoctorSuggestions(filtered);
+      setShowDoctorSuggestions(filtered.length > 0);
+    } else {
+      // Fallback to API search
+      searchDoctorsAPI(searchTerm);
+    }
+  };
+
+  // Fallback API search for doctors
+  const searchDoctorsAPI = async (searchTerm) => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${API_BASE_URL}/doctor`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const doctors = await response.json();
+        const filtered = doctors
+          .filter(d => 
+            d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            d.id.toString().includes(searchTerm)
+          )
+          .slice(0, 5); // Limit to 5 suggestions
+        setDoctorSuggestions(filtered);
+        setShowDoctorSuggestions(filtered.length > 0);
+      }
+    } catch (error) {
+      console.error('Error searching doctors:', error);
+    }
+  };  // Function to extract lab results from record object
   const extractLabResults = (recordObj) => {
     if (!recordObj) return [];
     
@@ -104,6 +350,17 @@ const MedicalRecordForm = ({
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
+    
+    // Real-time validation for patient and doctor IDs
+    if (name === 'patientId') {
+      // Debounce validation
+      setTimeout(() => validatePatientId(value), 500);
+      searchPatients(value);
+    } else if (name === 'doctorId') {
+      // Debounce validation
+      setTimeout(() => validateDoctorId(value), 500);
+      searchDoctors(value);
+    }
   };  const handleSave = (e) => {
     e.preventDefault();
     // Ensure the form data is properly formatted before submitting
@@ -169,14 +426,93 @@ const MedicalRecordForm = ({
     onSave(formattedForm);
   };
 
+  // Memoized callback to prevent infinite re-renders
+  const handleDataFetched = useCallback((data) => {
+    setCachedData(data);
+  }, []);
+
   return (
     <div className="recordFormContainer">
-      <h3>{form.recordId ? 'Update Medical Record' : 'New Medical Record'}</h3>
+      <div className="form-header">
+        <h3>{form.recordId ? 'Update Medical Record' : 'New Medical Record'}</h3>
+        <button 
+          type="button" 
+          className="id-reference-button"
+          onClick={() => setShowIDReference(true)}
+        >
+          📋 View Available IDs
+        </button>
+      </div>
+      
       <form onSubmit={handleSave}>
         <div className="formGrid">
           <label>Record ID<input name="recordId" value={form.recordId} disabled /></label>
-          <label>Patient ID<input name="patientId" value={form.patientId} onChange={handleChange} required /></label>
-          <label>Doctor ID<input name="doctorId" value={form.doctorId} onChange={handleChange} /></label>
+          
+          <div className="form-field-wrapper">
+            <label>Patient ID *
+              <input 
+                name="patientId" 
+                value={form.patientId} 
+                onChange={handleChange} 
+                required 
+                className={validationErrors.patientId ? 'error' : ''}
+                placeholder="Enter Patient ID or search by name"
+              />
+              {validationErrors.patientId && (
+                <div className="validation-error">{validationErrors.patientId}</div>
+              )}
+              {showPatientSuggestions && (
+                <div className="suggestions-dropdown">
+                  {patientSuggestions.map(patient => (
+                    <div 
+                      key={patient.id} 
+                      className="suggestion-item"
+                      onClick={() => {
+                        setForm(prev => ({ ...prev, patientId: patient.id.toString() }));
+                        setShowPatientSuggestions(false);
+                        validatePatientId(patient.id.toString());
+                      }}
+                    >
+                      ID: {patient.id} - {patient.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </label>
+          </div>
+          
+          <div className="form-field-wrapper">
+            <label>Doctor ID
+              <input 
+                name="doctorId" 
+                value={form.doctorId} 
+                onChange={handleChange}
+                className={validationErrors.doctorId ? 'error' : ''}
+                placeholder="Enter Doctor ID or search by name (optional)"
+              />
+              {validationErrors.doctorId && (
+                <div className="validation-error">{validationErrors.doctorId}</div>
+              )}
+              {showDoctorSuggestions && (
+                <div className="suggestions-dropdown">
+                  {doctorSuggestions.map(doctor => (
+                    <div 
+                      key={doctor.id} 
+                      className="suggestion-item"
+                      onClick={() => {
+                        setForm(prev => ({ ...prev, doctorId: doctor.id.toString() }));
+                        setShowDoctorSuggestions(false);
+                        validateDoctorId(doctor.id.toString());
+                      }}
+                    >
+                      ID: {doctor.id} - {doctor.name} ({doctor.specialization})
+                    </div>
+                  ))}
+                </div>
+              )}
+            </label>
+          </div>
+          
           <label>Department ID<input name="departmentId" value={form.departmentId} onChange={handleChange} /></label>
           <label>Treatment ID<input name="treatmentId" value={form.treatmentId} onChange={handleChange} /></label>
           <label>Record Type<select name="recordType" value={form.recordType} onChange={handleChange} required>
@@ -241,6 +577,12 @@ const MedicalRecordForm = ({
           <button type="button" onClick={onCancel}>Cancel</button>
         </div>
       </form>
+      
+      <IDReferenceHelper 
+        isVisible={showIDReference}
+        onClose={() => setShowIDReference(false)}
+        onDataFetched={handleDataFetched}
+      />
     </div>
   );
 };
