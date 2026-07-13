@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+# HealthNet Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the **HealthNet** frontend repository! This is a modern React application built to provide a seamless healthcare management experience for patients, doctors, staff, and administrators.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Role-Based Portals:** Dedicated dashboards and interfaces for Patients, Doctors, Staff, and Admins.
+- **Appointment Management:** Intuitive booking, tracking, and cancellation UI for patients and doctors.
+- **Medical Records Management:** Secure access to medical records, attachments, and lab results, including an audit trail.
+- **Live Chat:** Real-time messaging service for patient-doctor communication.
+- **Department & Staff Management:** Optimized UI for administrators and staff to manage departments, staff roles, and subscriptions.
+- **Multi-Tab Session Management:** Advanced session control ensuring data consistency and conflict resolution when multiple tabs are open.
+- **Subscriptions:** Dedicated subscription page and workflow integrations.
 
-### `npm start`
+## Technology Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Framework:** React.js
+- **Styling:** CSS Modules / Styled Components (Check `src/styles` for custom stylesheets)
+- **Deployment:** Pre-configured for deployment on Heroku
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js (v14 or higher recommended)
+- npm or yarn
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ZERO-70/Healthnet-frontend.git
+   cd Healthnet-frontend
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Start the development server:
+   ```bash
+   npm start
+   ```
 
-### `npm run eject`
+4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Environment Variables
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+API base URL configuration can be found and modified in `src/constants/api.js`. 
+For local development, it defaults to `http://localhost:8081`. 
+For production, it points to the Heroku deployed backend.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Project Structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- `src/components`: Reusable UI components (LiveChat, MedicalRecordForm, AvailableDoctors, etc.)
+- `src/pages`: Top-level routing pages (PatientPortal, DoctorPortal, AdminPortal, etc.)
+- `src/services`: API service classes and session management logic
+- `src/styles`: CSS files for styling components and pages
+- `src/constants`: Application-wide constants, including API endpoints
+- `src/utils`: Helper functions and utilities
 
-## Learn More
+## Deployment
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To create an optimized production build:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm run build
+```
 
-### Code Splitting
+This will build the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## License
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is proprietary and intended for use within the HealthNet system.
