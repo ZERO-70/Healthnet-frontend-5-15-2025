@@ -86,8 +86,12 @@ function SearchPatients() {
                 }
 
                 console.log('Fetching medical records for patient ID:', patientId);
-                // Include the patient ID in the URL path to access specific patient records
-                const response = await fetch(`${API_BASE_URL}/medical_record/${patientId}`, {
+                // /medical_record/{id} looks up a single record by its OWN record id,
+                // so passing a patient id there returned someone else's record — or,
+                // as here, a 404 when no record happens to share that id.
+                // /medical_record/patient/{patientId} is the endpoint that lists a
+                // patient's records.
+                const response = await fetch(`${API_BASE_URL}/medical_record/patient/${patientId}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
