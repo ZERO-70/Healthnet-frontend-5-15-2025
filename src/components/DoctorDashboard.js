@@ -188,7 +188,16 @@ const DoctorDashboard = () => {
             animate="visible"
         >
             <div className="dashboard-header">
-                <h2>Welcome back, Dr. {doctorInfo?.name?.split(' ')[0] || 'Doctor'}</h2>
+                {/* Names are stored with the title already included ("Dr. Ayesha Khan"),
+                    so the title is stripped before taking the first name — otherwise
+                    split(' ')[0] returns "Dr." and renders "Welcome back, Dr. Dr.".
+                    The title is added to the resolved name rather than hardcoded in
+                    front of it, so the no-name fallback reads "Doctor" and not
+                    "Dr. Doctor". */}
+                <h2>Welcome back, {(() => {
+                    const first = doctorInfo?.name?.replace(/^\s*(dr\.?|doctor)\s*/i, '').trim().split(' ')[0];
+                    return first ? `Dr. ${first}` : 'Doctor';
+                })()}</h2>
                 <p className="dashboard-date">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
                 <NotificationIcon />
             </div>
