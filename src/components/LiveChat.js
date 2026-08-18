@@ -6,6 +6,14 @@ import '../styles/LiveChat.css';
 import { API_BASE_URL } from '../constants/api';
 
 
+// Token whose subscription has already been fetched.
+//
+// Module scope, not a ref: the guard has to survive re-mounts of LiveChat. The
+// runaway loop this prevents re-mounts the component (the effect appears as a
+// fresh mount in the stack trace), which would reset any per-instance ref and
+// let the requests through again.
+let subscriptionCheckedForToken = null;
+
 // Helper function to ensure proper role and ID
 const verifyRoleAndId = () => {
     // Check for an authentication token
@@ -207,6 +215,14 @@ const LiveChat = () => {
     const [selectedModel, setSelectedModel] = useState('FAST');
     const [showModelSelector, setShowModelSelector] = useState(false);
     const messagesEndRef = useRef(null);
+    // Latest auth values, readable without making effects depend on them.
+    const authTokenRef = useRef(authToken);
+    const userRoleRef = useRef(userRole);
+
+    useEffect(() => {
+        authTokenRef.current = authToken;
+        userRoleRef.current = userRole;
+    }, [authToken, userRole]);
     
     // Verify role and ID setup
     useEffect(() => {
@@ -344,7 +360,14 @@ const LiveChat = () => {
         try {
             const token = localStorage.getItem('authToken');
             if (!token) return;
-            
+
+            // Fetch at most once per token. Without this, every re-mount or
+            // auth-state change re-runs the calling effect and issues another
+            // request; unchecked, that saturates the browser's connection pool
+            // (net::ERR_INSUFFICIENT_RESOURCES) and takes the page down.
+            if (subscriptionCheckedForToken === token) return;
+            subscriptionCheckedForToken = token;
+
             const response = await fetch(`${API_BASE_URL}/user_authentication/subscription`, {
                 method: 'GET',
                 headers: {
@@ -376,8 +399,14 @@ const LiveChat = () => {
         const checkAuth = () => {
             const currentToken = localStorage.getItem('authToken');
             const currentRole = localStorage.getItem('role');
-            
-            if (currentToken !== authToken || currentRole !== userRole) {
+
+            if (currentToken !== authTokenRef.current || currentRole !== userRoleRef.current) {
+                // Record the new values before setting state. The state update is
+                // asynchronous, so without this the next tick would compare against
+                // stale values and fire again, repeatedly resetting the chat.
+                authTokenRef.current = currentToken;
+                userRoleRef.current = currentRole;
+
                 // Auth state changed, reset chat
                 setAuthToken(currentToken);
                 setUserRole(currentRole);
@@ -392,7 +421,10 @@ const LiveChat = () => {
         const interval = setInterval(checkAuth, 1000);
 
         return () => clearInterval(interval);
-    }, [authToken, userRole]);
+        // Deliberately empty: the refs above supply the latest values, so the
+        // interval is created once instead of being torn down and re-run (with
+        // an immediate extra check) on every auth-state change.
+    }, []);
 
     // Add keyboard event listener for ESC key
     useEffect(() => {
