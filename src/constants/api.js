@@ -1,7 +1,9 @@
 // API Constants for the HealthNet application
-export const API_BASE_URL = 'https://frozen-sands-51239-b849a8d5756e.herokuapp.com';
-
-// You can easily update the base URL here when switching environments:
-// - Development: 'http://localhost:8081'
-// - Production: 'https://frozen-sands-51239-b849a8d5756e.herokuapp.com'
-// - Staging: 'https://your-staging-domain.com/api'
+//
+// The base URL comes from REACT_APP_API_BASE_URL so the same build config works
+// across environments. Create-React-App inlines this at build time, so set it
+// before `npm run build` (see .env.example).
+//
+// Falls back to the local backend from docker-compose + `./mvnw spring-boot:run`.
+export const API_BASE_URL =
+    process.env.REACT_APP_API_BASE_URL || 'http://localhost:8081';
