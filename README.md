@@ -25,6 +25,7 @@ A React single-page application providing role-based healthcare management porta
 |---|---|---|
 | Admin | `admin` | `admin123` |
 | Doctor | `doctor1` | `doctor123` |
+| Staff | `numan` | `numan123` |
 | Patient | `patient1` | `patient123` |
 
 ---
