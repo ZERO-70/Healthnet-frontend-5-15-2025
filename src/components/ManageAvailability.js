@@ -3,6 +3,7 @@ import '../styles/ManageAvailability.css'; // Link to the CSS file
 import LoadingSpinner from './LoadingSpinner';
 import { useLoading } from '../hooks/useLoading';
 import { API_BASE_URL } from '../constants/api';
+import { resolveUserId } from '../services/identity';
 function ManageAvailability() {
     const [availability, setAvailability] = useState({});
     const [isNotFound, setIsNotFound] = useState(false);
@@ -69,8 +70,9 @@ function ManageAvailability() {
         const saveAvailability = async () => {
             try {
                 const token = localStorage.getItem('authToken');
-                const doctorId = localStorage.getItem('doctorId'); // Retrieve doctorId with the correct key
-                console.log('Token being sent:', token);
+                // Resolves from localStorage, falling back to /home, so a session
+                // that was created without an id can still save.
+                const doctorId = await resolveUserId('doctor');
                 console.log('Doctor ID being sent:', doctorId);
 
                 if (!token) {

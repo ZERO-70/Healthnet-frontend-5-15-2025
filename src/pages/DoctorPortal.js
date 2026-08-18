@@ -193,6 +193,12 @@ function DoctorPortal() {
                     <FiActivity className="tab-icon" /> Availability
                 </button>
                 <button
+                    className={`tab-button ${activeTab === 'AddTreatment' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('AddTreatment')}
+                >
+                    <FiPlusCircle className="tab-icon" /> Treatments
+                </button>
+                <button
                     className={`tab-button ${activeTab === 'UpdateProfile' ? 'active' : ''}`}
                     onClick={() => setActiveTab('UpdateProfile')}
                 >
