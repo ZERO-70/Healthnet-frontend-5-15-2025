@@ -20,7 +20,7 @@
   color: white;
   border: none;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
+  border-radius: var(--button-radius);
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;

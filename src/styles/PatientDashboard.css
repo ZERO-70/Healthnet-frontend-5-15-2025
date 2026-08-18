@@ -397,7 +397,7 @@
   background-color: rgba(90, 103, 216, 0.1);
   color: var(--primary-color);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--button-radius);
   padding: 0.5rem 0.75rem;
   font-size: 0.8rem;
   font-weight: 500;

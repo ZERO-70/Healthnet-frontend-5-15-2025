@@ -11,6 +11,16 @@
   --success-color: #6a9b78;
   --error-color: #d67967;
   --border-radius: 16px;
+
+  /* Button metrics.
+     These are the values the majority of buttons already used (10 of the sized
+     rules used this padding, 13 this font-size, 22 this radius). They were
+     hardcoded in ~57 places with 21 different paddings, 14 font sizes and 6
+     radii between them, which is why buttons looked inconsistent. Defining them
+     once gives a single place to adjust. */
+  --button-padding: 0.75rem 1.25rem;
+  --button-font-size: 0.9rem;
+  --button-radius: 8px;
   --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
   --input-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }

@@ -60,7 +60,7 @@
     color: white;
     border: none;
     padding: 10px 15px;
-    border-radius: 5px;
+    border-radius: var(--button-radius);
     cursor: pointer;
     align-self: center;
     cursor: pointer;

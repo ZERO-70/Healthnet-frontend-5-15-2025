@@ -185,7 +185,7 @@
   background-color: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--button-radius);
   padding: 0.75rem 1.5rem;
   font-size: 0.9rem;
   font-weight: 500;

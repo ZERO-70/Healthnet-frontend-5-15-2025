@@ -45,7 +45,7 @@
   cursor: pointer;
   color: #718096;
   padding: 0.25rem;
-  border-radius: 4px;
+  border-radius: var(--button-radius);
   transition: background-color 0.2s ease;
 }
 

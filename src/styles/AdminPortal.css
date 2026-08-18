@@ -248,7 +248,7 @@
   background: linear-gradient(to right, var(--primary-color), var(--pink-accent));
   color: var(--text-white);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--button-radius);
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   font-weight: 500;
