@@ -392,16 +392,18 @@
     background: linear-gradient(45deg, #FFD700, #FFA500);
     color: #000;
     border: none;
-    padding: 12px 20px;
+    /* Sized to match .tab-button: this sits in the same wrapping flex row, and
+       width:100% made it claim a whole row and stretch full-width beside the
+       compact tabs. margin also fought the container's gap. */
+    padding: 0.75rem 1.25rem;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 0.9rem;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
     transition: all 0.3s ease;
-    margin: 10px 0;
-    width: 100%;
     justify-content: center;
 }
 
@@ -411,5 +413,5 @@
 }
 
 .upgrade-button .tab-icon {
-    font-size: 1.2em;
+    font-size: 1.1rem; /* match .tab-icon */
 }
